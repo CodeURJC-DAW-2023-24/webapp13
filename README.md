@@ -35,6 +35,5 @@
   *  Generación pdf de factura a la hora de realizar una compra
 
 ## **7. Algoritmo avanzado:**
-  * Usuario registrado:
-    * 
+  * Actualizacion automatica de valoracion de usuario al recibir una nueva entrada 
   
