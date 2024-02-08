@@ -1,0 +1,21 @@
+.mt-5 {
+    padding-left: 3.5%;
+}
+
+.mb-3 {
+    padding-top: 2%;
+}
+
+form {
+    padding-bottom: 2%;
+}
+
+body {
+    padding-top: 20px; /* Add padding to the top of the body */
+}
+
+.form-check-label {
+    display: inline; /* Para que cada etiqueta se muestre en una línea separada */
+    justify-content:  space-between;
+}
+
