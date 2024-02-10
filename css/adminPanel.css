@@ -1,0 +1,22 @@
+.card.report {
+    margin: 10px; /* Agrega espacio entre los elementos */
+}
+.title {
+    margin: 10px; /* Agrega espacio entre los elementos */
+}
+.footer {
+    background-color: #333; /* Color de fondo del footer */
+    color: white; /* Color del texto del footer */
+    padding: 20px; /* Ajusta el padding según sea necesario */
+    text-align: center; /* Centra el texto horizontalmente */
+    position: fixed; /* Fija el footer en la parte inferior */
+    left: 0;
+    bottom: 0;
+    width: 100%; /* Ancho completo */
+}
+.more {
+    display: flex; /* Usa flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 200px; /* Altura opcional para el div */
+}
