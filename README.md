@@ -7,7 +7,7 @@
 | Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es | romofe01 |
 
 
-
+# Fase 0
 ## **1. Entidades:**
   - Usuario
   - Producto
@@ -36,4 +36,19 @@
 
 ## **7. Algoritmo avanzado:**
   * Actualizacion automatica de valoracion de usuario al recibir una nueva entrada 
-  
+
+
+# Fase 1
+
+### Capturas de pantalla
+
+Perfil- En esta pantalla el usuario tendrá acceso a sus propios productos y podrá eliminarlos, acceso a la gráfica de balance de beneficios y configuración de la información de su perfil así como poder hacer logout.
+
+![image](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/62ee9d3d-5095-47b6-ad1c-86fa47c72638)
+
+![image](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/fd7a7ff8-2f53-4247-a314-9bb8616493cc)
+
+![image](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/3bd1ebf0-c4e7-4e9a-8de3-c2d0422b1f65)
+
+
+
