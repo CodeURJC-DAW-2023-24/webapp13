@@ -50,5 +50,11 @@ Perfil- En esta pantalla el usuario tendrá acceso a sus propios productos y pod
 
 ![image](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/3bd1ebf0-c4e7-4e9a-8de3-c2d0422b1f65)
 
+![imagen](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/130240595/77b8afdd-5aee-4f35-ab6a-109e469351be)
+
+![imagen](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/130240595/de8658fb-1703-4785-9473-f1a1a40d0c6d)
+
+
+
 
 
