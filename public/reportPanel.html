@@ -53,36 +53,47 @@
     <div class="row justify-content-center">
       <div class="col">
         <h1 class="title"> Reportes pendientes:</h1>
-        <div class="card w-75 report">
-          <div class="card-body">
-            <h5 class="card-title">Reseña ofensiva</h5>
-            <p class="card-text">En esta reseña se fomenta el discurso de odio</p>
-            <a href="#" class="btn btn-primary">Gestionar</a>
-          </div>
-        </div>
-        <div class="card w-75 report">
+        <div class="card w-100 IndividualCard ">
           <div class="card-body">
             <h5 class="card-title">Usuario fraudulento</h5>
-            <p class="card-text">Este usuario tiene comportamientos sospechosos</p>
-            <a href="#" class="btn btn-primary">Gestionar</a>
+           <div class="container">
+             <div class="report-details">
+               <h6>Datos del Usuario que Reporta</h6>
+               <p>Nombre de usuario: Juan Pérez</p>
+               <p>Correo Electrónico: juan@example.com</p>
+               <p>Fecha de Reporte: 2024-02-10</p>
+             </div>
+             <div class="report-details">
+               <h6>Datos del Usuario Reportado</h6>
+               <p>Nombre de usuario: María García</p>
+               <p>Correo Electrónico: maria@example.com</p>
+             </div>
+             <div class="report-evidence">
+               <h6>Evidencia del Reporte</h6>
+               <img src="https://via.placeholder.com/150" alt="Evidencia de la actividad sospechosa">
+             </div>
+             <div class="report-description">
+               <h6>Descripción del Reporte</h6>
+               <p>Este usuario ha realizado actividades sospechosas en la plataforma.</p>
+             </div>
+           </div>
           </div>
         </div>
-        <div class="card w-75 report">
-          <div class="card-body">
-            <h5 class="card-title">Usuario fraudulento</h5>
-            <p class="card-text">Este usuario tiene comportamientos sospechosos</p>
-            <a href="#" class="btn btn-primary">Gestionar</a>
-          </div>
-        </div>
+
       </div>
     </div>
+    <div class="delete">
+      <button type="button" class="btn btn-primary btn-lg red" >Eliminar</button>
+    </div>
+    <div class="ndelete">
+      <button type="button" class="btn btn-primary btn-lg btn-block">Conservar</button>
+    </div>
   </div>
-  <div class="more">
-    <button type="button" class="btn btn-primary btn-lg btn-block">Cargar más</button>
-  </div>
+
+
 </section>
 <!-- Footer-->
-<footer class="py-5 bg-dark footer">
+<footer class="footer">
   <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
 </footer>
 <!-- Bootstrap core JS-->
