@@ -54,7 +54,12 @@ Perfil- En esta pantalla el usuario tendrá acceso a sus propios productos y pod
 
 ![imagen](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/130240595/de8658fb-1703-4785-9473-f1a1a40d0c6d)
 
-![imagen](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/130240595/6ca49545-be5f-4bc4-a7a0-d66f9287b243)
+![image](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/130240595/55580893-9194-4fa4-96cf-edfccd1eb371)
+
+Administrador- Pantalla la cual se basa en la interfaz que tendria el administrador para poder gestionar los reportes
+pertinentes recibidos de los usuarios
+![image](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/45970422/2ad6094f-85c8-4281-8096-b6563cc7593d)
+![image](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/45970422/167fb329-1c09-4410-ba0a-19477d9a6521)
 
 
 
