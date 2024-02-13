@@ -5,6 +5,7 @@
 | Fernando Prieto Olías | f.prieto.2019@alumnos.urjc.es | Fervo8564 |
 | Cassiel Seth Mayorca Heirisman | cs.mayorca.2018@alumnos.urjc.es | cassiel_smh |
 | Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es | romofe01 |
+| Pablo Villamayor Iglesias | p.villamayor@alumnos.urjc.es | PabloVILL |
 
 
 # Fase 0
