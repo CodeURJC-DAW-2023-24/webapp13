@@ -302,6 +302,11 @@ kbd kbd {
 figure {
   margin: 0 0 1rem;
 }
+.card > img {
+  max-width: 100%; /* Ajusta el ancho máximo de las imágenes al 100% del contenedor */
+  height: 100%; /* Ajusta la altura automáticamente para mantener la proporción */
+  object-fit: cover;
+}
 
 img,
 svg {
