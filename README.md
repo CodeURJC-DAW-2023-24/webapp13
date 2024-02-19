@@ -7,6 +7,8 @@
 | Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es | romofe01 |
 | Pablo Villamayor Iglesias | p.villamayor@alumnos.urjc.es | PabloVILL |
 
+## Trello
+https://trello.com/b/oU51T77H/fase-2
 
 # Fase 0
 ## **1. Entidades:**
