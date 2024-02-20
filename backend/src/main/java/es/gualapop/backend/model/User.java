@@ -1,11 +1,11 @@
 package es.gualapop.backend.model;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Entity
-public class UserModel {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,8 +25,8 @@ public class UserModel {
 
     // Constructor, getters, and setters
 
-    public UserModel(){}
-    public UserModel(String username, String email, String encodedPassword, String fName, Integer... roles) {
+    public User(){}
+    public User(String username, String email, String encodedPassword, String fName, Integer... roles) {
         this.username = username;
         this.password = encodedPassword;
         this.roles = List.of(roles);
