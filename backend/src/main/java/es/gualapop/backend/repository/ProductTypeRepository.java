@@ -2,9 +2,10 @@ package es.gualapop.backend.repository;
 
 import java.util.List;
 import java.util.Optional;
-import model.ProductType;
 
-public class ProductTypeRepository {
+import es.gualapop.backend.model.ProductType;
+
+public interface ProductTypeRepository {
 
     //Búsqueda por nombre
     Optional<ProductType> findBytypename(String type);

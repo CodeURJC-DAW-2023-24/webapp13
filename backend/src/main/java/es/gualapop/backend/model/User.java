@@ -17,9 +17,6 @@ public class User {
     private String username;
     private String userEmail;
 
-    @Lob
-    private Blob userImg;
-
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Integer> roles;
 
@@ -29,13 +26,12 @@ public class User {
     // Constructor, getters, and setters
 
     public User(){}
-    public User(String username, String email, String encodedPassword, String fName, Integer... roles, Blob userImg) {
+    public User(String username, String email, String encodedPassword, String fName, Integer... roles) {
         this.username = username;
         this.password = encodedPassword;
         this.roles = List.of(roles);
         this.userEmail = email;
         this.fullName = fName;
-        this.userImg = userImg;
     }
 
     public void setUserID(Long id) {
@@ -84,13 +80,5 @@ public class User {
 
     public void setReviewList(List<Integer> reviewList) {
         this.reviewList = reviewList;
-    }
-
-    public Blob getUserImg() {
-        return userImg;
-    }
-
-    public void setUserImg(Blob userImg) {
-        this.userImg = userImg;
     }
 }

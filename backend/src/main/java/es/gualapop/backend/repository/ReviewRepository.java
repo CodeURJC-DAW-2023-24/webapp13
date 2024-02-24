@@ -2,10 +2,10 @@ package es.gualapop.backend.repository;
 
 import java.util.List;
 import java.util.Optional;
-import model.User;
-import model.Review;
+import es.gualapop.backend.model.Review;
+import es.gualapop.backend.model.User;
 
-public class ReviewRepository {
+public interface ReviewRepository {
 
     //Búqueda por usuario
     public List<Review> findByiduser(User iduser);
