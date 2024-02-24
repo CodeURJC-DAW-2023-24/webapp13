@@ -1,21 +1,22 @@
 package es.gualapop.backend.repository;
 
 import java.util.List;
-import java.util.Optional;
+
 import es.gualapop.backend.model.Review;
 import es.gualapop.backend.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReviewRepository {
+public interface ReviewRepository extends JpaRepository<Review,Long> {
 
     //Búqueda por usuario
-    public List<Review> findByiduser(User iduser);
+    public List<Review> findReviewBySellerID(Long iduser);
 
     //Búqueda por autor
-    public List<Review> findByidwriter(User iduser);
+    public List<Review> findReviewsByWriterID(Long iduser);
 
     //Borrar por usuario
-    public Long deleteByIduser(User iduser);
+    public Long deleteByReviewID(Long iduser);
 
     //Búsqueda entre rangos de valoración
-    public List<Review> findByRatingRange(Integer min, Integer max);
+    public List<Review> findReviewsByRatingBetween(float min, float max);
 }

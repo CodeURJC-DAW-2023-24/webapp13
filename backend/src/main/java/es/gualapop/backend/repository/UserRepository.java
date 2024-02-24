@@ -10,16 +10,15 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByUsername(String username);
     List<User> findByFullName(String fullname);
-    List<User> findByUserID(String userID);
-
+    Optional<User> findByUserID(Long userID); // Cambiado a Optional<User> para manejar el resultado de manera más apropiada
     List<User> findByUserEmail(String userEmail);
 
     List<User> findByUserEmailAndPassword(String userEmail, String password);
 
     //Buscar a todos los usuarios
-    List<User> findAll();
+    //Esto lo he trasladado a Service
 
     //Buscar por nombre de usuario
-    Optional<User> findByusername(String username);
+    Optional<User> findUserByUsername(String username);
 
 }

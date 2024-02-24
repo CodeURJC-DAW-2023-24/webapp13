@@ -3,7 +3,7 @@ package es.gualapop.backend.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity(name = "ProductTypeTable")
 public class ProductType {
 
     @Id

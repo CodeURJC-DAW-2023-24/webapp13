@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity(name = "ReviewTable")
 public class Review {
 
     @Id
@@ -14,8 +14,8 @@ public class Review {
 
     private float rating;
     private String description;
-    private int writerID;
-    private int sellerID;
+    private Long writerID;
+    private Long sellerID;
 
     public float getRating() {
         return rating;
@@ -33,19 +33,19 @@ public class Review {
         this.description = description;
     }
 
-    public int getWriterID() {
+    public Long getWriterID() {
         return writerID;
     }
 
-    public void setWriterID(int writerID) {
+    public void setWriterID(Long writerID) {
         this.writerID = writerID;
     }
 
-    public int getSellerID() {
+    public Long getSellerID() {
         return sellerID;
     }
 
-    public void setSellerID(int sellerID) {
+    public void setSellerID(Long sellerID) {
         this.sellerID = sellerID;
     }
 

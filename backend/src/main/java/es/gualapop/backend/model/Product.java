@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.sql.Blob;
 
-@Entity
+@Entity(name = "ProductTable")
 public class Product {
 
     @Id
