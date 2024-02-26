@@ -8,13 +8,13 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     //Búsqueda por nombre
-    List<Product> findByProdName(String prodName);
+    List<Product> findByTitle(String title);
 
     //Búsqueda por tipo de producto
-    List<Product> findByProdTypeId(long prodTypeId);
+    //List<Product> findByProdTypeId(long prodTypeId);
 
     //Búsqueda por usuario propietario del producto
-    List<Product> findByOwnerId(long ownerId);
+    List<Product> findById(long Id);
 
     //Búsqueda por rango de precios
     List<Product> findByPriceBetween(float minPrice, float maxPrice);

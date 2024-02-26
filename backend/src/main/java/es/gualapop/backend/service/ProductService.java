@@ -42,16 +42,16 @@ public class ProductService {
     	productRepository.deleteById(product.getId());
     }
 
-    public List<Product> findByProdName(String prodName) {
-        return productRepository.findByProdName(prodName);
+    public List<Product> findByTitle(String title) {
+        return productRepository.findByTitle(title);
     }
 
-    public List<Product> findByProdTypeId(int prodTypeId) {
+    /*public List<Product> findByProdTypeId(int prodTypeId) {
         return productRepository.findByProdTypeId(prodTypeId);
-    }
+    }*/
 
-    public List<Product> findByOwnerId(int ownerId) {
-        return productRepository.findByOwnerId(ownerId);
+    public List<Product> findById(long Id) {
+        return productRepository.findById(Id);
     }
 
     public List<Product> findByPriceBetween(float minPrice, float maxPrice) {
