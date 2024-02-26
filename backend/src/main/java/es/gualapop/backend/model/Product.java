@@ -1,7 +1,6 @@
 package es.gualapop.backend.model;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.sql.Blob;
 
 @Entity(name = "ProductTable")
@@ -23,13 +22,27 @@ public class Product {
 
     private boolean image;
 
+    @OneToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
-    public Product() {}
+    @OneToOne
+    @JoinColumn(name = "product_type_id")
+    private ProductType productType;
 
-    public Product(String nombre, String description) {
+    public Product(User owner) {
+        this.owner = owner;
+    }
+
+    public Product(String nombre, String description, User owner) {
         super();
         this.title = nombre;
         this.description = description;
+        this.owner = owner;
+    }
+
+    public Product() {
+
     }
 
     public String getTitle() {
@@ -80,8 +93,16 @@ public class Product {
         this.image = image;
     }
 
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
     @Override
     public String toString() {
-        return "Book [id=" + id + ", title=" + title + ", description=" + description + "]";
+        return "Product [id=" + id + ", title=" + title + ", description=" + description + "]";
     }
 }

@@ -1,13 +1,13 @@
 package es.gualapop.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "ProductTypeTable")
 public class ProductType {
 
     @Id
-    private Long productTypeID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String type;
 
     public String getType() {
@@ -18,11 +18,11 @@ public class ProductType {
         this.type = type;
     }
 
-    public void setProductTypeID(Long id) {
-        this.productTypeID = id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getProductTypeID() {
-        return productTypeID;
+    public Long getId() {
+        return id;
     }
 }

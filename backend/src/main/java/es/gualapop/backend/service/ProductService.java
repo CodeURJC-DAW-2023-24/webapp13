@@ -2,7 +2,6 @@ package es.gualapop.backend.service;
 
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.hm.hafner.util.NoSuchElementException;
@@ -42,16 +41,16 @@ public class ProductService {
     	productRepository.deleteById(product.getId());
     }
 
-    public List<Product> findByTitle(String title) {
-        return productRepository.findByTitle(title);
+    public List<Product> findByProdName(String prodName) {
+        return productRepository.findByTitle(prodName);
     }
 
-    /*public List<Product> findByProdTypeId(int prodTypeId) {
-        return productRepository.findByProdTypeId(prodTypeId);
-    }*/
+    public Optional<Product> findByProdTypeId(Long prodTypeId) {
+        return productRepository.findById(prodTypeId);
+    }
 
-    public List<Product> findById(long Id) {
-        return productRepository.findById(Id);
+    public List<Product> findByOwnerId(Long owner) {
+        return productRepository.findByOwner(owner);
     }
 
     public List<Product> findByPriceBetween(float minPrice, float maxPrice) {

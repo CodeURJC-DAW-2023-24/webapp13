@@ -1,9 +1,7 @@
 package es.gualapop.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "ReviewTable")
 public class Review {

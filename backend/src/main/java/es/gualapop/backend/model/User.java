@@ -1,7 +1,6 @@
 package es.gualapop.backend.model;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "UserTable")
@@ -11,24 +10,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userID;
 
-    private String password;
+    private String encodedPassword;
 
     private String fullName;
     private String username;
     private String userEmail;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Integer> roles;
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<String> roles;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Integer> reviewList;
-
     // Constructor, getters, and setters
 
     public User(){}
-    public User(String username, String email, String encodedPassword, String fName, Integer... roles) {
+    public User(String username, String email, String encodedPassword, String fName, String... roles) {
         this.username = username;
-        this.password = encodedPassword;
+        this.encodedPassword = encodedPassword;
         this.roles = List.of(roles);
         this.userEmail = email;
         this.fullName = fName;
@@ -42,12 +40,12 @@ public class User {
         return userID;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEncodedPassword() {
+        return encodedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEncodedPassword(String password) {
+        this.encodedPassword = password;
     }
 
     public String getUsername() {
@@ -66,11 +64,11 @@ public class User {
         this.userEmail = userEmail;
     }
 
-    public List<Integer> getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(Integer role) {
+    public void setRoles(String role) {
         this.roles.add(role);
     }
 
@@ -80,5 +78,9 @@ public class User {
 
     public void setReviewList(List<Integer> reviewList) {
         this.reviewList = reviewList;
+    }
+
+    public String getName() {
+        return username;
     }
 }

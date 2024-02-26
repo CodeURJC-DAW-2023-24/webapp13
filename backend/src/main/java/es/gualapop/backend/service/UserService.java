@@ -35,7 +35,7 @@ public class UserService    {
     }
 
 
-    public List<Integer> getRolfromUser(Long userID) {
+    public List<String> getRolfromUser(Long userID) {
         // Obtener el usuario por su ID
         User user = userRepository.findByUserID(userID).orElse(null);
 
@@ -49,7 +49,7 @@ public class UserService    {
     }
 
     public boolean validateUserAndPassword(String user, String password) {
-        List<User> users = userRepository.findByUserEmailAndPassword(user, password);
+        List<User> users = userRepository.findByUserEmailAndEncodedPassword(user, password);
         return !users.isEmpty();
     }
 
