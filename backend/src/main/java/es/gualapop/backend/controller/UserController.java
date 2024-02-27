@@ -3,6 +3,7 @@ package es.gualapop.backend.controller;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ProductRepository;
+import es.gualapop.backend.service.LoaderService;
 import es.gualapop.backend.service.ProductService;
 import es.gualapop.backend.service.UserService;
 

@@ -3,6 +3,8 @@ package es.gualapop.backend.model;
 import javax.persistence.*;
 
 import java.sql.Blob;
+
+import java.sql.Blob;
 import java.util.List;
 
 @Entity(name = "UserTable")
@@ -18,6 +20,7 @@ public class User {
     private String username;
     private String userEmail;
     private Blob userImg;
+    private Blob userImg;
 
     @ElementCollection(fetch = FetchType.LAZY)
     private List<String> roles;
@@ -31,10 +34,12 @@ public class User {
         this.userID = userID;
         this.username = username;
         this.userImg = userImg;
+        this.userImg = userImg;
         this.encodedPassword = encodedPassword;
-        this.roles = List.of(roles);
+        this.roles = roles;
         this.userEmail = email;
         this.fullName = fName;
+        this.reviewList = reviews;
     }
 
     public void setUserID(Long id) {
@@ -43,6 +48,14 @@ public class User {
 
     public Long getUserID() {
         return userID;
+    }
+
+    public void setUserImg(Blob userImg) {
+        this.userImg = userImg;
+    }
+
+    public Blob getUserImg() {
+        return userImg;
     }
 
     public void setUserImg(Blob userImg) {
