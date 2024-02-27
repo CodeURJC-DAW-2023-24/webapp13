@@ -48,48 +48,57 @@
 
 <!-- Section-->
 <section>
-
+  <form action="#" method="GET" enctype="multipart/form-data">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col">
-        <h1 class="title"> Reportes pendientes:</h1>
+        <h1 class="title"> Informar sobre un usuario</h1>
         <div class="card w-100 IndividualCard ">
-          <div class="card-body">
-            <h5 class="card-title">Usuario fraudulento</h5>
            <div class="container">
-             <div class="report-details">
+             <div class="reporter-details">
                <h6>Datos del Usuario que Reporta</h6>
                <p>Nombre de usuario: Juan Pérez</p>
                <p>Correo Electrónico: juan@example.com</p>
                <p>Fecha de Reporte: 2024-02-10</p>
              </div>
-             <div class="report-details">
+             <div class="reported-details">
                <h6>Datos del Usuario Reportado</h6>
-               <p>Nombre de usuario: María García</p>
-               <p>Correo Electrónico: maria@example.com</p>
+               <p>Nombre de usuario reportado:</p>
+                <input type="text" maxlength="2" name="NamUserReported" id="NamUserReported">
              </div>
-             <div class="report-evidence">
-               <h6>Evidencia del Reporte</h6>
-               <img src="https://via.placeholder.com/150" alt="Evidencia de la actividad sospechosa">
-             </div>
-             <div class="report-description">
-               <h6>Descripción del Reporte</h6>
-               <p>Este usuario ha realizado actividades sospechosas en la plataforma.</p>
-             </div>
+             <br>
+             <div class="reported-details">
+              <h6>Reportar al usuario por:</h6>
+              <input type="checkbox" name="nombre-inapropiado" id="nombre-inapropiado"> Nombre inapropiado
+              <br>
+              <input type="checkbox" name="producto-fraudulento" id="producto-fraudulento"> Producto fraudulento
+              <br>
+              <input type="checkbox" name="cuenta-fraudulenta" id="cuenta-fraudulenta"> Cuenta fraudulenta
+            </div>
+            <br>
+            <div class="report-description">
+              <h6>Descripción del Reporte</h6>
+              <textarea rows="10" cols="80"></textarea>
+            </div>
+              <div class="report-evidence">
+               <h6>Añada imagenes como evidencia</h6>
+               <div class="form-group">
+                <label for="formFileMultiple" class="form-label">Selecciona imágenes:</label>
+                <input class="form-control" type="file" id="formFileMultiple" multiple accept="image/*" />
+               </div>
+            </div>
            </div>
-          </div>
         </div>
-
       </div>
     </div>
     <div class="delete">
       <button type="button" class="btn btn-primary btn-lg red" >Eliminar</button>
     </div>
     <div class="ndelete">
-      <button type="button" class="btn btn-primary btn-lg btn-block">Conservar</button>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Enviar reporte</button>
     </div>
   </div>
-
+</form>
 
 </section>
 <!-- Footer-->
