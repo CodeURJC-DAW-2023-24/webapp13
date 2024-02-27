@@ -44,7 +44,7 @@ public class UserController {
         return "reportPanel.html";
     }
 
-    @RequestMapping("/profile")
+    @RequestMapping("/profiles")
     public String profile() {
         return "profile.html";
     }
