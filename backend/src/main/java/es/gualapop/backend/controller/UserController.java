@@ -2,7 +2,11 @@ package es.gualapop.backend.controller;
 
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.repository.ProductRepository;
+import es.gualapop.backend.service.LoaderService;
 import es.gualapop.backend.service.ProductService;
+
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController {
 
-
+    @Autowired
+    private LoaderService loaderService;
 
     @RequestMapping("/login")
-    public String login() {
+    public String login() throws IOException {
+        loaderService.Load();
         return "login.html";
     }
     @RequestMapping("/loginerror")
@@ -44,7 +50,7 @@ public class UserController {
         return "reportPanel.html";
     }
 
-    @RequestMapping("/profiles")
+    @RequestMapping("/profile")
     public String profile() {
         return "profile.html";
     }
