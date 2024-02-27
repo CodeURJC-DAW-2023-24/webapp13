@@ -58,5 +58,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // Disable CSRF at the moment
         http.csrf().disable();
 
+        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
     }
 }
