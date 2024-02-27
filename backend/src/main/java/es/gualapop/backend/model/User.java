@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 import java.sql.Blob;
 
-import java.sql.Blob;
 import java.util.List;
 
 @Entity(name = "UserTable")
@@ -20,7 +19,6 @@ public class User {
     private String username;
     private String userEmail;
     private Blob userImg;
-    private Blob userImg;
 
     @ElementCollection(fetch = FetchType.LAZY)
     private List<String> roles;
@@ -30,7 +28,7 @@ public class User {
     // Constructor, getters, and setters
 
     public User(){}
-    public User(Long userID, String username, Blob userImg, String email, String encodedPassword, String fName, String... roles) {
+    public User(Long userID, String username, Blob userImg, String email, String encodedPassword, String fName, List<String> roles, List<Integer> reviews) {
         this.userID = userID;
         this.username = username;
         this.userImg = userImg;
@@ -48,14 +46,6 @@ public class User {
 
     public Long getUserID() {
         return userID;
-    }
-
-    public void setUserImg(Blob userImg) {
-        this.userImg = userImg;
-    }
-
-    public Blob getUserImg() {
-        return userImg;
     }
 
     public void setUserImg(Blob userImg) {
