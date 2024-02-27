@@ -1,7 +1,11 @@
 package es.gualapop.backend.service;
 
 import es.gualapop.backend.model.Product;
+import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import edu.hm.hafner.util.NoSuchElementException;
@@ -20,10 +24,6 @@ public class ProductService {
 
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Product not found"));
-    }
-
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
     }
 
     public Product createProduct(Product newProduct) {
@@ -49,7 +49,7 @@ public class ProductService {
         return productRepository.findById(prodTypeId);
     }
 
-    public List<Product> findByOwnerId(Long owner) {
+    public List<Product> findByOwnerId(User owner) {
         return productRepository.findByOwner(owner);
     }
 

@@ -55,9 +55,7 @@
 
                         <span>$40.00</span>
                     </div>
-                    <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem
-                        quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis
-                        delectus ipsam minima ea iste laborum vero?</p>
+                    <p class="lead">{{description}}</p>
                     <div class="d-flex">
                         <button class="btn btn-outline-dark flex-shrink-0" type="button">
                             <i class="bi-cart-fill me-1"></i>
@@ -66,27 +64,34 @@
                     </div>
                     <br>
                     <div class="col-md-6">
-                        <p>Lugar: XXXXXXX</p>
+                        <p>Lugar: {{place}}</p>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card mb-4">
                                 <div class="card-body text-center">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+
+
+                                    <!--<img src="{{image}}"-->
+
+                                    {{#user}}
                                         alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                                    <h5 class="my-3">John Smith</h5>
+                                    <h5 class="my-3">{{name}}</h5>
                                     <div class="flex-grow-1 ms-3">
-                                        <p class="text-muted mb-1">Full Stack Developer</p>
+                                        <p class="text-muted mb-1">{{description}}</p>
                                         <div class="d-flex justify-content-center mb-2">
                                             <button type="button" class="btn btn-primary">Visitar perfil</button>
                                         </div>
                                     </div>
+
+                                    {{/user}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <button type="button" class="btn btn-danger btn-lg">Reportar</button>
     </section>
     <!-- Related items section-->

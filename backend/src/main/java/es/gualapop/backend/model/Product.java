@@ -2,6 +2,7 @@ package es.gualapop.backend.model;
 
 import javax.persistence.*;
 import java.sql.Blob;
+import java.util.List;
 
 @Entity(name = "ProductTable")
 public class Product {
@@ -23,20 +24,29 @@ public class Product {
     private boolean image;
 
     @OneToOne
-    @JoinColumn(name = "owner_id")
     private User owner;
 
     @OneToOne
-    @JoinColumn(name = "product_type_id")
     private ProductType productType;
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    @OneToMany
+    private List<Review> reviews;
 
     public Product(User owner) {
         this.owner = owner;
     }
 
-    public Product(String nombre, String description, User owner) {
+    public Product(String name, String description, User owner) {
         super();
-        this.title = nombre;
+        this.title = name;
         this.description = description;
         this.owner = owner;
     }
@@ -51,6 +61,14 @@ public class Product {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public float getPrice() {
