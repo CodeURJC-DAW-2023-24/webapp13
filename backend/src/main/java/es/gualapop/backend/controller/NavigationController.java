@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import es.gualapop.backend.service.LoaderService;
+
 public class NavigationController {
     
     @GetMapping("/")
@@ -18,7 +20,7 @@ public class NavigationController {
 		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
 		model.addAttribute("token", token.getToken());
         //cargar los datos en la BBDD
-        loaderService.Load();
+        LoaderService.Load();
 		response.sendRedirect("/index");		
 	}
 
