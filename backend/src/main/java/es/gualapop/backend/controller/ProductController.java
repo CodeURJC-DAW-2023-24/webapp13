@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class ProductController {
 
@@ -24,22 +26,27 @@ public class ProductController {
     @GetMapping("/")
     public String getProducts(Model model) {
         if(productRepository.findAll().isEmpty()) {
-            model.addAttribute("empty", true);
+            model.addAttribute("products", false);
         } else {
             model.addAttribute("products", productRepository.findAll());
         }
-        return "index";
+        return "index.html";
     }
 
     @GetMapping("/product/{id}")
-    public String getProduct(Model model, @PathVariable long id) {
+    public String getProduct(HttpServletRequest request, Model model, @PathVariable long id) {
         Product p = productService.getProductById(id);
         User u = userRepository.getOne(p.getOwner().getUserID());
         model.addAttribute("user", u);
-        model.addAttribute("product", p);
+        model.addAttribute("products", p);
 
         //Añadir la parte de seguridad para el boton reportar
 
-        return "productoIndividual";
+        String name = request.getUserPrincipal().getName();
+        User user = userRepository.findUserByUsername(name).orElseThrow();
+
+        model.addAttribute("admin", request.isUserInRole("ADMIN"));
+
+        return "productoIndividual.html";
     }
 }
