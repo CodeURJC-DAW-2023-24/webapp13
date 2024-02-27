@@ -21,9 +21,52 @@ public class UserController {
     }
     @RequestMapping("/loginerror")
     public String loginerror() {
-        return "loginerror";
+        return "loginerror.html";
     }
 
+    @RequestMapping("/index")
+    public String index() {
+        return "index.html";
+    }
 
+    @RequestMapping("/admin")
+    public String admin() {
+        return "adminPanel.html";
+    }
+
+    @RequestMapping("/newProduct")
+    public String newProduct() {
+        return "newProduct.html";
+    }
+
+    @RequestMapping("/reportPanel")
+    public String reportPanel() {
+        return "reportPanel.html";
+    }
+
+    @RequestMapping("/profile")
+    public String profile() {
+        return "profile.html";
+    }
+
+    @RequestMapping("/productoIndividual")
+    public String productoIndividual() {
+        return "productoIndividual.html";
+    }
+
+    @RequestMapping("/profileConsult")
+    public String profileConsult() {
+        return "profileConsult.html";
+    }
+
+    @RequestMapping("/reportForm")
+    public String reportForm() {
+        return "reportForm.html";
+    }
+
+    @RequestMapping("/signUp")
+    public String signUp() {
+        return "signUp.html";
+    }
 
 }
