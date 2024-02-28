@@ -16,6 +16,7 @@ import java.util.List;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ProductRepository;
+import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
 
 @Service
@@ -25,6 +26,8 @@ public class DatabaseInizialiter {
     private ProductRepository productRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
     @PostConstruct
     public void init() throws IOException {
 
@@ -67,13 +70,25 @@ public class DatabaseInizialiter {
 
 
         //save all
-        userRepository.save(user1);
-        userRepository.save(user2);
-        productRepository.save(product1);
-        productRepository.save(product2);
-        productRepository.save(product3);
-        productRepository.save(product4);
-        productRepository.save(product5);
+
+        if(reviewRepository.findAll().isEmpty()) {
+            reviewRepository.save(review1);
+            reviewRepository.save(review2);
+            reviewRepository.save(review3);
+        }  
+
+        if(userRepository.findAll().isEmpty()) {
+            userRepository.save(user1);
+            userRepository.save(user2);
+        }
+
+        if(productRepository.findAll().isEmpty()) {
+            productRepository.save(product1);
+            productRepository.save(product2);
+            productRepository.save(product3);
+            productRepository.save(product4);
+            productRepository.save(product5);
+        }
 
 
 
