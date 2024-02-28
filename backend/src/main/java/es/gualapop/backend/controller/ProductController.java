@@ -45,7 +45,7 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public String getProduct(HttpServletRequest request, Model model, @PathVariable long id) {
         Product p = productService.getProductById(id);
-        User u = userRepository.getOne(p.getOwner().getUserID());
+        User u = userRepository.getOne(p.getOwner());
         model.addAttribute("user", u);
         model.addAttribute("product", p);
 

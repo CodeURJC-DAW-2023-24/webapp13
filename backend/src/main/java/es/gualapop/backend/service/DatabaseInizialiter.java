@@ -51,19 +51,19 @@ public class DatabaseInizialiter {
         User user2 = new User((long) 2, "AdminUser", imgU2, "admin@gmail.com", "abc", "Admin User", adminList, reviewList2);
 
         //product inizialite
-        Product product1 = new Product("Zapatillas","Zapatillas nuevas baratas",user1,40);
+        Product product1 = new Product("Zapatillas","Zapatillas nuevas baratas",(long)1,40);
         setProductImage(product1,"/static/images/zapas.jpg");
 
-        Product product2 = new Product("Balon","Balon mundial 2010 magico",user1,10);
+        Product product2 = new Product("Balon","Balon mundial 2010 magico",(long)1,10);
         setProductImage(product2,"/static/images/balon.jpg");
 
-        Product product3 = new Product("Guitarra","Guitarra nueva sin uso",user1,50);
+        Product product3 = new Product("Guitarra","Guitarra nueva sin uso",(long)1,50);
         setProductImage(product3,"/static/images/guitarra.jpg");
 
-        Product product4 = new Product("Vestido","Vestido usado 2 veces",user1,15);
+        Product product4 = new Product("Vestido","Vestido usado 2 veces",(long)1,15);
         setProductImage(product4,"/static/images/vestido.jpg");
 
-        Product product5 = new Product("Coche","coche 40.000 km",user1,4000);
+        Product product5 = new Product("Coche","coche 40.000 km",(long)1,4000);
         setProductImage(product5,"/static/images/coche.jpg");
 
 
