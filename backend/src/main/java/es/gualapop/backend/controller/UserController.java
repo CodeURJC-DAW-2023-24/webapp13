@@ -1,72 +1,52 @@
 package es.gualapop.backend.controller;
 
 import es.gualapop.backend.model.Product;
+import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ProductRepository;
+import es.gualapop.backend.service.LoaderService;
 import es.gualapop.backend.service.ProductService;
+import es.gualapop.backend.service.UserService;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class UserController {
 
-
-
-    @RequestMapping("/login")
-    public String login() {
-        return "login.html";
-    }
-    @RequestMapping("/loginerror")
-    public String loginerror() {
-        return "loginerror.html";
-    }
-
-    @RequestMapping("/index")
-    public String index() {
-        return "index.html";
+    @Autowired
+	private UserService userService;
+    
+    @PostMapping("/registerUser")
+	private void registerUser(User user,HttpServletResponse response , HttpServletRequest sesion, @RequestParam(required = false) MultipartFile image) throws IOException, SQLException {
+    	System.out.println(user.getUserEmail());
+		userService.registerUsers(user, image);
+    	response.sendRedirect("/login");
     }
 
-    @RequestMapping("/admin")
-    public String admin() {
-        return "adminPanel.html";
-    }
-
-    @RequestMapping("/newProduct")
-    public String newProduct() {
-        return "newProduct.html";
-    }
-
-    @RequestMapping("/reportPanel")
-    public String reportPanel() {
-        return "reportPanel.html";
-    }
-
-    @RequestMapping("/profiles")
-    public String profile() {
-        return "profile.html";
-    }
-
-    @RequestMapping("/productoIndividual")
-    public String productoIndividual() {
-        return "productoIndividual.html";
-    }
-
-    @RequestMapping("/profileConsult")
-    public String profileConsult() {
-        return "profileConsult.html";
-    }
-
-    @RequestMapping("/reportForm")
-    public String reportForm() {
-        return "reportForm.html";
-    }
-
-    @RequestMapping("/signUp")
-    public String signUp() {
-        return "signUp.html";
+    @GetMapping("/imageprofile")
+    private ResponseEntity<Object> downloadImage(HttpServletRequest request) throws SQLException, IOException{
+    	User user = userService.getUser(request.getUserPrincipal().getName());
+    	Resource file = new InputStreamResource(user.getUserImg().getBinaryStream());
+    	return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+				.contentLength(user.getUserImg().length())
+				.body(file);
     }
 
 }

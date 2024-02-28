@@ -15,6 +15,15 @@ public class Review {
     private Long writerID;
     private Long sellerID;
 
+    public Review(){}
+    public Review(Long reviewID, float rating, String description, Long writerID, Long sellerID){
+        this.reviewID = reviewID;
+        this.rating = rating;
+        this.description = description;
+        this.writerID = writerID;
+        this.sellerID = sellerID;
+    }
+
     public float getRating() {
         return rating;
     }

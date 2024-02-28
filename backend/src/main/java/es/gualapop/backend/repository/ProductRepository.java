@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNullApi;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
@@ -23,5 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     //Búsqueda por rango de precios
     List<Product> findByPriceBetween(float minPrice, float maxPrice);
+
+    Optional<Product> findById(long id);
 }
 

@@ -19,4 +19,6 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
 
     //Búsqueda entre rangos de valoración
     public List<Review> findReviewsByRatingBetween(float min, float max);
+
+    List<Review> findAll();
 }
