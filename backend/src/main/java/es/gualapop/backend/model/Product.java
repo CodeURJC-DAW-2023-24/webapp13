@@ -13,7 +13,7 @@ public class Product {
 
     private String title;
 
-    private float price;
+    private double price;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -29,26 +29,16 @@ public class Product {
     @OneToOne
     private ProductType productType;
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    @OneToMany
-    private List<Review> reviews;
-
     public Product(User owner) {
         this.owner = owner;
     }
 
-    public Product(String name, String description, User owner) {
+    public Product(String name, String description, User owner, double price) {
         super();
         this.title = name;
         this.description = description;
         this.owner = owner;
+        this.price = price;
     }
 
     public Product() {
@@ -71,11 +61,11 @@ public class Product {
         this.owner = owner;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

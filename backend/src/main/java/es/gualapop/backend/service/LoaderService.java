@@ -20,7 +20,7 @@ import org.springframework.core.io.Resource;
 
 @Service
 public class LoaderService {
-    
+    /*
     //@Autowired
     //private ProductRepository productRepository;
 
@@ -63,5 +63,5 @@ public class LoaderService {
             userRepository.save(user2);
         }
 
-    }
+    }*/
 }
