@@ -6,7 +6,7 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "UserTable")
+@Entity
 public class User {
 
     @Id

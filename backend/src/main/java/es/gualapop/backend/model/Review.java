@@ -3,7 +3,7 @@ package es.gualapop.backend.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "ReviewTable")
+@Entity
 public class Review {
 
     @Id

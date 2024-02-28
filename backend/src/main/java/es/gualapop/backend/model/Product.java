@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Blob;
 import java.util.List;
 
-@Entity(name = "ProductTable")
+@Entity
 public class Product {
 
     @Id

@@ -2,7 +2,7 @@ package es.gualapop.backend.model;
 
 import javax.persistence.*;
 
-@Entity(name = "ProductTypeTable")
+@Entity
 public class ProductType {
 
     @Id
