@@ -3,7 +3,7 @@ package es.gualapop.backend.model;
 import javax.persistence.*;
 
 import java.sql.Blob;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "UserTable")
@@ -34,7 +34,11 @@ public class User {
         this.userImg = userImg;
         this.userImg = userImg;
         this.encodedPassword = encodedPassword;
-        this.roles = roles;
+        if (roles != null) {
+            this.roles = new ArrayList<>(roles);
+        } else {
+            this.roles = new ArrayList<>();
+        }
         this.userEmail = email;
         this.fullName = fName;
         this.reviewList = reviews;

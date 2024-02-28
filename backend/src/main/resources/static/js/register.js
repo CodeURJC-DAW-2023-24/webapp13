@@ -6,5 +6,7 @@ function enviarFormulario() {
     if (password !== confirmPassword) {
         alert("Las contraseñas no coinciden");
         return false; // Evita que se envíe el formulario
+    }else{
+        return true
     }
-}
+} 

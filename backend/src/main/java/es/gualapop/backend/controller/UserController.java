@@ -38,14 +38,15 @@ public class UserController {
 	private UserService userService;
     
     @PostMapping("/registerUser")
-	private void registerUser(@Valid User user, BindingResult bindingResult,
+	private void registerUser(String name, String username, String password, String email,
                                 HttpServletResponse response, HttpServletRequest sesion,
                                 @RequestParam(required = false) MultipartFile image) throws IOException, SQLException {
 
-        if (bindingResult.hasErrors()) {
-            response.sendRedirect("/loginerror");
-        }
+		List<String> roles = List.of("USER");
+		User user = new User(username, null, email, password, name, roles, null); 
 
+		System.out.println("EL PEPE ENTRA EN EL SISTEMA");
+		System.out.println(password);
         userService.registerUsers(user, image);
         response.sendRedirect("/login");
     }
