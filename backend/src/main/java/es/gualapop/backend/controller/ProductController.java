@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import es.gualapop.backend.service.LoaderService;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,7 +32,7 @@ public class ProductController {
         } else {
             model.addAttribute("products", productRepository.findAll());
         }
-        return "index.html";
+        return "index";
     }
 
     @GetMapping("/product/{id}")
@@ -47,6 +49,6 @@ public class ProductController {
 
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-        return "productoIndividual.html";
+        return "productoIndividual";
     }
 }

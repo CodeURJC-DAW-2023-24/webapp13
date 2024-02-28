@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import es.gualapop.backend.service.LoaderService;
 
 public class NavigationController {
-    
-    @GetMapping("/")
+
+    @Autowired
+    private LoaderService loaderService;
+
+    /*    @GetMapping("/")
 	private void getInitialPage(Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
 		model.addAttribute("token", token.getToken());
         //cargar los datos en la BBDD
-        LoaderService.Load();
-		response.sendRedirect("/index");		
-	}
+        loaderService.Load();
+		response.sendRedirect("/index");
+	}*/
+
 
     @GetMapping("/login")
 	private String getSignIn(Model model,HttpServletRequest request, HttpSession sesion, HttpServletResponse response) throws IOException {
