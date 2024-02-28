@@ -57,4 +57,8 @@ public class ProductService {
         return productRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
+
+    public Optional<Product> findById(long id) {
+        return productRepository.findById(id);
+    }
 }

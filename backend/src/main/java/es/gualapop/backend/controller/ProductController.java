@@ -6,14 +6,21 @@ import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import es.gualapop.backend.service.LoaderService;
+
+
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
+import java.util.Optional;
 
 @Controller
 public class ProductController {
@@ -50,5 +57,21 @@ public class ProductController {
         model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
         return "productoIndividual";
+    }
+
+    @GetMapping("/product/{id}/image")
+    public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
+
+        Optional<Product> product = productService.findById(id);
+        if (product.isPresent() && product.get().getImageFile() != null) {
+
+            Resource file = new InputStreamResource(product.get().getImageFile().getBinaryStream());
+
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg")
+                    .contentLength(product.get().getImageFile().length()).body(file);
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
