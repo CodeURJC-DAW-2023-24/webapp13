@@ -47,13 +47,16 @@
     <section class="py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
+                {{#product}}
+
                 <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
-                        src="https://resources.claroshop.com/medios-plazavip/s2/10342/1281840/5de824a7d17d4-bateria_musical_dx722_roja_4_12_2019_15_25_53_328-1600x1600.jpg" alt="..." /></div>
+                        src="/product/{{id}}/image" alt="..." /></div>
                 <div class="col-md-6">
-                    <h1 class="display-5 fw-bolder">Shop item template</h1>
+
+                    <h1 class="display-5 fw-bolder">{{title}}</h1>
                     <div class="fs-5 mb-5">
 
-                        <span>$40.00</span>
+                        <span>${{price}}</span>
                     </div>
                     <p class="lead">{{description}}</p>
                     <div class="d-flex">
@@ -63,10 +66,6 @@
                         </button>
                     </div>
                     <br>
-                    <div class="col-md-6">
-                        <p>Lugar: {{place}}</p>
-                    </div>
-
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card mb-4">
@@ -76,21 +75,20 @@
                                     <!--<img src="{{image}}"-->
 
                                     {{#user}}
-                                        alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                                    <h5 class="my-3">{{name}}</h5>
+                                    <img src="{{userImg}}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                                    <h5 class="my-3">{{username}}</h5>
                                     <div class="flex-grow-1 ms-3">
-                                        <p class="text-muted mb-1">{{description}}</p>
                                         <div class="d-flex justify-content-center mb-2">
                                             <button type="button" class="btn btn-primary">Visitar perfil</button>
                                         </div>
                                     </div>
-
                                     {{/user}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {{/product}}
                 {{#admin}}
                 <button type="button" class="btn btn-danger btn-lg">Reportar</button>
                 {{/admin}}

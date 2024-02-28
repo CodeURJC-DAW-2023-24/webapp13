@@ -23,7 +23,7 @@ public class Product {
 
     private boolean image;
 
-    @OneToOne
+    @ManyToOne
     private User owner;
 
     @OneToOne

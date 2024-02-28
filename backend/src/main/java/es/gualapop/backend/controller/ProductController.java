@@ -47,14 +47,17 @@ public class ProductController {
         Product p = productService.getProductById(id);
         User u = userRepository.getOne(p.getOwner().getUserID());
         model.addAttribute("user", u);
-        model.addAttribute("products", p);
+        model.addAttribute("product", p);
 
-        //Añadir la parte de seguridad para el boton reportar
-
-        String name = request.getUserPrincipal().getName();
-        User user = userRepository.findUserByUsername(name).orElseThrow();
-
-        model.addAttribute("admin", request.isUserInRole("ADMIN"));
+        // Verificar si el usuario está autenticado
+        if (request.getUserPrincipal() != null) {
+            String name = request.getUserPrincipal().getName();
+            User user = userRepository.findUserByUsername(name).orElseThrow();
+            model.addAttribute("admin", request.isUserInRole("ADMIN"));
+        } else {
+            // Manejar el caso cuando el usuario no está autenticado
+            model.addAttribute("admin", false);
+        }
 
         return "productoIndividual";
     }
@@ -74,4 +77,6 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 }
