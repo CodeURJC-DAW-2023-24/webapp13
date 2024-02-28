@@ -29,7 +29,7 @@ public class NavigationController {
 	}*/
 
 
-    @GetMapping("/login")
+    /*@GetMapping("/login")
 	private String getSignIn(Model model,HttpServletRequest request, HttpSession sesion, HttpServletResponse response) throws IOException {
 		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
 		model.addAttribute("token", token.getToken());
@@ -38,8 +38,16 @@ public class NavigationController {
 			response.sendRedirect("/index");
 		}
 		return "login";
-	}
+	}*/
 
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+    @GetMapping("/error")
+    public String error404(){
+        return "error";
+    }
     @RequestMapping("/loginerror")
     public String loginerror() {
         return "loginerror.html";
