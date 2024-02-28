@@ -12,6 +12,7 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -23,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,10 +35,16 @@ public class UserController {
 	private UserService userService;
     
     @PostMapping("/registerUser")
-	private void registerUser(User user,HttpServletResponse response , HttpServletRequest sesion, @RequestParam(required = false) MultipartFile image) throws IOException, SQLException {
-    	System.out.println(user.getUserEmail());
-		userService.registerUsers(user, image);
-    	response.sendRedirect("/login");
+	private void registerUser(@Valid User user, BindingResult bindingResult,
+                                HttpServletResponse response, HttpServletRequest sesion,
+                                @RequestParam(required = false) MultipartFile image) throws IOException, SQLException {
+
+        if (bindingResult.hasErrors()) {
+            response.sendRedirect("/loginerror");
+        }
+
+        userService.registerUsers(user, image);
+        response.sendRedirect("/login");
     }
 
     @GetMapping("/imageprofile")

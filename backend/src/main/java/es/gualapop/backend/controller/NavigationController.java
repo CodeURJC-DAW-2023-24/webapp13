@@ -50,53 +50,53 @@ public class NavigationController {
     public String error404(){
         return "error";
     }*/
-    @RequestMapping("/loginerror")
+    @GetMapping("/loginerror")
     public String loginerror() {
-        return "loginerror.html";
+        return "loginerror";
     }
 
-    @RequestMapping("/index")
+    @GetMapping("/index")
     public String index() {
-        return "index.html";
+        return "index";
     }
 
-    @RequestMapping("/admin")
+    @GetMapping("/admin")
     public String admin() {
-        return "adminPanel.html";
+        return "adminPanel";
     }
 
-    @RequestMapping("/newProduct")
+    @GetMapping("/newProduct")
     public String newProduct() {
-        return "newProduct.html";
+        return "newProduct";
     }
 
-    @RequestMapping("/reportPanel")
+    @GetMapping("/reportPanel")
     public String reportPanel() {
-        return "reportPanel.html";
+        return "reportPanel";
     }
 
-    @RequestMapping("/profiles")
+    @GetMapping("/profiles")
     public String profile() {
-        return "profile.html";
+        return "profile";
     }
 
-    @RequestMapping("/productoIndividual")
+    @GetMapping("/productoIndividual")
     public String productoIndividual() {
-        return "productoIndividual.html";
+        return "productoIndividual";
     }
 
-    @RequestMapping("/profileConsult")
+    @GetMapping("/profileConsult")
     public String profileConsult() {
-        return "profileConsult.html";
+        return "profileConsult";
     }
 
-    @RequestMapping("/reportForm")
+    @GetMapping("/reportForm")
     public String reportForm() {
-        return "reportForm.html";
+        return "reportForm";
     }
 
-    @RequestMapping("/signUp")
+    @GetMapping("/signUp")
     public String signUp() {
-        return "signUp.html";
+        return "signUp";
     }
 }

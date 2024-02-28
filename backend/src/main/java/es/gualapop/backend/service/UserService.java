@@ -83,15 +83,19 @@ public class UserService    {
 		return (userRepository.findByUsername(username).orElseThrow(() -> new NoSuchElementException("User not found")));
 	}
 
-    //comprobar si existe usuario registrado con ese username
+    //metodo registrar usuarios
 	public void registerUsers(User user, MultipartFile image) throws IOException {
-
+        if (user.getEncodedPassword() == null) {
+            throw new IllegalArgumentException("La contraseña no puede ser nula");
+        }
+        //comprobar si existe usuario registrado con ese username
 		if(userRepository.existsUserByUsername(user.getUsername())) {
 			throw new NoSuchElementException("USERNAME IS TAKEN");
 		}else {
 			if(image != null) {
 				user.setUserImg(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
 			}
+            
 			user.setEncodedPassword(encoder.encode(user.getEncodedPassword()));
             user.setRoles("USER");
 			userRepository.save(user);
