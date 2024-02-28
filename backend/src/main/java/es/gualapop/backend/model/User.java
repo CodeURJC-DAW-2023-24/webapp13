@@ -18,6 +18,7 @@ public class User {
     private String fullName;
     private String username;
     private String userEmail;
+    @Lob
     private Blob userImg;
 
     @ElementCollection(fetch = FetchType.LAZY)
