@@ -29,8 +29,7 @@ public class User {
     // Constructor, getters, and setters
 
     public User(){}
-    public User(Long userID, String username, Blob userImg, String email, String encodedPassword, String fName, List<String> roles, List<Integer> reviews) {
-        this.userID = userID;
+    public User(String username, Blob userImg, String email, String encodedPassword, String fName, List<String> roles, List<Integer> reviews) {
         this.username = username;
         this.userImg = userImg;
         this.userImg = userImg;

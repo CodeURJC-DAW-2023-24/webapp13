@@ -23,22 +23,21 @@ public class Product {
 
     private boolean image;
 
-    @ManyToOne
-    private User owner;
+    private Long owner;
 
-    @OneToOne
-    private ProductType productType;
+    private Long productType;
 
-    public Product(User owner) {
+    public Product(Long owner) {
         this.owner = owner;
     }
 
-    public Product(String name, String description, User owner, double price) {
+    public Product(String name, String description, Long owner, double price, Long productType) {
         super();
         this.title = name;
         this.description = description;
         this.owner = owner;
         this.price = price;
+        this.productType = productType;
     }
 
     public Product() {
@@ -53,11 +52,11 @@ public class Product {
         this.title = title;
     }
 
-    public User getOwner() {
+    public Long getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Long owner) {
         this.owner = owner;
     }
 
@@ -101,11 +100,11 @@ public class Product {
         this.image = image;
     }
 
-    public ProductType getProductType() {
+    public Long getProductType() {
         return productType;
     }
 
-    public void setProductType(ProductType productType) {
+    public void setProductType(Long productType) {
         this.productType = productType;
     }
 
