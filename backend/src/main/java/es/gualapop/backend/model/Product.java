@@ -25,19 +25,19 @@ public class Product {
 
     private Long owner;
 
-    @OneToOne
-    private ProductType productType;
+    private Long productType;
 
     public Product(Long owner) {
         this.owner = owner;
     }
 
-    public Product(String name, String description, Long owner, double price) {
+    public Product(String name, String description, Long owner, double price, Long productType) {
         super();
         this.title = name;
         this.description = description;
         this.owner = owner;
         this.price = price;
+        this.productType = productType;
     }
 
     public Product() {
@@ -100,11 +100,11 @@ public class Product {
         this.image = image;
     }
 
-    public ProductType getProductType() {
+    public Long getProductType() {
         return productType;
     }
 
-    public void setProductType(ProductType productType) {
+    public void setProductType(Long productType) {
         this.productType = productType;
     }
 

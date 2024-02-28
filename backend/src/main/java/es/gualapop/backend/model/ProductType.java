@@ -10,6 +10,14 @@ public class ProductType {
     private Long id;
     private String type;
 
+    public ProductType(String type) {
+        this.type = type;
+    }
+
+    public ProductType() {
+
+    }
+
     public String getType() {
         return type;
     }

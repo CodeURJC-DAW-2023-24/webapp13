@@ -3,15 +3,17 @@ package es.gualapop.backend.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import es.gualapop.backend.model.ProductType;
 
-public interface ProductTypeRepository {
+public interface ProductTypeRepository extends JpaRepository<ProductType, Long> {
 
     //Búsqueda por nombre
-    Optional<ProductType> findBytypename(String type);
+    Optional<ProductType> findByType(String type);
 
     //Búsqueda por id
-	Optional<ProductType> findByIdproducttype(String producttype);
+	Optional<ProductType> findById(String producttype);
 
     //Busca todos
 	List<ProductType> findAll();

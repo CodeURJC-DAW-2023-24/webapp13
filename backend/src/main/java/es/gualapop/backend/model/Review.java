@@ -16,8 +16,7 @@ public class Review {
     private Long sellerID;
 
     public Review(){}
-    public Review(Long reviewID, float rating, String description, Long writerID, Long sellerID){
-        this.reviewID = reviewID;
+    public Review(float rating, String description, Long writerID, Long sellerID){
         this.rating = rating;
         this.description = description;
         this.writerID = writerID;
