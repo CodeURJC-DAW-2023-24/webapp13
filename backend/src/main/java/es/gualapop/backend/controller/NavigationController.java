@@ -50,9 +50,9 @@ public class NavigationController {
     public String error404(){
         return "error";
     }*/
-    @RequestMapping("/loginerror")
+    @GetMapping("/loginerror")
     public String loginerror() {
-        return "loginerror.html";
+        return "loginerror";
     }
 
     @RequestMapping("/index")

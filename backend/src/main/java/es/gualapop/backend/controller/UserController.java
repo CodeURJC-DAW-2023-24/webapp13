@@ -3,12 +3,14 @@ package es.gualapop.backend.controller;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ProductRepository;
+import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.LoaderService;
 import es.gualapop.backend.service.ProductService;
 import es.gualapop.backend.service.UserService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 
 @Controller
 public class UserController {
@@ -48,5 +51,28 @@ public class UserController {
 				.contentLength(user.getUserImg().length())
 				.body(file);
     }
+
+	@PostMapping("/logincheck")
+	private void loginCheck(String email, String password, HttpServletResponse response) throws IOException {
+		boolean found = false;
+		System.out.println(email);
+		List<User> users = userService.findByUserEmail(email);
+		if (users.size() == 0){
+			response.sendRedirect("/loginerror");
+		}
+		for (User user : users) {
+			if (password.equals(user.getEncodedPassword())) {
+				found = true;
+				break; // No necesitas seguir iterando
+			}
+		}
+		
+		if (found) {
+			response.sendRedirect("/");
+		} else {
+			response.sendRedirect("/loginerror");
+		}
+	}
+	
 
 }
