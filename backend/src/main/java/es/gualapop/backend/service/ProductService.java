@@ -49,7 +49,7 @@ public class ProductService {
         return productRepository.findById(prodTypeId);
     }
 
-    public List<Product> findByOwnerId(User owner) {
+    public List<Product> findByOwnerId(Long owner) {
         return productRepository.findByOwner(owner);
     }
 

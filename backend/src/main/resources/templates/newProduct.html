@@ -27,12 +27,9 @@
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="index.html">Todo</a></li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="#!">Categoria 1</a></li>
-                            <li><a class="dropdown-item" href="#!">Categoria 2</a></li>
+                            {{#categorias}}
+                            <li><a class="dropdown-item" href="/product/category/{{id}}">{{type}}</a></li>
+                            {{/categorias}}
                         </ul>
                     </li>
                 </ul>
