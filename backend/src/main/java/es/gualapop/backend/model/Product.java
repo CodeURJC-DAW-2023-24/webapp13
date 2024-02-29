@@ -13,6 +13,8 @@ public class Product {
 
     private String title;
 
+    private String address;
+
     private double price;
 
     @Column(columnDefinition = "TEXT")
@@ -106,6 +108,14 @@ public class Product {
 
     public void setProductType(Long productType) {
         this.productType = productType;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override

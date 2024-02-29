@@ -72,11 +72,6 @@ public class NavigationController {
         return "adminPanel";
     }
 
-    @GetMapping("/newProduct")
-    public String newProduct() {
-        return "newProduct";
-    }
-
     @GetMapping("/reportPanel")
     public String reportPanel() {
         return "reportPanel";
