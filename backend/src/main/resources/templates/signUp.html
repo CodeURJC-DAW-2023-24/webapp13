@@ -40,7 +40,11 @@
                                             <label class="form-label" for="username">Nombre de usuario</label>
                                         </div>
                                     </div>
-                                
+                                    {{#hasBeenRegistered}}
+                                    <div class="form-outline mb-4 w-50 mx-auto">
+                                        <p class="text-danger">El usuario ya existe</p>
+                                    </div>
+                                    {{/hasBeenRegistered}}
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
@@ -64,6 +68,11 @@
                                             <label class="form-label" for="repeatPassword">Repite tu contraseña</label>
                                         </div>
                                     </div>
+                                    {{#error}}
+                                    <div class="form-outline mb-4 w-50 mx-auto">
+                                        <p class="text-danger">Las contraseñas no coinciden</p>
+                                    </div>
+                                    {{/error}}
                                 
                                     <div class="form-group mb-4">
                                         <label for="formFileMultiple" class="form-label">Selecciona imágenes:</label>
@@ -80,11 +89,6 @@
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                         <button type="submit" class="btn btn-primary btn-lg">Crear cuenta</button>
                                     </div>
-                                    {{#error}}
-                                    <div class="form-outline mb-4 w-50 mx-auto">                         
-                                        <p class="text-danger">Error al crear usuario</p>                     
-                                    </div>
-                                    {{/error}}
                                 
                                 </form>
                                                               

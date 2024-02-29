@@ -33,8 +33,13 @@ public class UserController {
 		User user = new User(username, null, email, password, name, null,"USER");
 		if(userService.checkPassword(password, repeatPassword)){
 			model.addAttribute("error",false);
-			userService.registerUsers(user, image);
-			return "login";
+			if (!userService.registerUsers(user, image)) {
+				model.addAttribute("hasBeenRegistered", true);
+				return "signUp";
+			} else {
+				model.addAttribute("hasBeenRegistered", false);
+				return "login";
+			}
 		}
         model.addAttribute("error",true);
 		return "signUp";
