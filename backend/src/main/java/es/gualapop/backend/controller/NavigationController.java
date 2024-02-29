@@ -47,13 +47,15 @@ public class NavigationController {
 	}*/
 
     @GetMapping("/login")
-    public String login(){
-        return "/login";
+    public String login(Model model, HttpServletRequest request){
+        if(request.isUserInRole("USER")) {
+            return "profile";
+        } else if (request.isUserInRole("ADMIN")) {
+            return "adminPanel";
+        }
+        return "login";
     }
-    /*@GetMapping("/error")
-    public String error404(){
-        return "error";
-    }*/
+
     @GetMapping("/loginerror")
     public String loginerror(Model model) {
         model.addAttribute("invalid", true);

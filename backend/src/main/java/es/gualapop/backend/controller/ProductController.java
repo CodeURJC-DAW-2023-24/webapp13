@@ -33,12 +33,13 @@ public class ProductController {
     private UserRepository userRepository;
 
     @GetMapping("/")
-    public String getProducts(Model model) {
+    public String getProducts(Model model, HttpServletRequest request) {
         if(productRepository.findAll().isEmpty()) {
             model.addAttribute("products", false);
         } else {
             model.addAttribute("products", productRepository.findAll());
         }
+
         return "index";
     }
 
@@ -76,6 +77,11 @@ public class ProductController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/search")
+    public String searchProducts(Model model) {
+        return "/";
     }
 
 
