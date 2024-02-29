@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,26 +27,22 @@ public class UserController {
 	private UserService userService;
     
     @PostMapping("/registerUser")
-	private void registerUser(String name, String username, String password, String email,
-                                HttpServletResponse response, HttpServletRequest sesion,
+	public String registerUser(Model model, String name, String username, String password, String repeatPassword, String email,
                                 @RequestParam(required = false) MultipartFile image) throws IOException, SQLException {
 
 		User user = new User(username, null, email, password, name, null,"USER");
-
-		System.out.println("EL PEPE ENTRA EN EL SISTEMA");
-		System.out.println(password);
-        userService.registerUsers(user, image);
-        response.sendRedirect("/login");
-    }
-
-    @GetMapping("/imageprofile")
-    private ResponseEntity<Object> downloadImage(HttpServletRequest request) throws SQLException, IOException{
-    	User user = userService.getUser(request.getUserPrincipal().getName());
-    	Resource file = new InputStreamResource(user.getUserImg().getBinaryStream());
-    	return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-				.contentLength(user.getUserImg().length())
-				.body(file);
+		if(userService.checkPassword(password, repeatPassword)){
+			model.addAttribute("error",false);
+			if (!userService.registerUsers(user, image)) {
+				model.addAttribute("hasBeenRegistered", true);
+				return "signUp";
+			} else {
+				model.addAttribute("hasBeenRegistered", false);
+				return "login";
+			}
+		}
+        model.addAttribute("error",true);
+		return "signUp";
     }
 
 //	@PostMapping("/login")

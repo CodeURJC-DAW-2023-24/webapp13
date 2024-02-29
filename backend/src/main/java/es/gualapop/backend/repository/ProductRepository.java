@@ -6,6 +6,7 @@ import es.gualapop.backend.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNullApi;
 
 import java.util.List;
@@ -25,6 +26,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //Búsqueda por rango de precios
     List<Product> findByPriceBetween(float minPrice, float maxPrice);
 
+    //Busqueda por titulo ignora
+
     Optional<Product> findById(long id);
+
+    List<Product> findByTitleContainingIgnoreCaseOrTitleEqualsIgnoreCase(String query, String query1);
 }
 
