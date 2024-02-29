@@ -5,6 +5,7 @@ import es.gualapop.backend.model.Product;
 import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.ProductService;
+import es.gualapop.backend.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -14,8 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,8 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private SearchService searchService;
     @GetMapping("/")
     public String getProducts(Model model, HttpServletRequest request) {
         if(productRepository.findAll().isEmpty()) {
@@ -80,8 +81,9 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public String searchProducts(Model model) {
-        return "/";
+    public String searchProducts(@RequestParam("query") String query, Model model) {
+        model.addAttribute("products", searchService.searchProducts(query));
+        return "index";
     }
 
 

@@ -25,6 +25,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //Búsqueda por rango de precios
     List<Product> findByPriceBetween(float minPrice, float maxPrice);
 
+    //Busqueda por titulo ignora
+
     Optional<Product> findById(long id);
+
+    List<Product> findByTitleContainingIgnoreCaseOrTitleEqualsIgnoreCase(String query, String query1);
 }
 
