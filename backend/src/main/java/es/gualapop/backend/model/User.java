@@ -33,11 +33,7 @@ public class User {
         this.username = username;
         this.userImg = userImg;
         this.encodedPassword = encodedPassword;
-        if (roles != null) {
-            this.roles = List.of(roles);;
-        } else {
-            this.roles = new ArrayList<>();
-        }
+        this.roles = List.of(roles);
         this.userEmail = email;
         this.fullName = fName;
         this.reviewList = reviews;

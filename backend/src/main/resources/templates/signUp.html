@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <title>Registro</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="../static/js/register.js"></script>
 
 </head>
 <body>
@@ -24,15 +28,15 @@
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="text" id="name" class="form-control" name="name" />
+                                            <input type="text" id="name" class="form-control" name="name" required />
                                             <label class="form-label" for="name">Nombre</label>
                                         </div>
                                     </div>
                                 
                                     <div class="d-flex flex-row align-items-center mb-4">
-                                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="text" id="username" class="form-control" name="username" />
+                                            <input type="text" id="username" class="form-control" name="username" required />
                                             <label class="form-label" for="username">Nombre de usuario</label>
                                         </div>
                                     </div>
@@ -40,7 +44,7 @@
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="email" id="email" class="form-control" name="email" />
+                                            <input type="email" id="email" class="form-control" name="email" required />
                                             <label class="form-label" for="email">Email</label>
                                         </div>
                                     </div>
@@ -48,7 +52,7 @@
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="password" id="password" class="form-control" name="password" />
+                                            <input type="password" id="password" class="form-control" name="password" required />
                                             <label class="form-label" for="password">Contraseña</label>
                                         </div>
                                     </div>
@@ -56,7 +60,7 @@
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
-                                            <input type="password" id="repeatPassword" class="form-control" name="repeatPassword" />
+                                            <input type="password" id="repeatPassword" class="form-control" name="repeatPassword" required />
                                             <label class="form-label" for="repeatPassword">Repite tu contraseña</label>
                                         </div>
                                     </div>
@@ -67,19 +71,23 @@
                                     </div>
                                 
                                     <div class="form-check d-flex justify-content-center mb-5">
-                                        <input class="form-check-input me-2" type="checkbox" value="" id="terminos" name="terminos" />
+                                        <input class="form-check-input me-2" type="checkbox" value="" id="terminos" name="terminos" required />
                                         <label class="form-check-label" for="terminos">
                                             Estoy de acuerdo con: <a href="#!">Términos de servicio</a>
                                         </label>
                                     </div>
                                 
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                        <button type="submit" onclick="enviarFormulario()" class="btn btn-primary btn-lg">Crear cuenta</button>
+                                        <button type="submit" class="btn btn-primary btn-lg">Crear cuenta</button>
                                     </div>
+                                    {{#error}}
+                                    <div class="form-outline mb-4 w-50 mx-auto">                         
+                                        <p class="text-danger">Error al crear usuario</p>                     
+                                    </div>
+                                    {{/error}}
                                 
                                 </form>
-                                <script src="../static/js/register.js"></script>
-                                
+                                                              
 
                             </div>
                             <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
