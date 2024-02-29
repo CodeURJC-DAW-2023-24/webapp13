@@ -3,6 +3,7 @@ package es.gualapop.backend.controller;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.repository.ProductRepository;
+import es.gualapop.backend.repository.ProductTypeRepository;
 import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.ProductService;
 import es.gualapop.backend.service.SearchService;
@@ -33,8 +34,11 @@ public class ProductController {
     private UserRepository userRepository;
     @Autowired
     private SearchService searchService;
+    @Autowired
+    private ProductTypeRepository productTypeRepository;
     @GetMapping("/")
     public String getProducts(Model model, HttpServletRequest request) {
+        model.addAttribute("categorias", productTypeRepository.findAll());
         if(productRepository.findAll().isEmpty()) {
             model.addAttribute("products", false);
         } else {
@@ -78,6 +82,14 @@ public class ProductController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/product/category/{id}")
+    public String redirectCategories(@PathVariable long id, Model model) {
+
+        model.addAttribute("products", productRepository.findProductsByProductType(id));
+        model.addAttribute("categorias", productTypeRepository.findAll());
+        return "index";
     }
 
     @GetMapping("/search")

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import es.gualapop.backend.model.User;
+import es.gualapop.backend.repository.ProductTypeRepository;
 import es.gualapop.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -25,6 +26,9 @@ public class NavigationController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ProductTypeRepository productTypeRepository;
     /*    @GetMapping("/")
 	private void getInitialPage(Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
@@ -125,4 +129,6 @@ public class NavigationController {
     public String signUp() {
         return "signUp";
     }
+
+
 }
