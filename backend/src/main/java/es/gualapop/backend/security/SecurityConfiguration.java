@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         // Login form
         http.formLogin().loginPage("/login");
-        http.formLogin().usernameParameter("usermail");
+        http.formLogin().usernameParameter("username");
         http.formLogin().passwordParameter("password");
         http.formLogin().defaultSuccessUrl("/profile");
         http.formLogin().failureUrl("/loginerror");
@@ -57,7 +57,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         // Disable CSRF at the moment
         http.csrf().disable();
-
-        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
     }
 }

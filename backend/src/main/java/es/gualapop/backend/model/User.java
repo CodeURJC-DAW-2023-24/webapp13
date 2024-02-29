@@ -21,7 +21,7 @@ public class User {
     @Lob
     private Blob userImg;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
     @ElementCollection(fetch = FetchType.LAZY)
@@ -29,13 +29,12 @@ public class User {
     // Constructor, getters, and setters
 
     public User(){}
-    public User(String username, Blob userImg, String email, String encodedPassword, String fName, List<String> roles, List<Integer> reviews) {
+    public User(String username, Blob userImg, String email, String encodedPassword, String fName, List<Integer> reviews, String... roles) {
         this.username = username;
-        this.userImg = userImg;
         this.userImg = userImg;
         this.encodedPassword = encodedPassword;
         if (roles != null) {
-            this.roles = new ArrayList<>(roles);
+            this.roles = List.of(roles);;
         } else {
             this.roles = new ArrayList<>();
         }

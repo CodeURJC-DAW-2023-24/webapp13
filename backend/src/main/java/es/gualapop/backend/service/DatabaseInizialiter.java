@@ -6,6 +6,7 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -32,6 +33,8 @@ public class DatabaseInizialiter {
     private ReviewRepository reviewRepository;
     @Autowired
     private ProductTypeRepository productTypeRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     @PostConstruct
     public void init() throws IOException {
@@ -43,13 +46,12 @@ public class DatabaseInizialiter {
         Blob imgU1 = BlobProxy.generateProxy(imageUser1.getInputStream(), imageUser1.contentLength());
         Blob imgU2 = BlobProxy.generateProxy(imageUser2.getInputStream(), imageUser2.contentLength());
 
-        List<String> nonAdmin = List.of("USER");
-        List<String> adminList = List.of("ADMIN");
+
         List<Integer> reviewList1 = List.of(1,2);
         List<Integer> reviewList2 = List.of(3);
-
-        User user1 = new User("NoAdmin", imgU1, "noadmin@gmail.com", "1234", "No Admin", nonAdmin, reviewList1);
-        User user2 = new User("AdminUser", imgU2, "admin@gmail.com", "abc", "Admin User", adminList, reviewList2);
+        //    public User(String username, Blob userImg, String email, String encodedPassword, String fName, List<Integer> reviews, String... roles) {
+        User user1 = new User("NoAdmin", imgU1, "noadmin@gmail.com", passwordEncoder.encode("1234"), "Non Admin User", reviewList1,"USER");
+        User user2 = new User("AdminUser", imgU2, "admin@gmail.com",  passwordEncoder.encode("abc"), "Admin User", reviewList2, "ADMIN");
 
         if(userRepository.findAll().isEmpty()) {
             userRepository.save(user1);
@@ -110,9 +112,6 @@ public class DatabaseInizialiter {
 
         Product product5 = new Product("Coche","coche 40.000 km",id1,4000, electronica);
         setProductImage(product5,"/static/images/coche.jpg");
-
-
-
 
         //save all
 

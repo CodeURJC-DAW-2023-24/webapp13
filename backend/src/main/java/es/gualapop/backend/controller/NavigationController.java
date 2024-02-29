@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import es.gualapop.backend.model.User;
+import es.gualapop.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ public class NavigationController {
     @Autowired
     private LoaderService loaderService;
 
+    @Autowired
+    private UserRepository userRepository;
     /*    @GetMapping("/")
 	private void getInitialPage(Model model,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
@@ -44,15 +48,16 @@ public class NavigationController {
 
     @GetMapping("/login")
     public String login(){
-        return "login";
+        return "/login";
     }
     /*@GetMapping("/error")
     public String error404(){
         return "error";
     }*/
     @GetMapping("/loginerror")
-    public String loginerror() {
-        return "loginerror";
+    public String loginerror(Model model) {
+        model.addAttribute("invalid", true);
+        return "login";
     }
 
     @GetMapping("/index")
@@ -75,9 +80,23 @@ public class NavigationController {
         return "reportPanel";
     }
 
-    @GetMapping("/profiles")
-    public String profile() {
-        return "profile";
+
+    @GetMapping("/profile")
+    public String profile(Model model, HttpServletRequest request) {
+
+        String name = request.getUserPrincipal().getName();
+
+        User user = userRepository.findUserByUsername(name).orElseThrow();
+
+        if(request.isUserInRole("USER")) {
+            return "profile";
+        }
+        return "adminPanel";
+    }
+
+    @GetMapping("/logout")
+    private String logout() {
+        return "index";
     }
 
     @GetMapping("/productoIndividual")
