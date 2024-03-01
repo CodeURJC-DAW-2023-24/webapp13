@@ -155,3 +155,16 @@ body{
     object-fit: cover;
     width: 100%;
 }
+
+/* Estilo para los contenedores de los productos */
+.card.mb-5.rounded-3 {
+    flex: 1 0 300px; /* Tamaño fijo de 300px para los contenedores */
+    margin-right: 20px; /* Espacio entre los contenedores */
+}
+
+/* Ajuste del tamaño de la imagen para cubrir el contenedor */
+.card.mb-5.rounded-3 .img-fluid.rounded-top {
+    width: 100%; /* Ajuste del ancho al 100% del contenedor */
+    height: 200px; /* Altura fija para la imagen */
+    object-fit: cover; /* Recorte de la imagen para cubrir el contenedor */
+}

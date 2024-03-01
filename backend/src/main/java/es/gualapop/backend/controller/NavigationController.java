@@ -1,12 +1,14 @@
 package es.gualapop.backend.controller;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import es.gualapop.backend.model.User;
+import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ProductTypeRepository;
 import es.gualapop.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,11 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.gualapop.backend.service.LoaderService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class NavigationController {
@@ -26,6 +30,8 @@ public class NavigationController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private ProductTypeRepository productTypeRepository;
@@ -89,9 +95,10 @@ public class NavigationController {
 
         User user = userRepository.findUserByUsername(name).orElseThrow();
 
-        if(request.isUserInRole("USER")) {
+        if(request.isUserInRole("USER") && !request.isUserInRole("ADMIN")) {
             return "profile";
         }
+        
         return "adminPanel";
     }
 
@@ -100,14 +107,22 @@ public class NavigationController {
         return "index";
     }
 
-    @GetMapping("/productoIndividual")
-    public String productoIndividual() {
-        return "productoIndividual";
-    }
+    @GetMapping("/user/{userID}")
+    public String userProfile(Model model, @PathVariable("userID") long userID) {
+        Optional<User> optionalUser = userRepository.findById(userID);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            model.addAttribute("user", user);
+            model.addAttribute("categories", productTypeRepository.findAll());
+            model.addAttribute("rating", "5"); // Modify if there's a rating system implemented
+            model.addAttribute("products", productRepository.findByOwner(user.getUserID()));
+            return "profileConsult";
+        } else {
+            model.addAttribute("error", true);
+            model.addAttribute("error.message", "No existe este usuario");
+            return "error";
 
-    @GetMapping("/profileConsult")
-    public String profileConsult() {
-        return "profileConsult";
+        }
     }
 
     @GetMapping("/reportForm")

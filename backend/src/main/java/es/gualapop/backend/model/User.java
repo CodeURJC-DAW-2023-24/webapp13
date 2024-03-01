@@ -126,4 +126,8 @@ public class User {
     public String getName() {
         return username;
     }
+
+    public Blob getImageFile() {
+        return userImg;
+    }
 }
