@@ -107,24 +107,6 @@ public class NavigationController {
         return "index";
     }
 
-    @GetMapping("/user/{userID}")
-    public String userProfile(Model model, @PathVariable("userID") long userID) {
-        Optional<User> optionalUser = userRepository.findById(userID);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            model.addAttribute("user", user);
-            model.addAttribute("categories", productTypeRepository.findAll());
-            model.addAttribute("rating", "5"); // Modify if there's a rating system implemented
-            model.addAttribute("products", productRepository.findByOwner(user.getUserID()));
-            return "profileConsult";
-        } else {
-            model.addAttribute("error", true);
-            model.addAttribute("error.message", "No existe este usuario");
-            return "error";
-
-        }
-    }
-
     @GetMapping("/reportForm")
     public String reportForm() {
         return "reportForm";

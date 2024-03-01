@@ -5,7 +5,9 @@ import es.gualapop.backend.model.User;
 
 import es.gualapop.backend.model.Review;
 import es.gualapop.backend.repository.ProductRepository;
+import es.gualapop.backend.repository.ProductTypeRepository;
 import es.gualapop.backend.repository.ReviewRepository;
+import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.UserService;
 
 import java.io.IOException;
@@ -32,9 +34,12 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private ProductRepository productRepository;
-
+	@Autowired
+	private ProductTypeRepository productTypeRepository;
 	@Autowired
 	private ReviewRepository reviewRepository;
+	@Autowired
+	private UserRepository userRepository;
 
     @PostMapping("/registerUser")
 	public String registerUser(Model model, String name, String username, String password, String repeatPassword, String email,
@@ -70,13 +75,31 @@ public class UserController {
 		}
 	}
 
-	public double calcularMediaReviews(Long productId) {
-		Product product = productRepository.findById(productId).orElse(null);
-		if (product == null) {
-			throw new IllegalArgumentException("El producto con ID " + productId + " no existe.");
-		}
+	@GetMapping("/user/{userID}")
+    public String userProfile(Model model, @PathVariable("userID") long userID) {
+        Optional<User> optionalUser = userRepository.findById(userID);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            model.addAttribute("user", user);
+            model.addAttribute("categories", productTypeRepository.findAll());
+            model.addAttribute("rating", calcularMediaReviews(userID)); // Modify if there's a rating system implemented
+            model.addAttribute("products", productRepository.findByOwner(user.getUserID()));
+            return "profileConsult";
+        } else {
+            model.addAttribute("error", true);
+            model.addAttribute("error.message", "No existe este usuario");
+            return "error";
 
-		List<Review> reviews = reviewRepository.findByProductId(productId);
+        }
+    }
+
+	public double calcularMediaReviews(Long userID) {
+		System.out.println("EMPIEZA");
+		List<Review> reviews = reviewRepository.findBySellerID(userID);
+		System.out.println("AQUIIIIIIIIIII");
+		for (Review r : reviews){
+			System.out.println(r.getRating());
+		}
 		if (reviews.isEmpty()) {
 			return 0.0;
 		}
