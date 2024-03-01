@@ -42,9 +42,11 @@ public class DatabaseInizialiter {
         //user inizialite
         Resource imageUser1 = new ClassPathResource("/static/images/imgUser1.png");
         Resource imageUser2 = new ClassPathResource("/static/images/imgUser2.jpg");
+        Resource imageUser3 = new ClassPathResource("/static/images/userIMG.png");
 
         Blob imgU1 = BlobProxy.generateProxy(imageUser1.getInputStream(), imageUser1.contentLength());
         Blob imgU2 = BlobProxy.generateProxy(imageUser2.getInputStream(), imageUser2.contentLength());
+        Blob imgU3 = BlobProxy.generateProxy(imageUser3.getInputStream(), imageUser3.contentLength());
 
 
         List<Integer> reviewList1 = List.of(1,2);
@@ -52,14 +54,17 @@ public class DatabaseInizialiter {
         //    public User(String username, Blob userImg, String email, String encodedPassword, String fName, List<Integer> reviews, String... roles) {
         User user1 = new User("NoAdmin", imgU1, "noadmin@gmail.com", passwordEncoder.encode("1234"), "Non Admin User", reviewList1,"USER");
         User user2 = new User("AdminUser", imgU2, "admin@gmail.com",  passwordEncoder.encode("abc"), "Admin User", reviewList2, "USER","ADMIN");
+        User user3 = new User("User", imgU3, "user@gmail.com",  passwordEncoder.encode("user"), "User", reviewList2, "USER");
 
         if(userRepository.findAll().isEmpty()) {
             userRepository.save(user1);
             userRepository.save(user2);
+            userRepository.save(user3);
         }
 
         Long id1 = user1.getUserID();
         Long id2 = user2.getUserID();
+        Long id3 = user3.getUserID();
 
         Review review1 = new Review(3, "Descripcion 1", id2, id1);
         Review review2 = new Review(4, "Descripcion 2", id2, id1);
@@ -113,6 +118,24 @@ public class DatabaseInizialiter {
         Product product5 = new Product("Coche","coche 40.000 km",id1,4000, electronica);
         setProductImage(product5,"/static/images/coche.jpg");
 
+        Product product6 = new Product("Silla","Silla Gamer",id3,150, muebles);
+        setProductImage(product6,"/static/images/silla.jpg");
+
+        Product product7 = new Product("El principe de la niebla","Libro El principe de la niebla de carlos ruiz zafón",id3,10, libros);
+        setProductImage(product7,"/static/images/libro.jpg");
+
+        Product product8 = new Product("Gormiti","Gorm, el señor de la tierra gobernador de el reino de la tierra de los gormiti",id3,300, juguetes);
+        setProductImage(product8,"/static/images/gormiti.jpg");
+
+        Product product9 = new Product("Nintendo DS","Nintendo DS Lite Portatil",id3,400, electronica);
+        setProductImage(product9,"/static/images/nintendo.png");
+
+        Product product10 = new Product("Gnomo de Jardín","Gnomo de jardín de la película de blancanieves",id3,20, hogar);
+        setProductImage(product10,"/static/images/gnomo.png");
+
+        Product product11 = new Product("Lego","Nave de lego star wars",id3,80, juguetes);
+        setProductImage(product11,"/static/images/lego.jpg");
+
         //save all
 
         if(reviewRepository.findAll().isEmpty()) {
@@ -127,6 +150,12 @@ public class DatabaseInizialiter {
             productRepository.save(product3);
             productRepository.save(product4);
             productRepository.save(product5);
+            productRepository.save(product6);
+            productRepository.save(product7);
+            productRepository.save(product8);
+            productRepository.save(product9);
+            productRepository.save(product10);
+            productRepository.save(product11);
         }
 
 

@@ -63,42 +63,23 @@
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    {{#products}}
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            {{#image}}
-                            <img class="card-img-top" src="/product/{{id}}/image" alt="La imagen no carga" />
-                            {{/image}}
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{title}}</h5>
-                                    <!-- Product price-->
-                                    {{price}}€
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/product/{{id}}">Comprar</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    {{/products}}
-                    {{^products}}
-                    <p>Aun no se ha subido ningun producto</p>
-                    {{/products}}
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="productsContainer">
                 </div>
             </div>
+
+            <div class="more">
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="loadMoreBtn">Cargar más</button>
+              </div>
         </section>
+
+        
         <!-- Footer-->
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <!-- Core theme JS-->
         <script src="/js/script.js"></script>
     </body>

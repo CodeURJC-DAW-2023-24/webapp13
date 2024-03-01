@@ -598,6 +598,20 @@ progress {
   font-size: 0.875em;
   color: #6c757d;
 }
+
+.more {
+  display: flex; /* Usa flexbox */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 200px; /* Altura opcional para el div */
+}
+
+.more .btn{
+  display: flex; /* Usa flexbox */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  width: 250px;
+}
 .blockquote-footer::before {
   content: "— ";
 }

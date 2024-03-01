@@ -1,6 +1,9 @@
 package es.gualapop.backend.model;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Blob;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @JsonIgnore
     @Lob
     private Blob imageFile;
 

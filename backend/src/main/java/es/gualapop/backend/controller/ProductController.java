@@ -2,6 +2,7 @@ package es.gualapop.backend.controller;
 
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.model.Product;
+import es.gualapop.backend.model.ProductsResponse;
 import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ProductTypeRepository;
 import es.gualapop.backend.repository.UserRepository;
@@ -11,7 +12,11 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,17 +50,20 @@ public class ProductController {
     private SearchService searchService;
     @Autowired
     private ProductTypeRepository productTypeRepository;
-    @GetMapping("/")
-    public String getProducts(Model model, HttpServletRequest request) {
-        model.addAttribute("categories", productTypeRepository.findAll());
-        if(productRepository.findAll().isEmpty()) {
-            model.addAttribute("products", false);
-        } else {
-            model.addAttribute("products", productRepository.findAll());
-        }
 
-        return "index";
+    @GetMapping("/getProducts")
+    public ResponseEntity<Page<Product>> getProducts(@RequestParam int page, @RequestParam int pageSize) {
+        try {
+            Pageable pageable = PageRequest.of(page, pageSize);
+            Page<Product> productsPage = productRepository.findAll(pageable);
+            return ResponseEntity.ok(productsPage);
+        } catch (Exception e) {
+            // Loguear la excepción
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+
     @GetMapping("/product/{id}")
     public String getProduct(HttpServletRequest request, Model model, @PathVariable("id") Long id, @RequestParam(defaultValue = "0") int page) {
         model.addAttribute("categories", productTypeRepository.findAll());
