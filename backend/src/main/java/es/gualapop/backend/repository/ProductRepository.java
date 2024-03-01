@@ -21,6 +21,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByOwner(Long owner);
 
     List<Product> findProductsByProductType(Long type);
+    Page<Product> findProductsByProductType(Long type, Pageable pageable);
+
 
     //Búsqueda por rango de precios
     List<Product> findByPriceBetween(double price, double price2);
@@ -28,5 +30,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByTitleContainingIgnoreCaseOrTitleEqualsIgnoreCase(String query, String query1);
 
     void deleteById(Long id);
+
+    Page<Product> findProductsByProductTypeAndIdNot(Long productTypeId, Long product, Pageable pageable);
 }
 

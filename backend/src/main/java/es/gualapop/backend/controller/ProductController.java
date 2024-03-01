@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
@@ -52,13 +51,16 @@ public class ProductController {
 
         return "index";
     }
-
     @GetMapping("/product/{id}")
-    public String getProduct(HttpServletRequest request, Model model, @PathVariable long id) {
+    public String getProduct(HttpServletRequest request, Model model, @PathVariable("id") Long id, @RequestParam(defaultValue = "0") int page) {
+        model.addAttribute("categories", productTypeRepository.findAll());
+
         Product p = productService.getProductById(id);
-        User u = userRepository.getOne(p.getOwner());
+        Optional<User> userOptional = userRepository.findById(p.getOwner());
+        User u = userOptional.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         model.addAttribute("user", u);
         model.addAttribute("product", p);
+        int pageSize = 4;
 
         // Verificar si el usuario está autenticado
         if (request.getUserPrincipal() != null) {
@@ -70,11 +72,13 @@ public class ProductController {
             model.addAttribute("admin", false);
         }
 
+        model.addAttribute("recommendations", true);
+        model.addAttribute("recommendations", productService.getSimilarProducts(id, page, pageSize));
         return "productoIndividual";
     }
 
     @GetMapping("/product/{id}/image")
-    public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
+    public ResponseEntity<Object> downloadProductImage(@PathVariable long id) throws SQLException {
 
         Optional<Product> product = productService.findById(id);
         if (product.isPresent() && product.get().getImageFile() != null) {
@@ -99,14 +103,22 @@ public class ProductController {
 
     @GetMapping("/search")
     public String searchProducts(@RequestParam("query") String query, Model model) {
+        model.addAttribute("categories", productTypeRepository.findAll());
         model.addAttribute("products", searchService.searchProducts(query));
         return "index";
     }
 
     @GetMapping("/checkout/{productID}")
-    public String checkout(Model model, @PathVariable("productID") Long productID) {
+    public String checkout(Model model, @PathVariable("productID") Long productID, @RequestParam(defaultValue = "0") int page) {
+        int pageSize = 4;
         model.addAttribute("price", productService.getPriceByIdProduct(productID));
         model.addAttribute("product", true);
+
+        // Recomendations
+        Optional<Product> p = productRepository.findById(productID);
+
+        model.addAttribute("recommendations", true);
+        model.addAttribute("recommendations", productService.getSimilarProducts(p.map(Product::getProductType).orElse((long)0), page, pageSize));
         return "checkout";
     }
 

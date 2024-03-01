@@ -21,4 +21,6 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     public List<Review> findReviewsByRatingBetween(float min, float max);
 
     List<Review> findAll();
+
+    List<Review> findByProductId(Long productId);
 }

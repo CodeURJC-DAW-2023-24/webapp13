@@ -1,11 +1,11 @@
 package es.gualapop.backend.service;
 
 import es.gualapop.backend.model.Product;
-import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import edu.hm.hafner.util.NoSuchElementException;
@@ -67,9 +67,13 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public List<Product> getSimilarProducts(Product product) {
-        Optional<Product> p = productRepository.findById(product.getId());
-        //Encuentra los product
-        return productRepository.findProductsByProductType(p.map(Product::getProductType).orElse((long)0));
+    public List<Product> getSimilarProducts(Long product, int pageNumber, int pageSize) {
+        Optional<Product> p = productRepository.findById(product);
+        Long productTypeId = p.map(Product::getProductType).orElse((long) 0);
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("id").descending());
+        Page<Product> productsPage = productRepository.findProductsByProductTypeAndIdNot(productTypeId, product, pageable);
+
+        return productsPage.getContent();
     }
 }
