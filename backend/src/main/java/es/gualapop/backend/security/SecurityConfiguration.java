@@ -38,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/loginerror").permitAll();
         http.authorizeRequests().antMatchers("/logout").permitAll();
         http.authorizeRequests().antMatchers("/search").permitAll();
+        http.authorizeRequests().antMatchers("/product/category/**").permitAll();
 
 
         // Private pages (all other pages)
@@ -45,6 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/newProduct").hasAnyRole("USER", "ADMIN");
         http.authorizeRequests().antMatchers("/profile").hasAnyRole("USER", "ADMIN");
         http.authorizeRequests().antMatchers("/reportPanel").hasAnyRole("ADMIN");
+        http.authorizeRequests().antMatchers("/checkout/**").hasAnyRole("USER");
 
         // Login form
         http.formLogin().loginPage("/login");

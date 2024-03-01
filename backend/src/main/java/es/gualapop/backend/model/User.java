@@ -18,6 +18,8 @@ public class User {
     private String fullName;
     private String username;
     private String userEmail;
+    private Double ingresos;
+    private Double gastos;
     @Lob
     private Blob userImg;
 
@@ -37,6 +39,8 @@ public class User {
         this.userEmail = email;
         this.fullName = fName;
         this.reviewList = reviews;
+        this.ingresos = (double) 0;
+        this.gastos = (double) 0;
     }
 
     public void setUserID(Long id) {
@@ -45,6 +49,22 @@ public class User {
 
     public Long getUserID() {
         return userID;
+    }
+
+    public void setIngresos(Double ingresos) {
+        this.ingresos = ingresos;
+    }
+
+    public Double getIngresos() {
+        return ingresos;
+    }
+
+    public void setGastos(Double gastos) {
+        this.gastos = gastos;
+    }
+
+    public Double getGastos() {
+        return gastos;
     }
 
     public void setUserImg(Blob userImg) {

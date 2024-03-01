@@ -45,27 +45,5 @@ public class UserController {
 		return "signUp";
     }
 
-//	@PostMapping("/login")
-//	private void loginCheck(String email, String password, HttpServletResponse response) throws IOException {
-//		boolean found = false;
-//		System.out.println(email);
-//		List<User> users = userService.findByUserEmail(email);
-//		if (users.size() == 0) {
-//			response.sendRedirect("/loginerror");
-//		}
-//		for (User user : users) {
-//			if (password.equals(user.getEncodedPassword())) {
-//				found = true;
-//				break; // No necesitas seguir iterando
-//			}
-//		}
-//
-//		if (found) {
-//			response.sendRedirect("/");
-//		} else {
-//			response.sendRedirect("/loginerror");
-//		}
-//	}
-//
 
 }

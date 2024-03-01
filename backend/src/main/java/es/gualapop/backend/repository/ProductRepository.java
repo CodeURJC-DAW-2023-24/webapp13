@@ -17,19 +17,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //Búsqueda por nombre
     List<Product> findByTitle(String prodName);
 
-    //Búsqueda por tipo de producto
-    List<Product> findByProductType(ProductType productType);
-
     //Búsqueda por usuario propietario del producto
-    List<Product> findByOwner(User ownerId);
+    List<Product> findByOwner(Long owner);
+
+    List<Product> findProductsByProductType(Long type);
 
     //Búsqueda por rango de precios
-    List<Product> findByPriceBetween(float minPrice, float maxPrice);
-
-    //Busqueda por titulo ignora
-
-    Optional<Product> findById(long id);
+    List<Product> findByPriceBetween(double price, double price2);
 
     List<Product> findByTitleContainingIgnoreCaseOrTitleEqualsIgnoreCase(String query, String query1);
+
+    void deleteById(Long id);
 }
 
