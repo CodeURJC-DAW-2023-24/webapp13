@@ -57,8 +57,19 @@ public class ProductService {
         return productRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
+    public double getPriceByIdProduct(long id){
+        Optional<Product> product = productRepository.findById(id);
+        return product.map(Product::getPrice).orElse(-1.0);
+
+    }
 
     public Optional<Product> findById(long id) {
         return productRepository.findById(id);
+    }
+
+    public List<Product> getSimilarProducts(Product product) {
+        Optional<Product> p = productRepository.findById(product.getId());
+        //Encuentra los product
+        return productRepository.findProductsByProductType(p.map(Product::getProductType).orElse((long)0));
     }
 }

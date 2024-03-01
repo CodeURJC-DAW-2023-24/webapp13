@@ -43,7 +43,7 @@ public class ProductController {
     private ProductTypeRepository productTypeRepository;
     @GetMapping("/")
     public String getProducts(Model model, HttpServletRequest request) {
-        model.addAttribute("categorias", productTypeRepository.findAll());
+        model.addAttribute("categories", productTypeRepository.findAll());
         if(productRepository.findAll().isEmpty()) {
             model.addAttribute("products", false);
         } else {
@@ -93,7 +93,7 @@ public class ProductController {
     public String redirectCategories(@PathVariable long id, Model model) {
 
         model.addAttribute("products", productRepository.findProductsByProductType(id));
-        model.addAttribute("categorias", productTypeRepository.findAll());
+        model.addAttribute("categories", productTypeRepository.findAll());
         return "index";
     }
 
@@ -104,7 +104,9 @@ public class ProductController {
     }
 
     @GetMapping("/checkout/{productID}")
-    public String checkout(@PathVariable("productID") Long productID) {
+    public String checkout(Model model, @PathVariable("productID") Long productID) {
+        model.addAttribute("price", productService.getPriceByIdProduct(productID));
+        model.addAttribute("product", true);
         return "checkout";
     }
 
@@ -133,8 +135,8 @@ public class ProductController {
             // Manejar el caso donde el producto no se encuentra
             return "error";
         }
-        
-        return "index";
+
+        return "redirect:/";
     }
     
 
