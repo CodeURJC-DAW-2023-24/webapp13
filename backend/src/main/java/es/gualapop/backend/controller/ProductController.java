@@ -12,6 +12,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class ProductController {
@@ -97,6 +102,41 @@ public class ProductController {
         model.addAttribute("products", searchService.searchProducts(query));
         return "index";
     }
+
+    @GetMapping("/checkout/{productID}")
+    public String checkout(@PathVariable("productID") Long productID) {
+        return "checkout";
+    }
+
+    @PostMapping("/purchase/{productID}")
+    public String purchase(@PathVariable("productID") Long productID) {
+        Optional<Product> products = productRepository.findById(productID);
+        if (products.isPresent()){
+            Product product = products.get();
+            Double price = product.getPrice();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentUsername = authentication.getName();
+            Optional<User> vendedor = userRepository.findById(product.getOwner());
+            if (vendedor.isPresent()){
+                User user = vendedor.get();
+                user.setIngresos(user.getIngresos()+price);
+                userRepository.save(user);
+            }
+            Optional<User> comprador = userRepository.findByUsername(currentUsername);
+            if (comprador.isPresent()){
+                User usuario = comprador.get();
+                usuario.setGastos(usuario.getGastos()+price);
+                userRepository.save(usuario);
+            }
+            productRepository.deleteById(productID);
+        } else {
+            // Manejar el caso donde el producto no se encuentra
+            return "error";
+        }
+        
+        return "index";
+    }
+    
 
 
 }

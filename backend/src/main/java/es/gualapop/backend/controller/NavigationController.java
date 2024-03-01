@@ -115,11 +115,6 @@ public class NavigationController {
         return "profileConsult";
     }
 
-    @GetMapping("/checkout")
-    public String checkout() {
-        return "checkout";
-    }
-
     @GetMapping("/reportForm")
     public String reportForm() {
         return "reportForm";

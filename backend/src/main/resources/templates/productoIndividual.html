@@ -63,8 +63,8 @@
                         <span>${{price}}</span>
                     </div>
                     <p class="lead">{{description}}</p>
-                    <form action="/checkout" method="get">
-                        <input type="hidden" name="productId" value="{{id}}" />
+                    <form action="/checkout/{{id}}" method="get">
+                        <input type="hidden" name="productID" value="{{id}}" />
                         <div class="d-flex">
                             <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                                 <i class="bi-cart-fill me-1"></i> Comprar
