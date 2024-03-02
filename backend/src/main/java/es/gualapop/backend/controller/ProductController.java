@@ -72,48 +72,18 @@ public class ProductController {
     private PDFService pdfService;
 
 
+
+
     @GetMapping("/getProducts")
-    public ResponseEntity<Page<ProductDto>> getProducts(@RequestParam int page, @RequestParam int pageSize) {
-        try {
-            Pageable pageable = PageRequest.of(page, pageSize);
-            Page<Product> productsPage = productRepository.findAll(pageable);
+    public String getProducts(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
 
-            // Convertir imágenes a representación base64
-            List<ProductDto> productDtos = productsPage.getContent().stream()
-                    .map(product -> new ProductDto(
-                            product.getId(),
-                            product.getTitle(),
-                            product.getAddress(),
-                            product.getPrice(),
-                            product.getDescription(),
-                            convertBlobToBase64(product.getImageFile()),
-                            product.isImage(),
-                            product.getOwner(),
-                            product.getProductType()))
-                    .collect(Collectors.toList());
+        Page<Product> productsPage = productRepository.findAll(pageable);
 
-            Page<ProductDto> productDtoPage = new PageImpl<>(productDtos, pageable, productsPage.getTotalElements());
-            return ResponseEntity.ok(productDtoPage);
-        } catch (Exception e) {
-            // Loguear la excepción
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        model.addAttribute("products", productsPage.getContent());
+
+        return "productIndex";
     }
-
-    // Utilidad para convertir Blob a base64
-    private String convertBlobToBase64(Blob blob) {
-        try {
-            if (blob != null) {
-                byte[] bytes = blob.getBytes(1, (int) blob.length());
-                return Base64.getEncoder().encodeToString(bytes);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     @GetMapping("/product/{id}")
     public String getProduct(HttpServletRequest request, Model model, @PathVariable("id") Long id, @RequestParam(defaultValue = "0") int page) {
         model.addAttribute("categories", productTypeRepository.findAll());
@@ -157,39 +127,17 @@ public class ProductController {
     }
 
     @GetMapping("/product/category/{id}")
-    public String redirectCategories(@PathVariable long id, Model model) {
+    public String redirectCategories(@PathVariable long id,
+                                     @RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "5") int pageSize,
+                                     Model model) {
 
-        model.addAttribute("products", productRepository.findProductsByProductType(id));
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Product> productsPage = productRepository.findProductsByProductType(id, pageable);
+
+        model.addAttribute("products", productsPage.getContent());
         model.addAttribute("categories", productTypeRepository.findAll());
-        return "index";
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<Page<ProductDto>> searchProducts(@RequestParam("query") String query, Model model, @RequestParam int page, @RequestParam int pageSize) {
-        try {
-            Pageable pageable = PageRequest.of(page, pageSize);
-            Page<Product> productsPage = searchService.searchProducts(query, pageable);
-        
-            List<ProductDto> productDtos = productsPage.getContent().stream()
-                    .map(product -> new ProductDto(
-                            product.getId(),
-                            product.getTitle(),
-                            product.getAddress(),
-                            product.getPrice(),
-                            product.getDescription(),
-                            convertBlobToBase64(product.getImageFile()),
-                            product.isImage(),
-                            product.getOwner(),
-                            product.getProductType()))
-                    .collect(Collectors.toList());
-
-            Page<ProductDto> productDtoPage = new PageImpl<>(productDtos, pageable, productsPage.getTotalElements());
-            return ResponseEntity.ok(productDtoPage);
-        } catch (Exception e) {
-            // Loguear la excepción
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return "productIndex";
     }
 
     /*
@@ -284,11 +232,22 @@ public class ProductController {
         return "newProduct";
     }
 
+    // Utilidad para convertir Blob a base64
+    private String convertBlobToBase64(Blob blob) {
+        try {
+            if (blob != null) {
+                byte[] bytes = blob.getBytes(1, (int) blob.length());
+                return Base64.getEncoder().encodeToString(bytes);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @PostMapping("/addNewProduct")
     public String addNewProduct(Model model,
                                 @RequestParam("Title") String title,
-                                @RequestParam("Price") double price,
                                 @RequestParam("Description") String description,
                                 @RequestParam("Category") String category,
                                 @RequestParam("Address") String Address,
@@ -301,7 +260,6 @@ public class ProductController {
         Product product = new Product();
         product.setTitle(title);
         product.setDescription(description);
-        product.setPrice(price);
         switch (category) {
             case "Electrónica":
                 product.setProductType(1L);
@@ -318,7 +276,7 @@ public class ProductController {
             case "Deportes":
                 product.setProductType(5L);
                 break;
-            case "Hogar":
+            case "Hogar y Jardín":
                 product.setProductType(6L);
                 break;
             case "Juguetes":
@@ -328,13 +286,6 @@ public class ProductController {
                 // Manejar cualquier otro caso si es necesario
                 break;
         }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        Optional<User> thisUser = userRepository.findByUsername(currentUsername);
-            if (thisUser.isPresent()){
-                User user = thisUser.get();
-                product.setOwner(user.getUserID());
-            }
         String fullAddress = Address + ", " + City + ", " + Province + ", " + Cp;
         product.setAddress(fullAddress);
         if (!imageFile.isEmpty()) {
@@ -345,9 +296,36 @@ public class ProductController {
         //save con el repository
         productRepository.save(product);
 
-        return "redirect:/";
+        return "redirect:/index";
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<ProductDto>> searchProducts(@RequestParam("query") String query, Model model, @RequestParam int page, @RequestParam int pageSize) {
+        try {
+            Pageable pageable = PageRequest.of(page, pageSize);
+            Page<Product> productsPage = searchService.searchProducts(query, pageable);
+
+            List<ProductDto> productDtos = productsPage.getContent().stream()
+                    .map(product -> new ProductDto(
+                            product.getId(),
+                            product.getTitle(),
+                            product.getAddress(),
+                            product.getPrice(),
+                            product.getDescription(),
+                            convertBlobToBase64(product.getImageFile()),
+                            product.isImage(),
+                            product.getOwner(),
+                            product.getProductType()))
+                    .collect(Collectors.toList());
+
+            Page<ProductDto> productDtoPage = new PageImpl<>(productDtos, pageable, productsPage.getTotalElements());
+            return ResponseEntity.ok(productDtoPage);
+        } catch (Exception e) {
+            // Loguear la excepción
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     /*
     public String generatePDF(@PathVariable long id) throws SQLException {
         Optional<Product> product = productService.findById(id);

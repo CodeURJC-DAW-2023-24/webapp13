@@ -30,7 +30,7 @@
                                data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {{#categories}}
-                                <li><a class="dropdown-item" href="/product/category/{{id}}">{{type}}</a></li>
+                                <li><a class="dropdown-item category-link" href="#" data-category-id="{{id}}">{{type}}</a></li>
                                 {{/categories}}
                             </ul>
                         </li>
@@ -38,7 +38,7 @@
                 </div>
                 <form class="d-flex" action="/search" method="get">
                     <div class="input-group">
-                        <button class="input-group-text" type="submit" id="basic-addon1">Search</button>
+                        <button class="input-group-text" type="submit" onclick="searchProducts()" >Search</button>
                         <input type="text" class="form-control" name="query" placeholder="Search a product" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
                 </form>
