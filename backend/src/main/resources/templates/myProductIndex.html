@@ -1,0 +1,11 @@
+    {{#products}}
+    <ul class="w3-ul w3-card-4">
+      <li class="w3-bar">
+        <div class="w3-bar-item">
+          <span class="w3-large">{{title}}</span><br>
+          <span>Price: {{price}}€</span>
+        </div>
+        <div class="text-right mt-3" style="position: relative;"><a class="btn btn-primary" href="/product/{{id}}/delete">X</a></div>
+      </li>
+    </ul>
+  {{/products}}

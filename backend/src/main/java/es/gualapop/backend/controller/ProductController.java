@@ -121,6 +121,16 @@ public class ProductController {
         return "productoIndividual";
     }
 
+    @GetMapping("/product/{id}/delete")
+    public String deleteProduct(HttpServletRequest request, Model model, @PathVariable("id") Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()){
+            Product thisProduct = product.get();
+            productRepository.deleteById(thisProduct.getId());
+        }
+        return "redirect:/profile";
+    }
+
     @GetMapping("/product/{id}/image")
     public ResponseEntity<Object> downloadProductImage(@PathVariable long id) throws SQLException {
 

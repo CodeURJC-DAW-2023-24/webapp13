@@ -19,6 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     //Búsqueda por usuario propietario del producto
     List<Product> findByOwner(Long owner);
+    Page<Product> findByOwner(Long owner, Pageable page);
 
     List<Product> findProductsByProductType(Long type);
     Page<Product> findProductsByProductType(Long type, Pageable pageable);

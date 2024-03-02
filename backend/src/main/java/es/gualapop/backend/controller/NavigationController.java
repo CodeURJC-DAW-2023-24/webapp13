@@ -89,23 +89,6 @@ public class NavigationController {
         return "reportPanel";
     }
 
-
-    @GetMapping("/profile")
-    public String profile(Model model, HttpServletRequest request) {
-
-        String name = request.getUserPrincipal().getName();
-
-        User user = userRepository.findUserByUsername(name).orElseThrow();
-
-        if(request.isUserInRole("USER") && !request.isUserInRole("ADMIN")) {
-        
-            model.addAttribute("user", user);
-            return "profile";
-        }
-        
-        return "adminPanel";
-    }
-
     @GetMapping("/logout")
     private String logout() {
         return "index";
