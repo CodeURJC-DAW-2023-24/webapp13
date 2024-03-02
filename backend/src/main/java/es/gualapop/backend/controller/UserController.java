@@ -97,7 +97,7 @@ public class UserController {
 			userRepository.save(user);
 
 			// Redirigir a la página de perfil actualizada
-			return "profile";
+			return "redirect:/profile";
 		} else {
 			// Contraseña incorrecta, manejar el error
 			//model.addAttribute("error", true);
