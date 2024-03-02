@@ -5,6 +5,8 @@ import es.gualapop.backend.repository.UserRepository;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,9 +90,13 @@ public class UserService    {
 		if(userRepository.existsUserByUsername(user.getUsername())) {
 			return false;
 		}else {
-			if(image != null) {
+			if(image.getOriginalFilename() != "") {
 				user.setUserImg(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
-			}
+			} else {
+                Resource imageUser1 = new ClassPathResource("/static/images/imgUser1.png");
+                Blob imgU1 = BlobProxy.generateProxy(imageUser1.getInputStream(), imageUser1.contentLength());
+                user.setUserImg(imgU1);
+            }
             user.setEncodedPassword(encodePassword(user.getEncodedPassword()));
             userRepository.save(user);
 		}

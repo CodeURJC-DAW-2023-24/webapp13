@@ -62,6 +62,7 @@ public class UserController {
         model.addAttribute("error",true);
 		return "signUp";
     }
+	
 	@PostMapping("/updateUser/{userID}")
     public String updateUser(@PathVariable Long userID, Model model,
                              @RequestParam String fullName,

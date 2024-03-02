@@ -24,16 +24,6 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">Nosotros</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Todo</a></li>
-                        <li><hr class="dropdown-divider"/></li>
-                        <li><a class="dropdown-item" href="#!">Categoria 1</a></li>
-                        <li><a class="dropdown-item" href="#!">Categoria 2</a></li>
-                    </ul>
-                </li>
             </ul>
         </div>
         <form class="d-flex" action="/search" method="get">
@@ -62,7 +52,7 @@
 
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Registro</p>
 
-                                <form id="registroForm" class="mx-1 mx-md-4" action="/registerUser" method="post">
+                                <form id="registroForm" class="mx-1 mx-md-4" action="/registerUser" method="post" enctype="multipart/form-data">
 
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
@@ -115,7 +105,7 @@
                                 
                                     <div class="form-group mb-4">
                                         <label for="formFileMultiple" class="form-label">Selecciona imágenes:</label>
-                                        <input class="form-control" type="file" id="imagenes" name="imagenes" multiple accept="image/*" />
+                                        <input class="form-control" type="file" id="image" name="image" multiple accept="image/*" />
                                     </div>
                                 
                                     <div class="form-check d-flex justify-content-center mb-5">
