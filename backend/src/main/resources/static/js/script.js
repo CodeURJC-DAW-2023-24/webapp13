@@ -10,6 +10,9 @@ function loadProducts() {
         },
         success: function (htmlData) {
             console.log('Received HTML data:', htmlData);
+            if (currentPage >= htmlData.totalElements / htmlData.pageSize){
+                currentPage = 0;
+            }
             $('#productsContainer').html(htmlData); // Reemplaza el contenido del contenedor con el HTML recibido
         },
         error: function () {
@@ -54,7 +57,7 @@ function searchProducts(query) {
         data: {
             query: query,
             page: thisPage,
-            pageSize: 10
+            pageSize: 8
         },
         success: function (data) {
             console.log(data);

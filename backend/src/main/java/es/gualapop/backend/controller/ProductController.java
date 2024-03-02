@@ -80,6 +80,17 @@ public class ProductController {
 
         Page<Product> productsPage = productRepository.findAll(pageable);
 
+        if ((double)page >= (double) productsPage.getTotalElements() / (double)pageSize){
+            double sub = Math.ceil(productsPage.getTotalElements() / pageSize) + 1;
+            int totalPages = (int) sub;
+            int pages = page - totalPages;
+            while (pages > (totalPages - 1)){
+                pages -= totalPages;
+            }
+            pageable = PageRequest.of(pages, pageSize);
+            productsPage = productRepository.findAll(pageable);
+        }
+
         model.addAttribute("products", productsPage.getContent());
 
         return "productIndex";
