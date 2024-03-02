@@ -72,8 +72,9 @@ public class NavigationController {
         return "login";
     }
 
-    @GetMapping("/index")
-    public String index() {
+    @GetMapping("/")
+    public String index(Model model, HttpServletRequest request) {
+        model.addAttribute("categories", productTypeRepository.findAll());
         return "index";
     }
 

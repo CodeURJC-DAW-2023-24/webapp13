@@ -1,6 +1,9 @@
 package es.gualapop.backend.model;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Blob;
 import java.util.List;
 
@@ -94,7 +97,7 @@ public class Product {
         this.imageFile = image;
     }
 
-    public boolean getImage(){
+    public boolean isImage(){
         return this.image;
     }
 

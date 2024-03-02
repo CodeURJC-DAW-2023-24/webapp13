@@ -76,4 +76,8 @@ public class ProductService {
 
         return productsPage.getContent();
     }
+
+    public Page<Product> getProductsPage(Pageable page) {
+		return productRepository.findAll(page);
+	}
 }
