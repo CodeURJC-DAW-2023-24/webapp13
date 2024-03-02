@@ -19,6 +19,7 @@ function loadProducts() {
                                         '<div class="card h-100">' +
                                         '<div class="card-body p-4">' +
                                         '<div class="text-center">' +
+                                        '<img class="card-img-top img-fluid" src="data:image/png;base64,' + product.imageFileBase64 + '" alt="Product Image" />' +
                                         '<h5 class="fw-bolder">' + product.title + '</h5>' +
                                         product.price + '€' +
                                         '</div>' +

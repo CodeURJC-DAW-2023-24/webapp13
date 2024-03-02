@@ -23,7 +23,6 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @JsonIgnore
     @Lob
     private Blob imageFile;
 
@@ -98,7 +97,7 @@ public class Product {
         this.imageFile = image;
     }
 
-    public boolean getImage(){
+    public boolean isImage(){
         return this.image;
     }
 

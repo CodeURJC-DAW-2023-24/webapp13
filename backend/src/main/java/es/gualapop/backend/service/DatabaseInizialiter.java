@@ -122,7 +122,7 @@ public class DatabaseInizialiter {
         setProductImage(product6,"/static/images/silla.jpg");
 
         Product product7 = new Product("El principe de la niebla","Libro El principe de la niebla de carlos ruiz zafón",id3,10, libros);
-        setProductImage(product7,"/static/images/libro.jpg");
+        setProductImage(product7,"/static/images/libro.png");
 
         Product product8 = new Product("Gormiti","Gorm, el señor de la tierra gobernador de el reino de la tierra de los gormiti",id3,300, juguetes);
         setProductImage(product8,"/static/images/gormiti.jpg");
