@@ -34,6 +34,20 @@
             flex: 1 1 auto;
             padding: 1.5rem 1.5rem;
         }
+        .star-container {
+            display: inline-block;
+        }
+
+        .star {
+        font-size: 24px;
+        cursor: pointer;
+        color: #ccc;
+        }
+
+        .star:hover,
+        .star.active {
+        color: gold;
+        }
     </style>
 </head>
 <body>
@@ -144,6 +158,17 @@
                     </div>
                     <form action="/purchase/{{productID}}" method="post">
                         <input type="hidden" name="productID" value="{{productID}}"/>
+                        <div class="star-container">
+                            <span id="rateMe1">
+                              <span class="star" data-value="1">&#9733;</span>
+                              <span class="star" data-value="2">&#9733;</span>
+                              <span class="star" data-value="3">&#9733;</span>
+                              <span class="star" data-value="4">&#9733;</span>
+                              <span class="star" data-value="5">&#9733;</span>
+                            </span>
+                          </div>
+                          <input type="hidden" name="rating" id="ratingInput" value="">
+                          <input type="hidden" name="productID" id="productID" value={{productID}}>
                         <button class="btn btn-primary w-100 mt-2" type="submit">Place order</button>
                     </form>
                 </div>
@@ -155,14 +180,37 @@
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
+    const stars = document.querySelectorAll('.star');
+    const rateMe1 = document.getElementById('rateMe1');
+    const ratingInput = document.getElementById('ratingInput');
+    let value = 0;
+    rateMe1.setAttribute('data-rating', value);
+    ratingInput.value = value;
+    console.log(stars);
+  
+    stars.forEach((star, index) => {
+      star.addEventListener('click', () => {
+        value = star.getAttribute('data-value');
+        rateMe1.setAttribute('data-rating', value);
+        ratingInput.value = value;
+  
+        // Verificar si no se selecciona ninguna estrella y establecer el valor en 0
+        stars.forEach((s, i) => {
+          if (i <= index) {
+            s.classList.add('active');
+          } else {
+            s.classList.remove('active');
+          }
+        });
+      });
+    });
     $(document).ready(function () {
         // Espera a que el documento esté listo
-
         // Agregar un evento submit al formulario
         $("form").submit(function (event) {
             // Evitar que el formulario se envíe directamente
             event.preventDefault();
-
+            console.log(ratingInput.value);
             // Obtener la URL de redirección del formulario
             var redirectUrl = $(this).attr("action");
 

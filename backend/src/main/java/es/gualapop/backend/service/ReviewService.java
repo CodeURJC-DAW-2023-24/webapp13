@@ -24,9 +24,5 @@ public class ReviewService {
         reviewRepository.deleteById(id);
     }
 
-    public List<Review> getReviewsByWriter(Long writerID) {
-        return reviewRepository.findReviewsByWriterID(writerID);
-    }
-
 
 }

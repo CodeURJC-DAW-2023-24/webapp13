@@ -4,8 +4,10 @@ import es.gualapop.backend.model.User;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.ProductDto;
 import es.gualapop.backend.model.ProductsResponse;
+import es.gualapop.backend.model.Review;
 import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ProductTypeRepository;
+import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.PDFService;
 import es.gualapop.backend.service.ProductService;
@@ -64,6 +66,8 @@ public class ProductController {
     private SearchService searchService;
     @Autowired
     private ProductTypeRepository productTypeRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
     @Autowired
     private PDFService pdfService;
 
@@ -200,16 +204,21 @@ public class ProductController {
     }
 
     @PostMapping("/purchase/{productID}")
-    public ResponseEntity<byte[]> purchase(@PathVariable("productID") Long productID, Model model) throws SQLException, IOException, DocumentException {
-        Optional<Product> products = productRepository.findById(productID);
-        if (products.isPresent()){
-            Product product = products.get();
-            Double price = product.getPrice();
+    public ResponseEntity<byte[]> purchase(@PathVariable("productID") Long productID, @RequestParam float rating, Model model) throws SQLException, IOException, DocumentException {
+        Optional<Product> product = productRepository.findById(productID);
+        if (product.isPresent()){
+            Product product1 = product.get();
+            Long sellerID = product1.getOwner();
+            if (rating > 0){
+                Review review = new Review(rating, sellerID);
+                reviewRepository.save(review);
+            }
+            Double price = product1.getPrice();
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentUsername = authentication.getName();
 
             // Set earnings to seller
-            Optional<User> vendedor = userRepository.findById(product.getOwner());
+            Optional<User> vendedor = userRepository.findById(product1.getOwner());
             if (vendedor.isPresent()){
                 User user = vendedor.get();
                 user.setIngresos(user.getIngresos()+price);
@@ -225,7 +234,7 @@ public class ProductController {
             }
 
             // Generate PDF
-            byte[] pdfBytes = pdfService.generatePDF(product);
+            byte[] pdfBytes = pdfService.generatePDF(product1);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);

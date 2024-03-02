@@ -66,9 +66,9 @@ public class DatabaseInizialiter {
         Long id2 = user2.getUserID();
         Long id3 = user3.getUserID();
 
-        Review review1 = new Review(3, "Descripcion 1", id2, id1);
-        Review review2 = new Review(4, "Descripcion 2", id2, id1);
-        Review review3 = new Review(1, "Descripcion 3", id1, id2);
+        Review review1 = new Review(3, id1);
+        Review review2 = new Review(4, id1);
+        Review review3 = new Review(1, id2);
 
         ProductType pt1 = new ProductType("Electronica");
 

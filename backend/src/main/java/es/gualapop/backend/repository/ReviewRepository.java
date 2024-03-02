@@ -11,9 +11,6 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     //Búqueda por usuario
     public List<Review> findBySellerID(Long sellerID);
 
-    //Búqueda por autor
-    public List<Review> findReviewsByWriterID(Long iduser);
-
     //Borrar por usuario
     public Long deleteByReviewID(Long iduser);
 

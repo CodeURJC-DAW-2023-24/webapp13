@@ -11,15 +11,11 @@ public class Review {
     private Long reviewID;
 
     private float rating;
-    private String description;
-    private Long writerID;
     private Long sellerID;
 
     public Review(){}
-    public Review(float rating, String description, Long writerID, Long sellerID){
+    public Review(float rating, Long sellerID){
         this.rating = rating;
-        this.description = description;
-        this.writerID = writerID;
         this.sellerID = sellerID;
     }
 
@@ -29,22 +25,6 @@ public class Review {
 
     public void setRating(float rating) {
         this.rating = rating;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Long getWriterID() {
-        return writerID;
-    }
-
-    public void setWriterID(Long writerID) {
-        this.writerID = writerID;
     }
 
     public Long getSellerID() {
