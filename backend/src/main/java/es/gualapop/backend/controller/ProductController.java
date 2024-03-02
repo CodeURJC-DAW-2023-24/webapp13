@@ -165,10 +165,31 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public String searchProducts(@RequestParam("query") String query, Model model) {
-        model.addAttribute("categories", productTypeRepository.findAll());
-        model.addAttribute("products", searchService.searchProducts(query));
-        return "index";
+    public ResponseEntity<Page<ProductDto>> searchProducts(@RequestParam("query") String query, Model model, @RequestParam int page, @RequestParam int pageSize) {
+        try {
+            Pageable pageable = PageRequest.of(page, pageSize);
+            Page<Product> productsPage = searchService.searchProducts(query, pageable);
+        
+            List<ProductDto> productDtos = productsPage.getContent().stream()
+                    .map(product -> new ProductDto(
+                            product.getId(),
+                            product.getTitle(),
+                            product.getAddress(),
+                            product.getPrice(),
+                            product.getDescription(),
+                            convertBlobToBase64(product.getImageFile()),
+                            product.isImage(),
+                            product.getOwner(),
+                            product.getProductType()))
+                    .collect(Collectors.toList());
+
+            Page<ProductDto> productDtoPage = new PageImpl<>(productDtos, pageable, productsPage.getTotalElements());
+            return ResponseEntity.ok(productDtoPage);
+        } catch (Exception e) {
+            // Loguear la excepción
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /*

@@ -27,7 +27,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //Búsqueda por rango de precios
     List<Product> findByPriceBetween(double price, double price2);
 
-    List<Product> findByTitleContainingIgnoreCaseOrTitleEqualsIgnoreCase(String query, String query1);
+    Page<Product> findByTitleContainingIgnoreCaseOrTitleEqualsIgnoreCase(String query, String query1, Pageable pageable);
 
     void deleteById(Long id);
 
