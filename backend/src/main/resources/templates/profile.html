@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>bs4 edit profile page - Bootdey.com</title>
+  <title>Gualapop</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link  href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -33,19 +33,18 @@
           <div class="card">
             <div class="card-body">
               <div class="e-profile">
+                {{#user}}
                 <div class="row">
                   <div class="col-12 col-sm-auto mb-3">
-                    <div class="mx-auto" style="width: 140px">
-                      <div class="d-flex justify-content-center align-items-center rounded"
-                           style="height: 140px; background-color: rgb(233, 236, 239);">
-                        <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
-                      </div>
+                    <div class="mx-auto" style="width: 140px; height: 140px;">
+                      <div class="d-flex justify-content-center align-items-center rounded">
+                           <img src="/user/{{userID}}/image" alt="avatar" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;"></div>
                     </div>
                   </div>
                   <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                     <div class="text-center text-sm-left mb-2 mb-sm-0">
-                      <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">John Smith</h4>
-                      <p class="mb-0">@johnny.s</p>
+                      <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{fullName}}</h4>
+                      <p class="mb-0">@{{username}}</p>
                       <div class="mt-2">
                         <input style="display:none" type="file" id="my-file">
                         <button class="btn btn-primary" type="button" onclick="document.getElementById('my-file').click()">
@@ -118,99 +117,70 @@
 
                 <div id="Settings" class="w3-container tab" style="display:none">
                   <h2>Settings</h2>
-                  <div data-content id="settings" class="active">
-                    <form class="form" novalidate>
-                      <div class="row">
-                        <div class="col">
-                          <div class="row">
-                            <div class="col">
-                              <div class="form-group">
-                                <label>Full Name</label>
-                                <input
-                                        class="form-control"
-                                        type="text"
-                                        name="name"
-                                        placeholder="John Smith"
-                                        value="John Smith"
-                                />
+                    <div data-content id="settings" class="active">
+                      <form id="updateForm" class="mx-1 mx-md-4" action="/updateUser/{{userID}}" method="post">
+                        <div class="row">
+                          <div class="col">
+                            <div class="row">
+                              <div class="col">
+                                <div class="form-group">
+                                  <label for="fullName">Full Name</label>
+                                  <input class="form-control" id="fullName" type="text" name="fullName" placeholder="Nuevo nombre"/>
+                                </div>
                               </div>
-                            </div>
-                            <div class="col">
-                              <div class="form-group">
-                                <label>Username</label>
-                                <input
-                                        class="form-control"
-                                        type="text"
-                                        name="username"
-                                        placeholder="johnny.s"
-                                        value="johnny.s"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col mb-3">
-                              <div class="form-group">
-                                <label>About</label>
-                                <textarea
-                                        class="form-control"
-                                        rows="5"
-                                        placeholder="My Bio"
-                                ></textarea>
+                              <div class="col">
+                                <div class="form-group">
+                                  <label for="username">Username</label>
+                                  <input class="form-control" id="username" type="text" name="username" placeholder="Nuevo nombre de usuario"/>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-sm-6 mb-3">
-                          <div class="mb-2"><b>Change Password</b></div>
-                          <div class="row">
-                            <div class="col">
-                              <div class="form-group">
-                                <label>Current Password</label>
-                                <input
-                                        class="form-control"
-                                        type="password"
-                                        placeholder="••••••"
-                                />
+                        <div class="row">
+                          <div class="col-12 col-sm-6 mb-3">
+                            <div class="mb-2"><b>Change Password</b></div>
+                            <div class="row">
+                              <div class="col">
+                                <div class="form-group">
+                                  <label for="currentPassword">Current Password</label>
+                                  <input class="form-control" id="currentPassword" type="password" name="currentPassword" placeholder="••••••"/>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="row">
-                            <div class="col">
-                              <div class="form-group">
-                                <label>New Password</label>
-                                <input
-                                        class="form-control"
-                                        type="password"
-                                        placeholder="••••••"
-                                />
+                            {{#error}}
+                            <div class="form-outline mb-4 w-50 mx-auto">
+                                <p class="text-danger">Las contraseñas no coinciden</p>
+                            </div>
+                            {{/error}}
+                            <div class="row">
+                              <div class="col">
+                                <div class="form-group">
+                                  <label for="newPassword">New Password</label>
+                                  <input class="form-control" id="newPassword" type="password" name="newPassword" placeholder="••••••"/>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="row">
-                            <div class="col">
-                              <div class="form-group">
-                                <label>Confirm Password></label>
-                                <input
-                                        class="form-control"
-                                        type="password"
-                                        placeholder="••••••"
-                                />
+                            <div class="row">
+                              <div class="col">
+                                <div class="form-group">
+                                  <label for="confirmPassword">Confirm Password</label>
+                                  <input class="form-control" id="confirmPassword" type="password" name="confirmPassword" placeholder="••••••"/>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
-                        <div class="col d-flex justify-content-end">
-                          <button class="btn btn-primary" type="submit">Save Changes</button>
+                        <div class="row">
+                          <div class="col d-flex justify-content-end">
+                            <button class="btn btn-primary" type="submit">Save Changes</button>
+                          </div>
                         </div>
-                      </div>
-                    </form>
-                  </div>
+                      </form>
+                    </div>
+                  </form>
                 </div>
+                {{/user}}
               </div>
             </div>
           </div>
