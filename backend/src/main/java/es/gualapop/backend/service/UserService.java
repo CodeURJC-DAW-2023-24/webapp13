@@ -83,12 +83,6 @@ public class UserService    {
 		return (userRepository.findByUsername(username).orElseThrow(() -> new NoSuchElementException("User not found")));
 	}
 
-    /*
-    *
-    * 0 -> Existe el usuario
-    * 1 -> Todo OK
-    * */
-
 	public Boolean registerUsers(User user, MultipartFile image) throws IOException {
 
 		if(userRepository.existsUserByUsername(user.getUsername())) {
@@ -97,7 +91,7 @@ public class UserService    {
 			if(image != null) {
 				user.setUserImg(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
 			}
-            user.setEncodedPassword(encoder.encode(user.getEncodedPassword()));
+            user.setEncodedPassword(encodePassword(user.getEncodedPassword()));
             userRepository.save(user);
 		}
         return true;
@@ -106,4 +100,8 @@ public class UserService    {
     public boolean checkPassword(String password, String validate){
         return password.equals(validate);
     }
+    public String encodePassword(String password){
+        return encoder.encode(password);
+    }
+    
 }

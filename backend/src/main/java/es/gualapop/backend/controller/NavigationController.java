@@ -12,6 +12,7 @@ import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ProductTypeRepository;
 import es.gualapop.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,6 +98,8 @@ public class NavigationController {
         User user = userRepository.findUserByUsername(name).orElseThrow();
 
         if(request.isUserInRole("USER") && !request.isUserInRole("ADMIN")) {
+        
+            model.addAttribute("user", user);
             return "profile";
         }
         

@@ -16,11 +16,14 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +62,50 @@ public class UserController {
         model.addAttribute("error",true);
 		return "signUp";
     }
+	@PostMapping("/updateUser/{userID}")
+    public String updateUser(@PathVariable Long userID, Model model,
+                             @RequestParam String fullName,
+                             @RequestParam String username,
+                             @RequestParam String currentPassword,
+                             @RequestParam String newPassword,
+                             @RequestParam String confirmPassword,
+                             @RequestParam(required = false) MultipartFile image) throws IOException, SQLException {
+
+        Optional<User> optionalUser = userRepository.findById(userID);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+			// Verificar y actualizar la contraseña si se proporciona una nueva
+			if (!newPassword.isEmpty() && newPassword.equals(confirmPassword)) {
+				user.setEncodedPassword(userService.encodePassword(newPassword));
+			}
+			// Actualizar otros campos
+			if (!fullName.isEmpty()) {
+				user.setFullName(fullName);
+			}
+			if (!username.isEmpty() && !userRepository.findByUsername(username).isPresent()) {
+				user.setUsername(username);
+			}
+
+			// Verificar y actualizar la imagen si se proporciona una nueva
+			if (image != null && !image.isEmpty()) {
+				user.setUserImg(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
+			}
+
+			// Guardar el usuario actualizado
+			userRepository.save(user);
+
+			// Redirigir a la página de perfil actualizada
+			return "profile";
+		} else {
+			// Contraseña incorrecta, manejar el error
+			//model.addAttribute("error", true);
+			//model.addAttribute("error.message", "Contraseña incorrecta");
+			return "error";
+		}
+    }
+
 	@GetMapping("/user/{userID}/image")
 	public ResponseEntity<Object> downloadUserImage(@PathVariable long userID) throws SQLException {
 
@@ -94,9 +141,7 @@ public class UserController {
     }
 
 	public double calcularMediaReviews(Long userID) {
-		System.out.println("EMPIEZA");
 		List<Review> reviews = reviewRepository.findBySellerID(userID);
-		System.out.println("AQUIIIIIIIIIII");
 		for (Review r : reviews){
 			System.out.println(r.getRating());
 		}
