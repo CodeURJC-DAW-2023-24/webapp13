@@ -45,13 +45,6 @@
                     <div class="text-center text-sm-left mb-2 mb-sm-0">
                       <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{fullName}}</h4>
                       <p class="mb-0">@{{username}}</p>
-                      <div class="mt-2">
-                        <input style="display:none" type="file" id="my-file">
-                        <button class="btn btn-primary" type="button" onclick="document.getElementById('my-file').click()">
-                          <i class="fa fa-fw fa-camera"></i>
-                          <span>Change Photo</span>
-                        </button>
-                      </div>
                     </div>
                     <div class="px-xl-3 w3-right">
                       <a href="/logout" class="btn btn-block btn-secondary">
@@ -118,7 +111,7 @@
                 <div id="Settings" class="w3-container tab" style="display:none">
                   <h2>Settings</h2>
                     <div data-content id="settings" class="active">
-                      <form id="updateForm" class="mx-1 mx-md-4" action="/updateUser/{{userID}}" method="post">
+                      <form id="updateForm" class="mx-1 mx-md-4" action="/updateUser/{{userID}}" method="post" enctype="multipart/form-data">
                         <div class="row">
                           <div class="col">
                             <div class="row">
@@ -133,7 +126,7 @@
                                   <label for="username">Username</label>
                                   <input class="form-control" id="username" type="text" name="username" placeholder="Nuevo nombre de usuario"/>
                                 </div>
-                              </div>
+                                </div>
                             </div>
                           </div>
                         </div>
@@ -171,6 +164,13 @@
                             </div>
                           </div>
                         </div>
+                        <div class="col">
+                          <div class="form-group">
+                            <div class="mb-2"><b>Change Photo</b>
+                            <input class="form-control" name='imageFile' type="file" id="imageFile" accept="image/*"/>
+                          </div>
+                          </div>
+                          </div>
                         <div class="row">
                           <div class="col d-flex justify-content-end">
                             <button class="btn btn-primary" type="submit">Save Changes</button>

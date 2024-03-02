@@ -23,6 +23,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +63,7 @@ public class UserController {
         model.addAttribute("error",true);
 		return "signUp";
     }
-	
+
 	@PostMapping("/updateUser/{userID}")
     public String updateUser(@PathVariable Long userID, Model model,
                              @RequestParam String fullName,
@@ -70,15 +71,17 @@ public class UserController {
                              @RequestParam String currentPassword,
                              @RequestParam String newPassword,
                              @RequestParam String confirmPassword,
-                             @RequestParam(required = false) MultipartFile image) throws IOException, SQLException {
+                             @RequestParam(required = false) MultipartFile imageFile) throws IOException, SQLException {
 
         Optional<User> optionalUser = userRepository.findById(userID);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 			// Verificar y actualizar la contraseña si se proporciona una nueva
-			if (!newPassword.isEmpty() && newPassword.equals(confirmPassword)) {
+			if (!newPassword.isEmpty() && newPassword.equals(confirmPassword) && passwordEncoder.matches(currentPassword, user.getEncodedPassword())) {
 				user.setEncodedPassword(userService.encodePassword(newPassword));
 			}
 			// Actualizar otros campos
@@ -90,8 +93,8 @@ public class UserController {
 			}
 
 			// Verificar y actualizar la imagen si se proporciona una nueva
-			if (image != null && !image.isEmpty()) {
-				user.setUserImg(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
+			if (imageFile.getOriginalFilename() != "" && !imageFile.isEmpty()) {
+				user.setUserImg(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
 			}
 
 			// Guardar el usuario actualizado
