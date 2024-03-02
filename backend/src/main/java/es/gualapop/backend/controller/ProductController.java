@@ -5,6 +5,7 @@ import es.gualapop.backend.model.Product;
 import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ProductTypeRepository;
 import es.gualapop.backend.repository.UserRepository;
+import es.gualapop.backend.service.PDFService;
 import es.gualapop.backend.service.ProductService;
 import es.gualapop.backend.service.SearchService;
 import org.hibernate.engine.jdbc.BlobProxy;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,12 +26,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.itextpdf.text.DocumentException;
 
 
 @Controller
@@ -44,6 +52,9 @@ public class ProductController {
     private SearchService searchService;
     @Autowired
     private ProductTypeRepository productTypeRepository;
+    @Autowired
+    private PDFService pdfService;
+
     @GetMapping("/")
     public String getProducts(Model model, HttpServletRequest request) {
         model.addAttribute("categories", productTypeRepository.findAll());
@@ -112,6 +123,7 @@ public class ProductController {
         return "index";
     }
 
+    /*
     @GetMapping("/checkout/{productID}")
     public String checkout(Model model, @PathVariable("productID") Long productID, @RequestParam(defaultValue = "0") int page) {
         int pageSize = 4;
@@ -125,33 +137,70 @@ public class ProductController {
         model.addAttribute("recommendations", productService.getSimilarProducts(p.map(Product::getProductType).orElse((long)0), page, pageSize));
         return "checkout";
     }
+    */
+
+    @GetMapping("/checkout/{productID}")
+    public String checkout(Model model, @PathVariable("productID") Long productID, @RequestParam(defaultValue = "0") int page) {
+        int pageSize = 4;
+        Optional<Product> productOptional = productRepository.findById(productID);
+
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            model.addAttribute("price", productService.getPriceByIdProduct(productID));
+            model.addAttribute("product", product);
+            model.addAttribute("recommendations", productService.getSimilarProducts(product.getProductType(), page, pageSize));
+            return "checkout";
+        } else {
+            return "error";
+        }
+    }
 
     @PostMapping("/purchase/{productID}")
-    public String purchase(@PathVariable("productID") Long productID) {
+    public ResponseEntity<byte[]> purchase(@PathVariable("productID") Long productID, Model model) throws SQLException, IOException, DocumentException {
         Optional<Product> products = productRepository.findById(productID);
         if (products.isPresent()){
             Product product = products.get();
             Double price = product.getPrice();
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentUsername = authentication.getName();
+
+            // Set earnings to seller
             Optional<User> vendedor = userRepository.findById(product.getOwner());
             if (vendedor.isPresent()){
                 User user = vendedor.get();
                 user.setIngresos(user.getIngresos()+price);
                 userRepository.save(user);
             }
+
+            // Set bills to purchaser
             Optional<User> comprador = userRepository.findByUsername(currentUsername);
             if (comprador.isPresent()){
                 User usuario = comprador.get();
                 usuario.setGastos(usuario.getGastos()+price);
                 userRepository.save(usuario);
             }
+
+            // Generate PDF
+            byte[] pdfBytes = pdfService.generatePDF(product);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "purchaser_bill.pdf");
+            headers.add("Refresh", "3;url=https://localhost:8443/");
+
+
             productRepository.deleteById(productID);
+            
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } else {
             // Manejar el caso donde el producto no se encuentra
-            return "error";
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
 
+    @GetMapping("/checkout/undefined")
+    public String redireccionarAIndex() {
+        
         return "redirect:/";
     }
 
@@ -215,5 +264,19 @@ public class ProductController {
 
         return "redirect:/index";
     }
+
+    /*
+    public String generatePDF(@PathVariable long id) throws SQLException {
+        Optional<Product> product = productService.findById(id);
+        if (product.isPresent()) {
+            pdfService.generatePDF(product.get());
+
+            return "index";
+        } else {
+            System.out.println("Error creacion PDF");
+            return "index";
+        }
+    }
+    */
 
 }

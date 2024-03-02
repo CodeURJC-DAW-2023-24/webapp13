@@ -155,7 +155,35 @@
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
+    $(document).ready(function () {
+        // Espera a que el documento esté listo
 
+        // Agregar un evento submit al formulario
+        $("form").submit(function (event) {
+            // Evitar que el formulario se envíe directamente
+            event.preventDefault();
+
+            // Obtener la URL de redirección del formulario
+            var redirectUrl = $(this).attr("action");
+
+            // Crear un formulario oculto para abrir la descarga del PDF en una nueva ventana
+            var hiddenForm = $("<form action='" + redirectUrl + "' method='post' target='_blank'></form>");
+
+            // Copiar los campos ocultos del formulario original al formulario oculto
+            $(this).find("input[type='hidden']").each(function () {
+                hiddenForm.append($(this).clone());
+            });
+
+            // Adjuntar el formulario oculto al documento y enviarlo
+            hiddenForm.appendTo("body").submit();
+
+            var redirectUrl2 = $(this).attr("https://localhost:8443/");
+            // Realizar la redirección después de 3 segundos
+            setTimeout(function () {
+                window.location.href = redirectUrl2;
+            }, 1000);
+        });
+    });
 </script>
 </body>
 </html>
