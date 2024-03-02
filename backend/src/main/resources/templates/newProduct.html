@@ -39,14 +39,19 @@
     </div>
 </nav>
 <div class="container mt-5">
-    <form method="post"  action="addNewProduct">
+    <form method="post"  action="/addNewProduct" enctype="multipart/form-data">
         <div class="mb-3">
             <label  class="form-label">Titulo</label>
             <input name='Title' type="text" class="form-control" placeholder="bicicleta de montaña">
         </div>
         <div class="form-group">
             <label for="formFileSingle" class="form-label">Selecciona una imagen:</label>
-            <input class="form-control" name='imageFile' type="file" id="formFileSingle" accept="image/*" />
+            <input class="form-control" name='imageFile' type="file" id="formFileSingle" accept="image/*" required/>
+        </div>
+
+        <div class="mb-3">
+            <label  class="form-label">Precio</label>
+            <input name='Price' type="number" step="0.01" class="form-control" placeholder="€">
         </div>
 
         <div class="mb-3">
@@ -54,43 +59,33 @@
                       placeholder="Descripcion del producto..."></textarea>
         </div>
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-                    Selecciona las categorias
-            </button>
             <div class="dropdown-item">
-
-                <input type="checkbox" id="category1" name='Category'>
+                <input type="radio" id="category1" name='Category' value="Electrónica">
                 <label for="category1">Electrónica</label>
             </div>
             <div class="dropdown-item">
-
-                <input type="checkbox" id="category2" name='Category'>
+                <input type="radio" id="category2" name='Category' value="Muebles">
                 <label for="category2">Muebles</label>
             </div>
             <div class="dropdown-item">
-
-                <input type="checkbox" id="category3" name='Category'>
-                <label for="category3">Ropa</label>
+                <input type="radio" id="category3" name='Category' value="Ropa">
+                <label for="category1">Ropa</label>
             </div>
             <div class="dropdown-item">
-
-                <input type="checkbox" id="category4" name='Category'>
-                <label for="category4">Libros</label>
+                <input type="radio" id="category4" name='Category' value="Libros">
+                <label for="category2">Libros</label>
             </div>
             <div class="dropdown-item">
-
-                <input type="checkbox" id="category5" name='Category'>
-                <label for="category5">Deportes</label>
+                <input type="radio" id="category5" name='Category' value="Deportes">
+                <label for="category2">Deportes</label>
             </div>
             <div class="dropdown-item">
-
-                <input type="checkbox" id="category6" name='Category'>
-                <label for="category6">Hogar y Jardín</label>
+                <input type="radio" id="category6" name='Category' value="Hogar">
+                <label for="category1">Hogar y Jardín</label>
             </div>
             <div class="dropdown-item">
-
-                <input type="checkbox" id="category7" name='Category'>
-                <label for="category7">Juguetes</label>
+                <input type="radio" id="category7" name='Category' value="Juguetes">
+                <label for="category2">Juguetes</label>
             </div>
         </div>
 

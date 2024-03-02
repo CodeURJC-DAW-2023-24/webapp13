@@ -288,6 +288,7 @@ public class ProductController {
     @PostMapping("/addNewProduct")
     public String addNewProduct(Model model,
                                 @RequestParam("Title") String title,
+                                @RequestParam("Price") double price,
                                 @RequestParam("Description") String description,
                                 @RequestParam("Category") String category,
                                 @RequestParam("Address") String Address,
@@ -300,6 +301,7 @@ public class ProductController {
         Product product = new Product();
         product.setTitle(title);
         product.setDescription(description);
+        product.setPrice(price);
         switch (category) {
             case "Electrónica":
                 product.setProductType(1L);
@@ -316,7 +318,7 @@ public class ProductController {
             case "Deportes":
                 product.setProductType(5L);
                 break;
-            case "Hogar y Jardín":
+            case "Hogar":
                 product.setProductType(6L);
                 break;
             case "Juguetes":
@@ -326,6 +328,13 @@ public class ProductController {
                 // Manejar cualquier otro caso si es necesario
                 break;
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        Optional<User> thisUser = userRepository.findByUsername(currentUsername);
+            if (thisUser.isPresent()){
+                User user = thisUser.get();
+                product.setOwner(user.getUserID());
+            }
         String fullAddress = Address + ", " + City + ", " + Province + ", " + Cp;
         product.setAddress(fullAddress);
         if (!imageFile.isEmpty()) {
@@ -336,7 +345,7 @@ public class ProductController {
         //save con el repository
         productRepository.save(product);
 
-        return "redirect:/index";
+        return "redirect:/";
     }
 
     /*
