@@ -1,6 +1,5 @@
 var thisPage = 0; // Variable para almacenar la página actual
 var currentPage = 0;
-var firstLoad = true;
 function loadProducts() {
     $.ajax({
         url: '/getProducts',
@@ -10,15 +9,13 @@ function loadProducts() {
             pageSize: 8
         },
         success: function (htmlData) {
-            console.log('Received HTML data:', htmlData);
             var $htmlData = $(htmlData); // Convertimos htmlData en un objeto jQuery
 
             if ($htmlData.length > 0) {
                 $('#productsContainer').append($htmlData);
                 $('#loadMoreBtn').show(); // Mostrar el botón "Cargar más productos"
 
-                var productsCount = $htmlData.find('.col.mb-5').length;
-                if (productsCount === 0) {
+                if ($htmlData.length < 15) {
                     $('#loadMoreBtn').hide();
                     firstLoad = false;
                 }
@@ -50,7 +47,6 @@ function loadProductsByCategory(categoryId) {
             console.log('Received HTML data:', htmlData);
             if (htmlData.trim() !== '' ) {
                 $('#productsContainer').html(htmlData);
-                console.log('Received HTML NUMERO DE ELEMENTOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS:', htmlData);
             } else {
                 // Si no hay más productos, deshabilitar el botón y mostrar un mensaje
                 $('#loadMoreBtn').prop('disabled', true).text('No hay más productos');
@@ -82,14 +78,11 @@ function searchProducts(query) {
             pageSize: 8
         },
         success: function (data) {
-            console.log(data);
             // Limpiar el contenedor de productos antes de agregar los nuevos resultados
             $('#productsContainer').empty();
             $('#loadMoreBtn').hide();
-            console.log(query);
 
             if (data.totalElements > 0 && query != "") {
-                console.log('SI - More products available');
                 var productsContainer = $('#productsContainer');
 
                 data.content.forEach(function (product) {
@@ -117,7 +110,6 @@ function searchProducts(query) {
                 });
 
             } else {
-                console.log('NO - No more products or error occurred');
                 $('#loadMoreBtn').hide();
             }
         },
