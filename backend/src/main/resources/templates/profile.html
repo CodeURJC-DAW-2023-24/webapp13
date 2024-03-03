@@ -102,9 +102,8 @@ $(document).ready(function () {
                   <h2>Beneficts</h2>
                   <p>Here is your balance graphic of your purchases/sales</p>
                   <div class="mx-auto" style="width: 400px; height: 400px;">
-                    <canvas id="balanceChart"></canvas>
+                    <canvas id="balanceChart" data-ingresos="{{ingresos}}" data-gastos="{{gastos}}"></canvas>
                   </div>
-                  
                 </div>
                 
 
@@ -204,29 +203,38 @@ $(document).ready(function () {
     document.getElementById(tabName).style.display = "block";  
   }
 
-//Pie balance chart
-  var incomeData = 5000;
-  var expenseData = 4000;
-  var balanceData = incomeData - expenseData;
-  
-  var ctx = document.getElementById('balanceChart').getContext('2d');
-  var myPieChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ['Income', 'Expense'],
-        datasets: [{
-            data: [incomeData, expenseData],
-            backgroundColor: ['#36A2EB', '#FF6384'] // balanceData >= 0 ? '#4CAF50' : '#FF0000'
-        }]
-    },
-    options: {
-        legend: {
-            display: true,
-            position: 'left',
-            top: '40%'
-        }
-    }
-});
+  //Pie balance chart
+  document.addEventListener('DOMContentLoaded', function () {
+            var canvas = document.getElementById('balanceChart');
+            var ingresos = parseFloat(canvas.getAttribute('data-ingresos'));
+            var gastos = parseFloat(canvas.getAttribute('data-gastos'));
+
+            var ctx = canvas.getContext('2d');
+            var myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Ingresos', 'Gastos'],
+                    datasets: [{
+                        data: [ingresos, gastos],
+                        backgroundColor: ['#36A2EB', '#FF6384']
+                    }]
+                },
+                options: {
+                  options: {
+                    legend: {
+                        display: true,
+                        position: 'right', // Coloca la leyenda a la derecha
+                        align: 'start', // Alinea la leyenda al inicio (puedes ajustar a 'center' o 'end' según tu preferencia)
+                        labels: {
+                            boxWidth: 15, // Ancho de la caja de color de la leyenda
+                            fontSize: 14, // Tamaño de fuente de la leyenda
+                            fontStyle: 'normal' // Estilo de fuente de la leyenda (normal, italic, oblique)
+                        }
+                    }
+                  }
+                }
+            });
+        });
   </script>
 <script type="text/javascript"></script>
 </body>
