@@ -66,8 +66,97 @@ pertinentes recibidos de los usuarios
 
 
 
+# Fase 2
+## Instrucciones de ejecución
+Para instalar y ejecutar la aplicación del grupo 13 se deben seguir los siguientes pasos:
+> 1.	Usamos el siguiente hipervínculo al repositorio de Github del grupo 8: https://github.com/CodeURJC-DAW-2023-24/webapp13 (Asegurarse que nos encontramos en la rama main).
+> 2.	Nos dirigimos a MySQL y en nuestro servidor local creamos una base de datos llamada gualapop.
+> 3.	Una vez descargada la aplicación, en un entorno de desarrollo con la extensión de spring preparada de antemano, abrimos el archivo application.properties y ponemos la contraseña y usuario que tengamos en nuestra base de datos de MySQL y ejecutamos el programa.
+> 4.	Sin parar la ejecución del programa, introduce la siguiente Url en un navegador: https://localhost:8443/
+> 5.	Una vez que nos cargue la pantalla de la tienda, la aplicación estará lista para usarse.
+
+Requisitos para la ejecución del programa:
+>-	MySQL: 8.0
+>-	Pack de Spring Boot para el entorno de desarrollo que se esté trabajando: (versión 2.4.2)
+>-	Versión de java: 17
+>-	BootStrap: 3.3.7
+>-	JQuery: 3.1.1-1
+
+## Diagrama de navegación
+Introducir aquí imágen diagrama de navegación
+
+## Diagrama con las entidades de la base de datos:
+Introducir aquí imágen diagrama de entidades
+
+## Diagrama de clases y templates
+Leyenda del diagrama:
+- Morado: Vistas
+- Verde: Controladores
+- Azul: Repositorios
+- Negro: Modelos
+- Rojo: Servicios
+- Azul claro: Seguridad
+Introducir aquí imágen diagrama de clases
+
+## Participación de miembros
+
+### Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es
+
+> Descripción de la participación
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | Nombre commit	| Link al commit | Link al Archivo |
+   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
+
+### Fernando Prieto Olías	| f.prieto.2019@alumnos.urjc.es
+
+> Descripción de la participación
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | Nombre commit	| Link al commit | Link al Archivo |
+   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
+
+### Jose Luis Salvador Martín	| jl.salvador.2023@alumnos.urjc.es
+
+> Descripción de la participación
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | Nombre commit	| Link al commit | Link al Archivo |
+   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
 
 
+### Cassiel Seth Mayorca Heirisman	| cs.mayorca.2018@alumnos.urjc.es
 
+> Descripción de la participación
 
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | Nombre commit	| Link al commit | Link al Archivo |
+   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
 
+### Pablo Villamayor Iglesias	| p.villamayor@alumnos.urjc.es
+
+> Descripción de la participación
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | Nombre commit	| Link al commit | Link al Archivo |
+   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
