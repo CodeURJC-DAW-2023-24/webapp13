@@ -127,15 +127,15 @@ Introducir aquí imágen diagrama de clases
 
 ### Jose Luis Salvador Martín	| jl.salvador.2023@alumnos.urjc.es
 
-> Descripción de la participación
+> Este miembro del equipo del equipo se encargo de crear la base del proyecto, creando los models, repositories, y aportando en la edición y creación de los controllers. Creador de la lógica de la barra de búsqueda y categorias además del mustache de los archivos html como index, producto individual etc. Ha realizado diversas ediciones como en el AJAX del proyecto. Ha tenido problemas con la sincronizacion de la cuenta de github, por lo que no se ven reflejados todos los commits a mi cuenta.
 
-| Número	| Descripción	| Commit | Archivos |
-   | :---: | :---: | :---: | :---: |
-   | 1º | Nombre commit	| Link al commit | Link al Archivo |
-   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
+| Número	|         Descripción	         |                                                               Commit                                                                |                                                                      Archivos                                                                      |
+   | :---: |:----------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------:|
+   | 1º |           Models	            |         [Models creation](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/5fd142c4b0214ca0861df9eef825b992d6046fb3)         |         [Product](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/model/Product.java)         |
+   | 2º	|     Errores y services 	     | [Errors corrections and services](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/e89ecb5dc2f22c222ddc3bfa129e53b3ce610833) | [ProductService](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/service/ProductService.java) |
+   | 3º	|            AJAX	             |              [AJAX](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/9c62fbd3bd4ecdc5728a8775d039c1e7e470eb6b)               |                 [AJAX](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/resources/static/js/script.js)                  |
+   | 4º	| Página de perfil de usuario	 |    [User Profile & functions](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/da46eb276e2a01ca48531ccafe70d2da0e700079)     | [Profile](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/ProductController.java)  |
+   | 5º	|          Buscador	           |            [Searcher](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/543cc2c2eb9f5c0cb4a4e54475668ebb5c31891b)             | [Search Service](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/service/SearchService.java)  |
 
 
 ### Cassiel Seth Mayorca Heirisman	| cs.mayorca.2018@alumnos.urjc.es
@@ -150,14 +150,4 @@ Introducir aquí imágen diagrama de clases
    | 4º	| Nombre commit	| Link al commit | Link al Archivo |
    | 5º	| Nombre commit	| Link al commit | Link al Archivo |
 
-### Pablo Villamayor Iglesias	| p.villamayor@alumnos.urjc.es
 
-> Descripción de la participación
-
-| Número	| Descripción	| Commit | Archivos |
-   | :---: | :---: | :---: | :---: |
-   | 1º | Nombre commit	| Link al commit | Link al Archivo |
-   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
