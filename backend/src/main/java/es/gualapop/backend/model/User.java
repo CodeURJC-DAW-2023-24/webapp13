@@ -3,7 +3,6 @@ package es.gualapop.backend.model;
 import javax.persistence.*;
 
 import java.sql.Blob;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,8 +17,8 @@ public class User {
     private String fullName;
     private String username;
     private String userEmail;
-    private Double ingresos;
-    private Double gastos;
+    private Double income;
+    private Double expense;
     @Lob
     private Blob userImg;
 
@@ -28,7 +27,6 @@ public class User {
 
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Integer> reviewList;
-    // Constructor, getters, and setters
 
     public User(){}
     public User(String username, Blob userImg, String email, String encodedPassword, String fName, List<Integer> reviews, String... roles) {
@@ -39,8 +37,8 @@ public class User {
         this.userEmail = email;
         this.fullName = fName;
         this.reviewList = reviews;
-        this.ingresos = (double) 0;
-        this.gastos = (double) 0;
+        this.income = (double) 0;
+        this.expense = (double) 0;
     }
 
     public void setUserID(Long id) {
@@ -51,20 +49,20 @@ public class User {
         return userID;
     }
 
-    public void setIngresos(Double ingresos) {
-        this.ingresos = ingresos;
+    public void setIncome(Double income) {
+        this.income = income;
     }
 
-    public Double getIngresos() {
-        return ingresos;
+    public Double getIncome() {
+        return income;
     }
 
-    public void setGastos(Double gastos) {
-        this.gastos = gastos;
+    public void setExpense(Double expense) {
+        this.expense = expense;
     }
 
-    public Double getGastos() {
-        return gastos;
+    public Double getExpense() {
+        return expense;
     }
 
     public void setUserImg(Blob userImg) {

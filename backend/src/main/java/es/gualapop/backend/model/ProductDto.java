@@ -12,7 +12,6 @@ public class ProductDto {
     private Long owner;
     private Long productType;
 
-    // Getter y Setter para id
     public Long getId() {
         return id;
     }
@@ -21,7 +20,6 @@ public class ProductDto {
         this.id = id;
     }
 
-    // Getter y Setter para title
     public String getTitle() {
         return title;
     }
@@ -30,7 +28,6 @@ public class ProductDto {
         this.title = title;
     }
 
-    // Getter y Setter para address
     public String getAddress() {
         return address;
     }
@@ -39,7 +36,6 @@ public class ProductDto {
         this.address = address;
     }
 
-    // Getter y Setter para price
     public double getPrice() {
         return price;
     }
@@ -48,7 +44,6 @@ public class ProductDto {
         this.price = price;
     }
 
-    // Getter y Setter para description
     public String getDescription() {
         return description;
     }
@@ -57,7 +52,6 @@ public class ProductDto {
         this.description = description;
     }
 
-    // Getter y Setter para imageFileBase64
     public String getImageFileBase64() {
         return imageFileBase64;
     }
@@ -66,7 +60,6 @@ public class ProductDto {
         this.imageFileBase64 = imageFileBase64;
     }
 
-    // Getter y Setter para image
     public boolean isImage() {
         return image;
     }
@@ -75,7 +68,6 @@ public class ProductDto {
         this.image = image;
     }
 
-    // Getter y Setter para owner
     public Long getOwner() {
         return owner;
     }
@@ -84,7 +76,6 @@ public class ProductDto {
         this.owner = owner;
     }
 
-    // Getter y Setter para productType
     public Long getProductType() {
         return productType;
     }

@@ -28,10 +28,10 @@ public class ProductService {
 
     public Product createProduct(Product newProduct) {
         if (newProduct.getPrice() <= 0) {
-            throw new IllegalArgumentException("El precio debe ser mayor que cero");
+            throw new IllegalArgumentException("The price must be greater than 0");
         }
         if (newProduct.getDescription() == null || newProduct.getDescription().isEmpty()) {
-            newProduct.setDescription("Sin descripción");
+            newProduct.setDescription("No description");
         }
         return productRepository.save(newProduct);
     }

@@ -2,10 +2,8 @@ package es.gualapop.backend.model;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.sql.Blob;
-import java.util.List;
 
 @Entity
 public class Product {

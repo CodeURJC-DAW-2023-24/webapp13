@@ -1,4 +1,4 @@
-var thisPage = 0; // Variable para almacenar la página actual
+var thisPage = 0; // Stores actual page
 var currentPage = 0;
 function loadProducts() {
     $.ajax({
@@ -9,17 +9,15 @@ function loadProducts() {
             pageSize: 8
         },
         success: function (htmlData) {
-            var $htmlData = $(htmlData); // Convertimos htmlData en un objeto jQuery
+            var $htmlData = $(htmlData); // htmlData to jQuery
 
             if ($htmlData.length > 0) {
                 $('#productsContainer').append($htmlData);
-                $('#loadMoreBtn').show(); // Mostrar el botón "Cargar más productos"
+                $('#loadMoreBtn').show();
 
                 if ($htmlData.length < 15) {
                     $('#loadMoreBtn').hide();
                 }
-            } else {
-                // Si no hay más productos, ocultar el botón "Cargar más productos"
             }
         },
         error: function () {
@@ -34,7 +32,7 @@ function loadProducts() {
 
 
 function loadProductsByCategory(categoryId) {
-    currentPage = 0; // Reiniciar la página cuando se cambia de categoría
+    currentPage = 0; // Reset page if category changes
     $.ajax({
         url: '/product/category/' + categoryId,
         method: 'GET',
@@ -52,8 +50,7 @@ function loadProductsByCategory(categoryId) {
                     $('#loadMoreBtn').hide();
                 }
             } else {
-                // Si no hay más productos, deshabilitar el botón y mostrar un mensaje
-                $('#loadMoreBtn').prop('disabled', true).text('No hay más productos');
+                $('#loadMoreBtn').prop('disabled', true).text('No more products');
             }
         },
         error: function () {
@@ -64,11 +61,10 @@ function loadProductsByCategory(categoryId) {
 
 
 $('form').on('submit', function (e) {
-    e.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+    e.preventDefault();
 
-    var query = $('input[name="query"]').val(); // Obtener el valor del campo de búsqueda
+    var query = $('input[name="query"]').val(); // Gets search value
 
-    // Realizar la búsqueda
     searchProducts(query);
 });
 
@@ -82,7 +78,6 @@ function searchProducts(query) {
             pageSize: 8
         },
         success: function (data) {
-            // Limpiar el contenedor de productos antes de agregar los nuevos resultados
             $('#productsContainer').empty();
             $('#loadMoreBtn').hide();
 
@@ -124,38 +119,35 @@ function searchProducts(query) {
             console.log('Error during search');
         }
     })
-}// Manejar clic en el botón "Cargar más productos"
+}
+
 $('#loadMoreBtn').on('click', function () {
-    currentPage++; // Incrementar la página antes de cargar más productos
+    currentPage++;
     loadProducts();
 });
 
-// Manejar clic en el botón "Search"
 $('#buttonSearch').on('click', function () {
-    currentPage = 0; // Reiniciar la página cuando se realiza una nueva búsqueda
-    var query = $('#searchInput').val(); // Obtener el valor del campo de búsqueda
+    currentPage = 0; // Reset page if there is a new search
+    var query = $('#searchInput').val();
     searchProducts(query);
 });
 
-// Manejar la búsqueda cuando se presiona la tecla "Enter" en el campo de "Search"
 $('#searchInput').on('keydown', function (event) {
     if (event.key === 'Enter') {
-        event.preventDefault(); // Evitar el comportamiento de formulario predeterminado
-        currentPage = 0; // Reiniciar la página cuando se realiza una nueva búsqueda
-        var query = $('#searchInput').val(); // Obtener el valor del campo de búsqueda
-        searchProducts(query); // Realizar la búsqueda de productos
+        event.preventDefault();
+        currentPage = 0;
+        var query = $('#searchInput').val();
+        searchProducts(query);
     }
 });
 
-// Manejar el clic en un enlace de categoría
 $('.category-link').on('click', function (event) {
-    event.preventDefault(); // Evitar el comportamiento de enlace predeterminado
-    currentPage = 0; // Reiniciar la página cuando se cambia de categoría
-    var categoryId = $(this).data('category-id'); // Obtener el ID de la categoría del atributo de datos del enlace
-    loadProductsByCategory(categoryId); // Cargar productos por categoría
+    event.preventDefault();
+    currentPage = 0;
+    var categoryId = $(this).data('category-id');
+    loadProductsByCategory(categoryId);
 });
 
-// Cargar productos cuando la página se cargue inicialmente
 $(document).ready(function () {
     loadProducts();
 });

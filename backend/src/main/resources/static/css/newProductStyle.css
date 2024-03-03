@@ -15,7 +15,7 @@ body {
 }
 
 .form-check-label {
-    display: inline; /* Para que cada etiqueta se muestre en una línea separada */
+    display: inline;
     justify-content:  space-between;
 }
 
