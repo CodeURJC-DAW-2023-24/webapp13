@@ -15,15 +15,6 @@
   </style>
   <script>
     var currentPage = 0;
-    function openTab(tabName) {
-    var i;
-    var x = document.getElementsByClassName("tab");
-    for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";  
-    }
-    document.getElementById(tabName).style.display = "block";  
-  }
-
   function loadMyProducts() {
     $.ajax({
         url: '/getMyProducts',
@@ -106,19 +97,6 @@ $(document).ready(function () {
                     </a>
                   </div>
                 </div>
-
-                <!-- <div id="Beneficts" class="w3-container tab" style="display:none">
-                  <h2>Beneficts</h2>
-                  <p>Here is your balance graphic of your purchases/sales</p>
-                  <div class="col-12 col-sm-auto mb-3">
-                    <div class="mx-auto" style="width: 580px">
-                      <div class="d-flex justify-content-center align-items-center rounded"
-                           style="height: 290px; background-color: rgb(233, 236, 239);">
-                        <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">290x580</span>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
 
                 <div id="Beneficts" class="w3-container tab" style="display:none">
                   <h2>Beneficts</h2>
@@ -216,6 +194,7 @@ $(document).ready(function () {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../static/js/scriptProfile.js"></script>
 <script>
+  //navigation tabs
     function openTab(tabName) {
     var i;
     var x = document.getElementsByClassName("tab");
@@ -224,6 +203,8 @@ $(document).ready(function () {
     }
     document.getElementById(tabName).style.display = "block";  
   }
+
+//Pie balance chart
   var incomeData = 5000;
   var expenseData = 4000;
   var balanceData = incomeData - expenseData;
