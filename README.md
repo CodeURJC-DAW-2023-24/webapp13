@@ -83,10 +83,10 @@ Requisitos para la ejecución del programa:
 >-	JQuery: 3.1.1-1
 
 ## Diagrama de navegación
-Introducir aquí imágen diagrama de navegación
+![Diag_navegacion](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/64afdc0d-f56d-4011-bbb6-0110f75c8cf3)
 
 ## Diagrama con las entidades de la base de datos:
-Introducir aquí imágen diagrama de entidades
+![Diag_clases](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/4a1f873f-4eae-4ccf-bf25-8b25240b9b4c)
 
 ## Diagrama de clases y templates
 Leyenda del diagrama:
