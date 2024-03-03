@@ -145,13 +145,15 @@ public class UserController {
 			if (!fullName.isEmpty()) {
 				user.setFullName(fullName);
 			}
-			if (!username.isEmpty() && !userRepository.findByUsername(username).isPresent()) {
-				user.setUsername(username);
-			}
-
 			// Verificar y actualizar la imagen si se proporciona una nueva
 			if (imageFile.getOriginalFilename() != "" && !imageFile.isEmpty()) {
 				user.setUserImg(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+			}
+
+			if (!username.isEmpty() && !userRepository.findByUsername(username).isPresent()) {
+				user.setUsername(username);
+				userRepository.save(user);
+				return "redirect:/logout";
 			}
 
 			// Guardar el usuario actualizado
