@@ -17,7 +17,6 @@ function loadProducts() {
 
                 if ($htmlData.length < 15) {
                     $('#loadMoreBtn').hide();
-                    firstLoad = false;
                 }
             } else {
                 // Si no hay más productos, ocultar el botón "Cargar más productos"
