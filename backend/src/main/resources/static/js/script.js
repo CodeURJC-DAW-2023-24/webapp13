@@ -1,5 +1,6 @@
-var currentPage = 0;
 var thisPage = 0; // Variable para almacenar la página actual
+var currentPage = 0;
+var firstLoad = true;
 function loadProducts() {
     $.ajax({
         url: '/getProducts',
@@ -10,10 +11,20 @@ function loadProducts() {
         },
         success: function (htmlData) {
             console.log('Received HTML data:', htmlData);
-            if (currentPage >= htmlData.totalElements / htmlData.pageSize){
-                currentPage = 0;
+            var $htmlData = $(htmlData); // Convertimos htmlData en un objeto jQuery
+
+            if ($htmlData.length > 0) {
+                $('#productsContainer').append($htmlData);
+                $('#loadMoreBtn').show(); // Mostrar el botón "Cargar más productos"
+
+                var productsCount = $htmlData.find('.col.mb-5').length;
+                if (productsCount === 0) {
+                    $('#loadMoreBtn').hide();
+                    firstLoad = false;
+                }
+            } else {
+                // Si no hay más productos, ocultar el botón "Cargar más productos"
             }
-            $('#productsContainer').html(htmlData); // Reemplaza el contenido del contenedor con el HTML recibido
         },
         error: function () {
             console.log('Error occurred while loading products');
@@ -21,7 +32,13 @@ function loadProducts() {
     });
 }
 
+
+
+
+
+
 function loadProductsByCategory(categoryId) {
+    currentPage = 0; // Reiniciar la página cuando se cambia de categoría
     $.ajax({
         url: '/product/category/' + categoryId,
         method: 'GET',
@@ -31,14 +48,19 @@ function loadProductsByCategory(categoryId) {
         },
         success: function (htmlData) {
             console.log('Received HTML data:', htmlData);
-            $('#productsContainer').html(htmlData); // Reemplaza el contenido del contenedor con el HTML recibido
+            if (htmlData.trim() !== '' ) {
+                $('#productsContainer').html(htmlData);
+                console.log('Received HTML NUMERO DE ELEMENTOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS:', htmlData);
+            } else {
+                // Si no hay más productos, deshabilitar el botón y mostrar un mensaje
+                $('#loadMoreBtn').prop('disabled', true).text('No hay más productos');
+            }
         },
         error: function () {
             console.log('Error occurred while loading products by category');
         }
     });
 }
-
 
 
 $('form').on('submit', function (e) {
@@ -96,9 +118,7 @@ function searchProducts(query) {
 
             } else {
                 console.log('NO - No more products or error occurred');
-                // Oculta el botón si no hay más páginas
-                loadProducts();
-                $('#loadMoreBtn').show();
+                $('#loadMoreBtn').hide();
             }
         },
         error: function () {
