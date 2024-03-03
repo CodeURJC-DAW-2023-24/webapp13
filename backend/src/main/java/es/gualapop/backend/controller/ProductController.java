@@ -256,10 +256,11 @@ public class ProductController {
     }
 
     @PostMapping("/addNewProduct")
-    public String addNewProduct(Model model,
+    public String addNewProduct(HttpServletRequest request, Model model,
                                 @RequestParam("Title") String title,
                                 @RequestParam("Description") String description,
                                 @RequestParam("Category") String category,
+                                @RequestParam("Price") Double price,
                                 @RequestParam("Address") String Address,
                                 @RequestParam("City") String City,
                                 @RequestParam("Province") String Province,
@@ -268,6 +269,9 @@ public class ProductController {
         //crear nuevo objeto product y settear atributows
 
         Product product = new Product();
+        String username = request.getUserPrincipal().getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        product.setOwner(user.getUserID());
         product.setTitle(title);
         product.setDescription(description);
         switch (category) {
@@ -286,7 +290,7 @@ public class ProductController {
             case "Deportes":
                 product.setProductType(5L);
                 break;
-            case "Hogar y Jardín":
+            case "Hogar":
                 product.setProductType(6L);
                 break;
             case "Juguetes":
@@ -296,17 +300,16 @@ public class ProductController {
                 // Manejar cualquier otro caso si es necesario
                 break;
         }
+        product.setPrice(price);
         String fullAddress = Address + ", " + City + ", " + Province + ", " + Cp;
         product.setAddress(fullAddress);
         if (!imageFile.isEmpty()) {
             product.setImageFile(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
             product.setImage(true);
         }
-
         //save con el repository
         productRepository.save(product);
-
-        return "redirect:/index";
+        return "redirect:/profile";
     }
 
     @GetMapping("/search")
