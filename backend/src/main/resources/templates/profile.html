@@ -29,7 +29,22 @@
         },
         success: function (htmlData) {
             console.log('Received HTML data:', htmlData);
-            if (currentPage >= htmlData.totalElements / htmlData.pageSize){
+            var $htmlData = $(htmlData);
+            console.log(htmlData);
+            console.log($htmlData.length);
+            if ($htmlData.length == 17){
+              htmlData = $('<div class="col mb-5">' +
+                        '<div class="card h-100">' +
+                        '<div class="card-body p-4">' +
+                        '<div class="text-center">' +
+                        '<h5 class="fw-bolder">' + 'No products found' + '</h5>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>');
+            }
+            else if (currentPage >= htmlData.totalElements / htmlData.pageSize){
                 currentPage = 0;
             }
             $('#productsContainer').html(htmlData); // Reemplaza el contenido del contenedor con el HTML recibido
@@ -109,7 +124,7 @@ $(document).ready(function () {
                   <h2>Beneficts</h2>
                   <p>Here is your balance graphic of your purchases/sales</p>
                   <div class="mx-auto" style="width: 400px; height: 400px;">
-                    <canvas id="balanceChart" data-ingresos="{{ingresos}}" data-gastos="{{gastos}}"></canvas>
+                    <canvas id="balanceChart" data-ingresos="{{income}}" data-gastos="{{expense}}"></canvas>
                   </div>
                 </div>
                 
