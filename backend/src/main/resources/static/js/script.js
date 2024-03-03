@@ -44,8 +44,13 @@ function loadProductsByCategory(categoryId) {
         },
         success: function (htmlData) {
             console.log('Received HTML data:', htmlData);
+            var $htmlData = $(htmlData);
             if (htmlData.trim() !== '' ) {
                 $('#productsContainer').html(htmlData);
+
+                if ($htmlData.length < 15) {
+                    $('#loadMoreBtn').hide();
+                }
             } else {
                 // Si no hay más productos, deshabilitar el botón y mostrar un mensaje
                 $('#loadMoreBtn').prop('disabled', true).text('No hay más productos');
