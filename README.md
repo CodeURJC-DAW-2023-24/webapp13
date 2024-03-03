@@ -102,15 +102,15 @@ Introducir aquí imágen diagrama de clases
 
 ### Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es
 
-> Descripción de la participación
+> Este miembro del equipo se ha encargado de la lógica de AJAX, la gestión y diseño de la base de datos, traducir todo el código que había en español a inglés, navegación entre pantallas, añadir producto, gestión de imágenes, funcionalidad de valoraciones, comprar producto, gestión de la pasarela de pago y gestión de productos en el perfil propio del usuario.
 
 | Número	| Descripción	| Commit | Archivos |
    | :---: | :---: | :---: | :---: |
-   | 1º | Nombre commit	| Link al commit | Link al Archivo |
-   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 1º | Profile Products & Delete Products	| [Commit Link]https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/56af87e5b4256d7bbc636e7ba31ba457503357f1 | [User Controller]https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/UserController.java |
+   | 2º	| New Review	| [Commit Link]https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/75ec7ced5c21b5adbf409a0ddd8a3800d6f0a7d6 | [Product Controller]https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/ProductController.java |
+   | 3º	| Purchase Product	| [Commit Link]https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/6cfe68028d9d41a1fa8e7ce5b5e0fb5d76ca6ee6 | [Product Controller]https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/ProductController.java |
+   | 4º	| English translation except templates	| [Commit Link]https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/151c934ff6d309540639212bb7c271b60ee4ff71 | [User]https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/model/User.java |
+   | 5º	| DB additions + AJAX	| [Commit Link]https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/6c36a80eb33684afc4c64a21e5bb9a1d4ba66ce7 | [Script]https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/resources/static/js/script.js |
 
 ### Fernando Prieto Olías	| f.prieto.2019@alumnos.urjc.es
 
