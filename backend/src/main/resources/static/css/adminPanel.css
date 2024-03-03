@@ -42,6 +42,8 @@ body {
 .red {
     background-color: red;
     border-color: red;
+    float: left;
+    margin-right: 5px;
 }
 .delete .btn.red:hover {
     background-color: red;

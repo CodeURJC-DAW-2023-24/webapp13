@@ -30,47 +30,54 @@
 </nav>
 <!-- Section-->
 <section>
-  <form action="#" method="GET" enctype="multipart/form-data">
+  <form method="post" action="/addNewReport/{{userReported}}" enctype="multipart/form-data">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col">
         <h1 class="title"> Informar sobre un usuario</h1>
         <div class="card w-100 IndividualCard ">
            <div class="container">
+               {{#user}}
              <div class="reporter-details">
-               <h6>Datos del Usuario que Reporta</h6>
-               <p>Nombre de usuario: Juan Pérez</p>
-               <p>Correo Electrónico: juan@example.com</p>
-               <p>Fecha de Reporte: 2024-02-10</p>
+               <h6>Datos del Usuario que Reporta:</h6>
+               <p>Nombre de usuario: {{user}}</p>
+               <p name ="Date">Fecha de Reporte: {{fechaActual}}</p>
              </div>
+               {{/user}}
+               {{#userReported}}
              <div class="reported-details">
-               <h6>Datos del Usuario Reportado</h6>
-               <p>Nombre de usuario reportado:</p>
-                <input type="text" maxlength="2" name="NamUserReported" id="NamUserReported">
+               <h6>Datos del Usuario Reportado: </h6>
+                 <p>Nombre de usuario: {{userReported}}</p>
              </div>
+               {{/userReported}}
              <br>
-             <div class="reported-details">
-              <h6>Reportar al usuario por:</h6>
-              <input type="checkbox" name="nombre-inapropiado" id="nombre-inapropiado"> Nombre inapropiado
-              <br>
-              <input type="checkbox" name="producto-fraudulento" id="producto-fraudulento"> Producto fraudulento
-              <br>
-              <input type="checkbox" name="cuenta-fraudulenta" id="cuenta-fraudulenta"> Cuenta fraudulenta
-            </div>
+             <h6>Reportar al usuario por:</h6>
+             <div class="dropdown">
+               <div class="dropdown-item">
+                 <input type="radio" id="category1" name='Category' value="Nombre inapropiado">
+                 <label for="category1">Nombre inapropiado</label>
+               </div>
+               <div class="dropdown-item">
+                 <input type="radio" id="category2" name='Category' value="Producto fraudulento">
+                 <label for="category2">Producto fraudulento</label>
+               </div>
+               <div class="dropdown-item">
+                 <input type="radio" id="category3" name='Category' value="Cuenta fraudulenta">
+                 <label for="category1">Cuenta fraudulenta</label>
+               </div>
+             </div>
             <br>
-            <div class="report-description">
+            <div class="report-description" >
               <h6>Descripción del Reporte</h6>
-              <textarea rows="10" cols="80"></textarea>
+              <textarea rows="10" cols="80" name="Description"></textarea>
            </div>
         </div>
       </div>
     </div>
-    <div class="delete">
-      <button type="button" class="btn btn-primary btn-lg red" >Eliminar</button>
-    </div>
     <div class="ndelete">
       <button type="submit" class="btn btn-primary btn-lg btn-block">Enviar reporte</button>
     </div>
+  </div>
   </div>
 </form>
 </section>
