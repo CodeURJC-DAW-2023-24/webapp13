@@ -98,7 +98,7 @@ Leyenda del diagrama:
 - Azul claro: Seguridad
 Introducir aquí imágen diagrama de clases
 
-## Participación de miembros
+## Participación de miembros (Fase 2)
 
 ### Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es
 
@@ -114,15 +114,16 @@ Introducir aquí imágen diagrama de clases
 
 ### Fernando Prieto Olías	| f.prieto.2019@alumnos.urjc.es
 
-> Descripción de la participación
+> Este miembro del equipo se encargó del registro del usuario, configuración de su perfil como los settings y el gráfico de balance entre ingresos y gastos, generador de PDFs para las facturas después de cada compra y creación de los diagramas de clases y diagrama de navegación. Ha realizado también diversos arreglos en el codigo a algunas funcionalidades que generaba algún tipo de error (Problemas con la sincronización de la cuenta de github y los commits realizados)
 
 | Número	| Descripción	| Commit | Archivos |
    | :---: | :---: | :---: | :---: |
-   | 1º | Nombre commit	| Link al commit | Link al Archivo |
-   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 1º | Generador PDF	| [Generate PDFs](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/9dd31d5476c9ace59818ab86830d72d196c7d844) | [PDFService](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/service/PDFService.java) |
+   | 2º	| User Registro	| [User register](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/72f6845460446dabbbe7300c27024e97ee5489d6) | [UserService](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/service/UserService.java) |
+   | 3º	| Gráfica Beneficios  | [Gráfico estático falta datos reales (En otro commit subo la gráfica funcional)](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/0b8e0cd34ab682c6c169640c7331d740553f370a) | [Profile.html](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/resources/templates/profile.html) |
+   | 4º	| User Perfil y Settings	| [User profile mustache and settings for updateUser](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/3de422b938d9d78080449f778639568a11000d8a) | [UserController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/UserController.java) |
+   | 5º	| Documentación	| [Diagrama de clases y diagrama de navegación](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/050fb9323693714b8034a4a3c3d3b46790f49cfb) | [ReadMe](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/README.md) |
+
 
 ### Jose Luis Salvador Martín	| jl.salvador.2023@alumnos.urjc.es
 
