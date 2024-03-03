@@ -113,7 +113,10 @@ function searchProducts(query) {
                     productsContainer.append(productCard);
                 });
 
-            } else {
+            } else if (query == ""){
+                loadProducts();
+            }
+            else {
                 $('#loadMoreBtn').hide();
             }
         },
