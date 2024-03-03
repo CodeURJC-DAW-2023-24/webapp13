@@ -31,5 +31,4 @@ public class ProductsResponse {
         this.totalElements = totalElements;
     }
 
-    // getters y setters
 }

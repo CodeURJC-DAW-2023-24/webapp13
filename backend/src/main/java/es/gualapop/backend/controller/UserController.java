@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -75,7 +73,7 @@ public class UserController {
         String name = request.getUserPrincipal().getName();
 
         User user = userRepository.findUserByUsername(name).orElseThrow();
-        model.addAttribute("rating", calcularMediaReviews(user.getUserID()));
+        model.addAttribute("rating", calculateReviewsMean(user.getUserID()));
 
         if(request.isUserInRole("USER") && !request.isUserInRole("ADMIN")) {
         
@@ -115,9 +113,8 @@ public class UserController {
 
 			return "myProductIndex";
 		} catch (Exception e) {
-			// Registra la excepción para diagnóstico
 			e.printStackTrace();
-			return "error"; // Puedes crear una vista de error personalizada si lo deseas
+			return "error";
 		}
     }
 
@@ -137,15 +134,15 @@ public class UserController {
 
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-			// Verificar y actualizar la contraseña si se proporciona una nueva
+			// Verify password and new password
 			if (!newPassword.isEmpty() && newPassword.equals(confirmPassword) && passwordEncoder.matches(currentPassword, user.getEncodedPassword())) {
 				user.setEncodedPassword(userService.encodePassword(newPassword));
 			}
-			// Actualizar otros campos
+			// Update user
 			if (!fullName.isEmpty()) {
 				user.setFullName(fullName);
 			}
-			// Verificar y actualizar la imagen si se proporciona una nueva
+			// Verify and update image
 			if (imageFile.getOriginalFilename() != "" && !imageFile.isEmpty()) {
 				user.setUserImg(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
 			}
@@ -156,15 +153,12 @@ public class UserController {
 				return "redirect:/logout";
 			}
 
-			// Guardar el usuario actualizado
+			// Save updated user
 			userRepository.save(user);
 
-			// Redirigir a la página de perfil actualizada
+			// Redirect to profile
 			return "redirect:/profile";
 		} else {
-			// Contraseña incorrecta, manejar el error
-			//model.addAttribute("error", true);
-			//model.addAttribute("error.message", "Contraseña incorrecta");
 			return "error";
 		}
     }
@@ -192,18 +186,17 @@ public class UserController {
             User user = optionalUser.get();
             model.addAttribute("user", user);
             model.addAttribute("categories", productTypeRepository.findAll());
-            model.addAttribute("rating", calcularMediaReviews(userID)); // Modify if there's a rating system implemented
+            model.addAttribute("rating", calculateReviewsMean(userID)); // Modify if there's a rating system implemented
             model.addAttribute("products", productRepository.findByOwner(user.getUserID()));
             return "profileConsult";
         } else {
             model.addAttribute("error", true);
-            model.addAttribute("error.message", "No existe este usuario");
+            model.addAttribute("error.message", "User doesn't exist");
             return "error";
-
         }
     }
 
-	public double calcularMediaReviews(Long userID) {
+	public double calculateReviewsMean(Long userID) {
 		List<Review> reviews = reviewRepository.findBySellerID(userID);
 		for (Review r : reviews){
 			System.out.println(r.getRating());

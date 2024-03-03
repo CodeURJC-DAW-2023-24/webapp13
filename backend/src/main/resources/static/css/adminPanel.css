@@ -1,28 +1,28 @@
 .card.report {
-    margin: 10px; /* Agrega espacio entre los elementos */
+    margin: 10px;
 }
 .title {
-    margin: 10px; /* Agrega espacio entre los elementos */
+    margin: 10px; 
 }
 body {
-    margin-bottom: 100px; /* Altura del footer */
+    margin-bottom: 100px;
 }
 .footer {
     margin-top: auto;
-    background-color: #333; /* Color de fondo del footer */
-    color: black; /* Color del texto del footer */
-    padding: 20px; /* Ajusta el padding según sea necesario */
-    text-align: center; /* Centra el texto horizontalmente */
-    position: fixed; /* Fija el footer en la parte inferior */
+    background-color: #333;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
     left: 0;
     bottom: 0;
-    width: 100%; /* Ancho completo */
+    width: 100%;
 }
 .more {
-    display: flex; /* Usa flexbox */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    height: 200px; /* Altura opcional para el div */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
 }
 .IndividualCard{
     height: 100%;
@@ -44,6 +44,6 @@ body {
     border-color: red;
 }
 .delete .btn.red:hover {
-    background-color: red; /* Mantén el color de fondo del botón en estado de hover */
+    background-color: red;
     border-color: red;
 }

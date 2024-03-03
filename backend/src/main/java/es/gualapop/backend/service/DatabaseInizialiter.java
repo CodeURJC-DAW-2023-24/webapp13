@@ -51,7 +51,7 @@ public class DatabaseInizialiter {
 
         List<Integer> reviewList1 = List.of(1,2);
         List<Integer> reviewList2 = List.of(3);
-        //    public User(String username, Blob userImg, String email, String encodedPassword, String fName, List<Integer> reviews, String... roles) {
+
         User user1 = new User("NoAdmin", imgU1, "noadmin@gmail.com", passwordEncoder.encode("1234"), "Non Admin User", reviewList1,"USER");
         User user2 = new User("AdminUser", imgU2, "admin@gmail.com",  passwordEncoder.encode("abc"), "Admin User", reviewList2, "USER","ADMIN");
         User user3 = new User("User", imgU3, "user@gmail.com",  passwordEncoder.encode("user"), "User", reviewList2, "USER");
@@ -102,7 +102,6 @@ public class DatabaseInizialiter {
         Long hogar = pt6.getId();
         Long juguetes = pt7.getId();
 
-        //product inizialite
         Product product1 = new Product("Zapatillas","Zapatillas nuevas baratas",id1,40, ropa);
         setProductImage(product1,"/static/images/zapas.jpg");
 
@@ -136,8 +135,6 @@ public class DatabaseInizialiter {
         Product product11 = new Product("Lego","Nave de lego star wars",id3,80, juguetes);
         setProductImage(product11,"/static/images/lego.jpg");
 
-        //save all
-
         if(reviewRepository.findAll().isEmpty()) {
             reviewRepository.save(review1);
             reviewRepository.save(review2);
@@ -157,8 +154,6 @@ public class DatabaseInizialiter {
             productRepository.save(product10);
             productRepository.save(product11);
         }
-
-
 
     }
 

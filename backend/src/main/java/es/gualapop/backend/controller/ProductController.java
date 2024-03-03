@@ -3,7 +3,6 @@ package es.gualapop.backend.controller;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.ProductDto;
-import es.gualapop.backend.model.ProductsResponse;
 import es.gualapop.backend.model.Review;
 import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ProductTypeRepository;
@@ -23,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,10 +33,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.net.URI;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
@@ -47,7 +43,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itextpdf.text.DocumentException;
@@ -90,24 +85,24 @@ public class ProductController {
 
         Product p = productService.getProductById(id);
         Optional<User> userOptional = userRepository.findById(p.getOwner());
-        User u = userOptional.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        User u = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
         model.addAttribute("user", u);
         model.addAttribute("product", p);
         int pageSize = 4;
 
-        // Verificar si el usuario está autenticado
+        // Check if user is logged
         if (request.getUserPrincipal() != null) {
             String name = request.getUserPrincipal().getName();
-            User user = userRepository.findUserByUsername(name).orElseThrow();
+            userRepository.findUserByUsername(name).orElseThrow();
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
         } else {
-            // Manejar el caso cuando el usuario no está autenticado
+            // If user is not logged
             model.addAttribute("admin", false);
         }
 
         model.addAttribute("recommendations", true);
         model.addAttribute("recommendations", productService.getSimilarProducts(id, page, pageSize));
-        return "productoIndividual";
+        return "individualProduct";
     }
 
     @GetMapping("/product/{id}/delete")
@@ -150,22 +145,6 @@ public class ProductController {
         return "productIndex";
     }
 
-    /*
-    @GetMapping("/checkout/{productID}")
-    public String checkout(Model model, @PathVariable("productID") Long productID, @RequestParam(defaultValue = "0") int page) {
-        int pageSize = 4;
-        model.addAttribute("price", productService.getPriceByIdProduct(productID));
-        model.addAttribute("product", true);
-
-        // Recomendations
-        Optional<Product> p = productRepository.findById(productID);
-
-        model.addAttribute("recommendations", true);
-        model.addAttribute("recommendations", productService.getSimilarProducts(p.map(Product::getProductType).orElse((long)0), page, pageSize));
-        return "checkout";
-    }
-    */
-
     @GetMapping("/checkout/{productID}")
     public String checkout(Model model, @PathVariable("productID") Long productID, @RequestParam(defaultValue = "0") int page) {
         int pageSize = 4;
@@ -197,19 +176,19 @@ public class ProductController {
             String currentUsername = authentication.getName();
 
             // Set earnings to seller
-            Optional<User> vendedor = userRepository.findById(product1.getOwner());
-            if (vendedor.isPresent()){
-                User user = vendedor.get();
-                user.setIngresos(user.getIngresos()+price);
+            Optional<User> seller = userRepository.findById(product1.getOwner());
+            if (seller.isPresent()){
+                User user = seller.get();
+                user.setIncome(user.getIncome()+price);
                 userRepository.save(user);
             }
 
             // Set bills to purchaser
-            Optional<User> comprador = userRepository.findByUsername(currentUsername);
-            if (comprador.isPresent()){
-                User usuario = comprador.get();
-                usuario.setGastos(usuario.getGastos()+price);
-                userRepository.save(usuario);
+            Optional<User> buyer = userRepository.findByUsername(currentUsername);
+            if (buyer.isPresent()){
+                User thisUser = buyer.get();
+                thisUser.setExpense(thisUser.getExpense()+price);
+                userRepository.save(thisUser);
             }
 
             // Generate PDF
@@ -225,7 +204,7 @@ public class ProductController {
             
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } else {
-            // Manejar el caso donde el producto no se encuentra
+            // If not found
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -242,7 +221,7 @@ public class ProductController {
         return "newProduct";
     }
 
-    // Utilidad para convertir Blob a base64
+    // Blob to base64
     private String convertBlobToBase64(Blob blob) {
         try {
             if (blob != null) {
@@ -266,7 +245,7 @@ public class ProductController {
                                 @RequestParam("Province") String Province,
                                 @RequestParam("imageFile") MultipartFile imageFile,
                                 @RequestParam("Cp") String Cp) throws IOException {
-        //crear nuevo objeto product y settear atributows
+        //Create new product and set attributes
 
         Product product = new Product();
         String username = request.getUserPrincipal().getName();
@@ -297,7 +276,6 @@ public class ProductController {
                 product.setProductType(7L);
                 break;
             default:
-                // Manejar cualquier otro caso si es necesario
                 break;
         }
         product.setPrice(price);
@@ -334,23 +312,10 @@ public class ProductController {
             Page<ProductDto> productDtoPage = new PageImpl<>(productDtos, pageable, productsPage.getTotalElements());
             return ResponseEntity.ok(productDtoPage);
         } catch (Exception e) {
-            // Loguear la excepción
+            // Log exception
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    /*
-    public String generatePDF(@PathVariable long id) throws SQLException {
-        Optional<Product> product = productService.findById(id);
-        if (product.isPresent()) {
-            pdfService.generatePDF(product.get());
-
-            return "index";
-        } else {
-            System.out.println("Error creacion PDF");
-            return "index";
-        }
-    }
-    */
 
 }

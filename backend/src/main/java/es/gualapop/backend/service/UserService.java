@@ -4,7 +4,6 @@ import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.UserRepository;
 
 import org.hibernate.engine.jdbc.BlobProxy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,8 +18,6 @@ import java.util.Optional;
 
 @Service
 public class UserService    {
-	
-    //Podemos hacerlo con autowired y creando el constructor. En este caso uso la segunda opcion
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
@@ -44,15 +41,13 @@ public class UserService    {
     }
 
     public List<String> getRolfromUser(Long userID) {
-        // Obtener el usuario por su ID
+        // Get user by id
         User user = userRepository.findByUserID(userID).orElse(null);
 
         if (user != null) {
-            // Devolver los roles del usuario si se encuentra
             return user.getRoles();
         } else {
-            // Manejar el caso donde no se encuentra el usuario
-            return null; // O lanzar una excepción adecuada según sea necesario
+            return null;
         }
     }
 
