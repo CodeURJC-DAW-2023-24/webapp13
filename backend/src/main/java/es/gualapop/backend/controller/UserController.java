@@ -21,8 +21,13 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -62,6 +67,58 @@ public class UserController {
 		}
         model.addAttribute("error",true);
 		return "signUp";
+    }
+
+	@GetMapping("/profile")
+    public String profile(Model model, HttpServletRequest request) {
+
+        String name = request.getUserPrincipal().getName();
+
+        User user = userRepository.findUserByUsername(name).orElseThrow();
+        model.addAttribute("rating", calcularMediaReviews(user.getUserID()));
+
+        if(request.isUserInRole("USER") && !request.isUserInRole("ADMIN")) {
+        
+            model.addAttribute("user", user);
+            return "profile";
+        }
+        
+        return "adminPanel";
+    }
+
+	@GetMapping("/getMyProducts")
+    public String getMyProducts(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize) {
+        try {
+			Pageable pageable = PageRequest.of(page, pageSize);
+
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String currentUsername = authentication.getName();
+
+			// Set earnings to seller
+			Optional<User> thisUser = userRepository.findByUsername(currentUsername);
+			if (thisUser.isPresent()){
+				User user = thisUser.get();
+				Page<Product> productsPage = productRepository.findByOwner(user.getUserID(), pageable);
+				if ((double)page >= (double) productsPage.getTotalElements() / (double)pageSize){
+					double sub = Math.ceil(productsPage.getTotalElements() / pageSize) + 1;
+					int totalPages = (int) sub;
+					int pages = page - totalPages;
+					while (pages > (totalPages - 1)){
+						pages -= totalPages;
+					}
+					pageable = PageRequest.of(pages, pageSize);
+					productsPage = productRepository.findAll(pageable);
+				}
+		
+				model.addAttribute("products", productsPage.getContent());
+			}
+
+			return "myProductIndex";
+		} catch (Exception e) {
+			// Registra la excepción para diagnóstico
+			e.printStackTrace();
+			return "error"; // Puedes crear una vista de error personalizada si lo deseas
+		}
     }
 
 	@PostMapping("/updateUser/{userID}")
