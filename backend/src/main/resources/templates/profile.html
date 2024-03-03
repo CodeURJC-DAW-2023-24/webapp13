@@ -12,16 +12,7 @@
       background: #f8f8f8;
     }
   </style>
-  <script>
-    function openTab(tabName) {
-    var i;
-    var x = document.getElementsByClassName("tab");
-    for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";  
-    }
-    document.getElementById(tabName).style.display = "block";  
-  }
-  </script>
+  
 </head>
 <body>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
@@ -76,26 +67,10 @@
                         <span>Price: 99€</span>
                       </div>
                     </li>
-
-                    <li class="w3-bar">
-                      <span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
-                      <div class="w3-bar-item" onclick="this.parentElement.style.display='none'">
-                        <span class="w3-large">Second product of the user</span><br>
-                        <span>Price: 145,99€</span>
-                      </div>
-                    </li>
-
-                    <li class="w3-bar">
-                      <span onclick="this.parentElement.style.display='none'" class="w3-bar-item w3-button w3-white w3-xlarge w3-right">×</span>
-                      <div class="w3-bar-item">
-                        <span class="w3-large">Third product of the user</span><br>
-                        <span>Price: 58,50€</span>
-                      </div>
-                    </li>
                   </ul>
                 </div>
 
-                <div id="Beneficts" class="w3-container tab" style="display:none">
+                <!-- <div id="Beneficts" class="w3-container tab" style="display:none">
                   <h2>Beneficts</h2>
                   <p>Here is your balance graphic of your purchases/sales</p>
                   <div class="col-12 col-sm-auto mb-3">
@@ -106,7 +81,17 @@
                       </div>
                     </div>
                   </div>
+                </div> -->
+
+                <div id="Beneficts" class="w3-container tab" style="display:none">
+                  <h2>Beneficts</h2>
+                  <p>Here is your balance graphic of your purchases/sales</p>
+                  <div class="mx-auto" style="width: 400px; height: 400px;">
+                    <canvas id="balanceChart"></canvas>
+                  </div>
+                  
                 </div>
+                
 
                 <div id="Settings" class="w3-container tab" style="display:none">
                   <h2>Settings</h2>
@@ -191,6 +176,40 @@
 </div>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../static/js/scriptProfile.js"></script>
+<script>
+    function openTab(tabName) {
+    var i;
+    var x = document.getElementsByClassName("tab");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";  
+    }
+    document.getElementById(tabName).style.display = "block";  
+  }
+  var incomeData = 5000;
+  var expenseData = 4000;
+  var balanceData = incomeData - expenseData;
+  
+  var ctx = document.getElementById('balanceChart').getContext('2d');
+  var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Income', 'Expense'],
+        datasets: [{
+            data: [incomeData, expenseData],
+            backgroundColor: ['#36A2EB', '#FF6384'] // balanceData >= 0 ? '#4CAF50' : '#FF0000'
+        }]
+    },
+    options: {
+        legend: {
+            display: true,
+            position: 'left',
+            top: '40%'
+        }
+    }
+});
+  </script>
 <script type="text/javascript"></script>
 </body>
 </html>
