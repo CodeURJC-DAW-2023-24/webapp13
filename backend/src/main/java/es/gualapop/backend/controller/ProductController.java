@@ -94,7 +94,7 @@ public class ProductController {
         if (request.getUserPrincipal() != null) {
             String name = request.getUserPrincipal().getName();
             userRepository.findUserByUsername(name).orElseThrow();
-            model.addAttribute("admin", request.isUserInRole("ADMIN"));
+            //model.addAttribute("admin", request.isUserInRole("ADMIN"));
         } else {
             // If user is not logged
             model.addAttribute("admin", false);

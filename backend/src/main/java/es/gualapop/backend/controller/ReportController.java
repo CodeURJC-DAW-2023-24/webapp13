@@ -3,6 +3,7 @@ package es.gualapop.backend.controller;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.Report;
 import es.gualapop.backend.model.User;
+import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ReportRepository;
 import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.UserService;
@@ -31,6 +32,9 @@ public class ReportController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private ReportRepository reportRepository;
@@ -64,13 +68,12 @@ public class ReportController {
                                 @RequestParam("Category") String category
                                 ) throws IOException {
         //Create new product and set attributes
-
         Report report = new Report();
         String username = request.getUserPrincipal().getName();
         User user = userRepository.findByUsername(username).orElseThrow();
         User userReported = userRepository.findUserByUsername(userReportedName).orElseThrow();
         LocalDate fechaActual = LocalDate.now();
-        // Formatear la fecha en el formato deseado
+        // Format the date to the desired one
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String fechaFormateada = fechaActual.format(formatter);
         report.setCreationDate(fechaFormateada);
@@ -90,8 +93,6 @@ public class ReportController {
             default:
                 break;
         }
-
-        //save con el repository
         reportRepository.save(report);
 
         return "redirect:/profile";
@@ -100,9 +101,7 @@ public class ReportController {
     @GetMapping("/getReports")
     public String getReports(Model model) {
 
-
         List<Report> reports = reportRepository.findAll();
-
         model.addAttribute("reports", reports);
 
         return "adminPanel";
@@ -115,11 +114,10 @@ public class ReportController {
         Optional<Report> optionalReport = reportRepository.findById(idReport);
 
         if (optionalReport.isPresent()) {
-            Report report = optionalReport.get(); // Obtiene el objeto Report del Optional
-            model.addAttribute("report", report); // Agrega el objeto Report al modelo
+            Report report = optionalReport.get();
+            model.addAttribute("report", report);
         } else {
-            // Maneja el caso en el que el informe no se encuentra
-            // Puedes redirigir a una página de error o realizar otra acción apropiada
+            return "error";
         }
         return "reportPanel";
     }
@@ -129,11 +127,24 @@ public class ReportController {
     public String deleteUser(Model model,@PathVariable("id") Long idReport) {
 
 
-        Optional<Report> report = reportRepository.findById(idReport);
-        Optional<User> user = userRepository.findByUserID(report.get().getUserReported());
-        userRepository.deleteById(user.get().getUserID());
-        reportRepository.deleteById(report.get().getId());
+        Report report = reportRepository.findById(idReport).orElseThrow();
+        User user = userRepository.findByUserID(report.getUserReported()).orElseThrow();
+        
+        List<Product> userProducts = productRepository.findByOwner(user.getUserID());
+        for (Product eachProduct : userProducts) {
+            productRepository.deleteById(eachProduct.getId());
+        }
 
+        List<Report> userReported = reportRepository.findByUserReported(user.getUserID());
+        for (Report eachReport : userReported) {
+            reportRepository.deleteById(eachReport.getId());
+        }
+        List<Report> userReports = reportRepository.findByOwner(user.getUserID());
+        for (Report eachReport : userReports) {
+            reportRepository.deleteById(eachReport.getId());
+        }
+
+        userRepository.deleteById(user.getUserID());
 
         return "redirect:/getReports";
     }

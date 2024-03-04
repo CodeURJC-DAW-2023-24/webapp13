@@ -1,11 +1,13 @@
 package es.gualapop.backend.controller;
 
 import es.gualapop.backend.model.Product;
+import es.gualapop.backend.model.Report;
 import es.gualapop.backend.model.User;
 
 import es.gualapop.backend.model.Review;
 import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ProductTypeRepository;
+import es.gualapop.backend.repository.ReportRepository;
 import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.UserService;
@@ -47,6 +49,8 @@ public class UserController {
 	private ReviewRepository reviewRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private ReportRepository reportRepository;
 
     @PostMapping("/registerUser")
 	public String registerUser(Model model, String name, String username, String password, String repeatPassword, String email,
@@ -163,6 +167,28 @@ public class UserController {
 		}
     }
 
+	 @GetMapping("/deleteAccount/{id}")
+    public String deleteUser(Model model,@PathVariable("id") Long userID) {
+        
+        List<Product> userProducts = productRepository.findByOwner(userID);
+        for (Product eachProduct : userProducts) {
+            productRepository.deleteById(eachProduct.getId());
+        }
+
+        List<Report> userReported = reportRepository.findByUserReported(userID);
+        for (Report eachReport : userReported) {
+            reportRepository.deleteById(eachReport.getId());
+        }
+        List<Report> userReports = reportRepository.findByOwner(userID);
+        for (Report eachReport : userReports) {
+            reportRepository.deleteById(eachReport.getId());
+        }
+
+        userRepository.deleteById(userID);
+
+        return "redirect:/logout";
+    }
+
 	@GetMapping("/user/{userID}/image")
 	public ResponseEntity<Object> downloadUserImage(@PathVariable long userID) throws SQLException {
 
@@ -180,7 +206,7 @@ public class UserController {
 	}
 
 	@GetMapping("/user/{userID}")
-    public String userProfile(Model model, @PathVariable("userID") long userID) {
+    public String userProfile(Model model, @PathVariable("userID") long userID, HttpServletRequest request) {
         Optional<User> optionalUser = userRepository.findById(userID);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -188,6 +214,7 @@ public class UserController {
             model.addAttribute("categories", productTypeRepository.findAll());
             model.addAttribute("rating", calculateReviewsMean(userID)); // Modify if there's a rating system implemented
             model.addAttribute("products", productRepository.findByOwner(user.getUserID()));
+			model.addAttribute("logged", request.isUserInRole("USER"));
             return "profileConsult";
         } else {
             model.addAttribute("error", true);

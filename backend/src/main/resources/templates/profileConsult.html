@@ -42,11 +42,13 @@
                             <p class="mb-0 d-block">Valoración: {{rating}}</p>
                         </div>
                         {{/user}}
+                        {{#logged}}
                         <div class="mt-2 mb-2 m-lg-5">
                             <a class="btn btn-primary " href="/report/{{userID}}">
                                 <span>Reportar</span>
                             </a>
                         </div>
+                        {{/logged}}
                     </div>
                 </div>
             </div>

@@ -17,7 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductsByProductType(Long type);
     Page<Product> findProductsByProductType(Long type, Pageable pageable);
 
-
     List<Product> findByPriceBetween(double price, double price2);
 
     Page<Product> findByTitleContainingIgnoreCaseOrTitleEqualsIgnoreCase(String query, String query1, Pageable pageable);
