@@ -46,6 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/profile").hasAnyRole("USER", "ADMIN");
         http.authorizeRequests().antMatchers("/reportPanel").hasAnyRole("ADMIN");
         http.authorizeRequests().antMatchers("/checkout/**").hasAnyRole("USER");
+        http.authorizeRequests().antMatchers("/deleteUser/**").hasAnyRole("ADMIN");
+        http.authorizeRequests().antMatchers("/deleteAccount/**").hasAnyRole("ADMIN");
 
         // Login form
         http.formLogin().loginPage("/login");
