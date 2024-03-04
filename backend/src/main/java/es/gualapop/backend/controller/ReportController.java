@@ -2,9 +2,11 @@ package es.gualapop.backend.controller;
 
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.Report;
+import es.gualapop.backend.model.Review;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ReportRepository;
+import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.UserService;
 import org.hibernate.engine.jdbc.BlobProxy;
@@ -32,12 +34,13 @@ public class ReportController {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ProductRepository productRepository;
-
+    @Autowired
+    private ReviewRepository reviewRepository;
     @Autowired
     private ReportRepository reportRepository;
+
     @GetMapping("/report/{userID}")
     public String newReports(Model model, HttpServletRequest request, @PathVariable("userID") Long userID){
 
@@ -130,11 +133,11 @@ public class ReportController {
         Report report = reportRepository.findById(idReport).orElseThrow();
         User user = userRepository.findByUserID(report.getUserReported()).orElseThrow();
         
+        // should be cascade deletion, change in the future phase
         List<Product> userProducts = productRepository.findByOwner(user.getUserID());
         for (Product eachProduct : userProducts) {
             productRepository.deleteById(eachProduct.getId());
         }
-
         List<Report> userReported = reportRepository.findByUserReported(user.getUserID());
         for (Report eachReport : userReported) {
             reportRepository.deleteById(eachReport.getId());
@@ -142,6 +145,10 @@ public class ReportController {
         List<Report> userReports = reportRepository.findByOwner(user.getUserID());
         for (Report eachReport : userReports) {
             reportRepository.deleteById(eachReport.getId());
+        }
+        List<Review> userReview = reviewRepository.findBySellerID(user.getUserID());
+        for (Review eachReview : userReview) {
+            reviewRepository.deleteById(eachReview.getReviewID());
         }
 
         userRepository.deleteById(user.getUserID());

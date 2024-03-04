@@ -174,7 +174,6 @@ public class UserController {
         for (Product eachProduct : userProducts) {
             productRepository.deleteById(eachProduct.getId());
         }
-
         List<Report> userReported = reportRepository.findByUserReported(userID);
         for (Report eachReport : userReported) {
             reportRepository.deleteById(eachReport.getId());
@@ -182,6 +181,10 @@ public class UserController {
         List<Report> userReports = reportRepository.findByOwner(userID);
         for (Report eachReport : userReports) {
             reportRepository.deleteById(eachReport.getId());
+        }
+		List<Review> userReview = reviewRepository.findBySellerID(userID);
+        for (Review eachReview : userReview) {
+            reviewRepository.deleteById(eachReview.getReviewID());
         }
 
         userRepository.deleteById(userID);
