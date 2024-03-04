@@ -139,7 +139,7 @@ Introducir aquí imágen diagrama de clases
 
 ### Cassiel Seth Mayorca Heirisman	| cs.mayorca.2018@alumnos.urjc.es
 
-> Descripción de la participación
+>  Este miembro se encargo de la creacion inicial del proyecto SpringBoot asi como enlazar el proyecto a la base de datos, ademas ha aportdo en la creacion de controller y models participando ademas en la gestion de formulacion y la gestion de objetos con la base de datos
 
 | Número	| Descripción	| Commit | Archivos |
    | :---: | :---: | :---: | :---: |
