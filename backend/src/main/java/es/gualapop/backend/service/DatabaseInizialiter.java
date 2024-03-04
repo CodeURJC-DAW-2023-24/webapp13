@@ -1,7 +1,8 @@
 package es.gualapop.backend.service;
 
 
-import es.gualapop.backend.model.Review;
+import es.gualapop.backend.model.*;
+import es.gualapop.backend.repository.*;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -12,15 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.sql.Blob;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import es.gualapop.backend.model.Product;
-import es.gualapop.backend.model.ProductType;
-import es.gualapop.backend.model.User;
-import es.gualapop.backend.repository.ProductRepository;
-import es.gualapop.backend.repository.ProductTypeRepository;
-import es.gualapop.backend.repository.ReviewRepository;
-import es.gualapop.backend.repository.UserRepository;
 
 @Service
 public class DatabaseInizialiter {
@@ -35,6 +30,8 @@ public class DatabaseInizialiter {
     private ProductTypeRepository productTypeRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ReportRepository reportRepository;
     
     @PostConstruct
     public void init() throws IOException {
@@ -55,6 +52,9 @@ public class DatabaseInizialiter {
         User user1 = new User("NoAdmin", imgU1, "noadmin@gmail.com", passwordEncoder.encode("1234"), "Non Admin User", reviewList1,"USER");
         User user2 = new User("AdminUser", imgU2, "admin@gmail.com",  passwordEncoder.encode("abc"), "Admin User", reviewList2, "USER","ADMIN");
         User user3 = new User("User", imgU3, "user@gmail.com",  passwordEncoder.encode("user"), "User", reviewList2, "USER");
+
+
+
 
         if(userRepository.findAll().isEmpty()) {
             userRepository.save(user1);
@@ -153,6 +153,31 @@ public class DatabaseInizialiter {
             productRepository.save(product9);
             productRepository.save(product10);
             productRepository.save(product11);
+        }
+
+        LocalDate fechaActual = LocalDate.now();
+        // Formatear la fecha en el formato deseado
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaFormateada = fechaActual.format(formatter);
+
+        Report report1 = new Report(user1.getUserID(), "Usuario Fraudulento","ASDAKJSDKJ",user3.getUserID(),fechaFormateada);
+        Report report2 = new Report(user1.getUserID(), "Usuario Fraudulento","ASDAKJSDKJ",user3.getUserID(),fechaFormateada);
+        Report report3 = new Report(user1.getUserID(), "Usuario Fraudulento","ASDAKJSDKJ",user3.getUserID(),fechaFormateada);
+        Report report4 = new Report(user1.getUserID(), "Usuario Fraudulento","ASDAKJSDKJ",user3.getUserID(),fechaFormateada);
+        Report report5 = new Report(user1.getUserID(), "Usuario Fraudulento","ASDAKJSDKJ",user3.getUserID(),fechaFormateada);
+        Report report6 = new Report(user1.getUserID(), "Usuario Fraudulento","ASDAKJSDKJ",user3.getUserID(),fechaFormateada);
+        Report report7 = new Report(user1.getUserID(), "Usuario Fraudulento","ASDAKJSDKJ",user3.getUserID(),fechaFormateada);
+
+
+        if (reportRepository.findAll().isEmpty()){
+            reportRepository.save(report1);
+            reportRepository.save(report2);
+            reportRepository.save(report3);
+            reportRepository.save(report4);
+            reportRepository.save(report5);
+            reportRepository.save(report6);
+            reportRepository.save(report7);
+
         }
 
     }

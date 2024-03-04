@@ -27,10 +27,6 @@ function loadProducts() {
 }
 
 
-
-
-
-
 function loadProductsByCategory(categoryId) {
     currentPage = 0; // Reset page if category changes
     $.ajax({
@@ -150,4 +146,5 @@ $('.category-link').on('click', function (event) {
 
 $(document).ready(function () {
     loadProducts();
+
 });

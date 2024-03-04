@@ -33,36 +33,36 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col">
-        <h1 class="title"> Reportes pendientes:</h1>
+        <h1 class="title"> Reporte pendientes:</h1>
         <div class="card w-100 IndividualCard ">
+          {{#report}}
           <div class="card-body">
-            <h5 class="card-title">Usuario fraudulento</h5>
+            <h5 class="card-title">{{title}}</h5>
            <div class="container">
              <div class="report-details">
-               <h6>Datos del Usuario que Reporta</h6>
-               <p>Nombre de usuario: Juan Pérez</p>
-               <p>Correo Electrónico: juan@example.com</p>
-               <p>Fecha de Reporte: 2024-02-10</p>
-             </div>
-             <div class="report-evidence">
-               <h6>Evidencia del Reporte</h6>
-               <img src="https://via.placeholder.com/150" alt="Evidencia de la actividad sospechosa">
+               <h6>Datos del Usuario que reporta</h6>
+               <p>ID de usuario: {{owner}}</p>
+               <p>Fecha de Reporte: {{creationDate}}</p>
+               <h6>Datos del Usuario reportado</h6>
+               <p>ID de usuario: {{userReported}}</p>
              </div>
              <div class="report-description">
                <h6>Descripción del Reporte</h6>
-               <p>Este usuario ha realizado actividades sospechosas en la plataforma.</p>
+               <p>{{description}}</p>
              </div>
            </div>
           </div>
+
         </div>
       </div>
     </div>
     <div class="delete">
-      <button type="button" class="btn btn-primary btn-lg red" >Eliminar</button>
+      <a type="button" class="btn btn-primary btn-lg red" href="/deleteUser/{{id}}" >Eliminar</a>
     </div>
     <div class="ndelete">
-      <button type="button" class="btn btn-primary btn-lg btn-block">Conservar</button>
+      <a class="btn btn-primary btn-lg btn-block" href="/conserveUser/{{id}}">Conservar</a>
     </div>
+    {{/report}}
   </div>
 </section>
 <!-- Footer-->

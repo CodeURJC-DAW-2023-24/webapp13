@@ -32,34 +32,21 @@
 <section>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col">
+      <div class="col" id="productsContainerRep">
         <h1 class="title"> Reportes pendientes:</h1>
+        {{#reports}}
         <div class="card w-75 report">
           <div class="card-body">
-            <h5 class="card-title">Reseña ofensiva</h5>
-            <p class="card-text">En esta reseña se fomenta el discurso de odio</p>
-            <a href="#" class="btn btn-primary">Gestionar</a>
+            <h5 class="card-title">{{title}}</h5>
+            <a href="/gestionReport/{{id}}" class="btn btn-primary">Gestionar</a>
           </div>
         </div>
-        <div class="card w-75 report">
-          <div class="card-body">
-            <h5 class="card-title">Usuario fraudulento</h5>
-            <p class="card-text">Este usuario tiene comportamientos sospechosos</p>
-            <a href="#" class="btn btn-primary">Gestionar</a>
-          </div>
-        </div>
-        <div class="card w-75 report">
-          <div class="card-body">
-            <h5 class="card-title">Usuario fraudulento</h5>
-            <p class="card-text">Este usuario tiene comportamientos sospechosos</p>
-            <a href="#" class="btn btn-primary">Gestionar</a>
-          </div>
-        </div>
+        {{/reports}}
       </div>
     </div>
   </div>
   <div class="more">
-    <button type="button" class="btn btn-primary btn-lg btn-block">Cargar más</button>
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="loadMoreBtnRep">Cargar más</button>
   </div>
 </section>
 <!-- Footer-->

@@ -81,7 +81,7 @@ public class UserController {
             return "profile";
         }
         
-        return "adminPanel";
+        return "redirect:/getReports";
     }
 
 	@GetMapping("/getMyProducts")

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
 public class Report {
@@ -15,16 +16,18 @@ public class Report {
     private String title;
     private String description;
     private Long userReported;
+    private String creationDate;
 
 
     public Report() {
     }
 
-    public Report(Long owner, String title, String description, Long userReported) {
+    public Report(Long owner, String title, String description, Long userReported,String creationDate) {
         this.owner = owner;
         this.title = title;
         this.description = description;
         this.userReported = userReported;
+        this.creationDate = creationDate;
     }
 
     public Long getOwner() {
@@ -57,5 +60,21 @@ public class Report {
 
     public void setUserReported(Long userReported) {
         this.userReported = userReported;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

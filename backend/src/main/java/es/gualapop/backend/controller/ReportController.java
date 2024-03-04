@@ -8,6 +8,9 @@ import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.UserService;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ReportController {
@@ -30,7 +35,7 @@ public class ReportController {
     @Autowired
     private ReportRepository reportRepository;
     @GetMapping("/report/{userID}")
-    public String newProducts(Model model, HttpServletRequest request, @PathVariable("userID") Long userID){
+    public String newReports(Model model, HttpServletRequest request, @PathVariable("userID") Long userID){
 
         //Obtener el nombre del usuario de la sesion
         String username = request.getUserPrincipal().getName();
@@ -59,11 +64,16 @@ public class ReportController {
                                 @RequestParam("Category") String category
                                 ) throws IOException {
         //Create new product and set attributes
-        System.out.println("Valor de userReportedName: " + userReportedName);
+
         Report report = new Report();
         String username = request.getUserPrincipal().getName();
         User user = userRepository.findByUsername(username).orElseThrow();
         User userReported = userRepository.findUserByUsername(userReportedName).orElseThrow();
+        LocalDate fechaActual = LocalDate.now();
+        // Formatear la fecha en el formato deseado
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaFormateada = fechaActual.format(formatter);
+        report.setCreationDate(fechaFormateada);
         report.setUserReported(userReported.getUserID());
         report.setOwner(user.getUserID());
         report.setDescription(description);
@@ -86,4 +96,59 @@ public class ReportController {
 
         return "redirect:/profile";
     }
+
+    @GetMapping("/getReports")
+    public String getReports(Model model) {
+
+
+        List<Report> reports = reportRepository.findAll();
+
+        model.addAttribute("reports", reports);
+
+        return "adminPanel";
+    }
+
+
+    @GetMapping("/gestionReport/{report}")
+    public String gestionReport(Model model, @PathVariable("report") Long idReport) {
+
+        Optional<Report> optionalReport = reportRepository.findById(idReport);
+
+        if (optionalReport.isPresent()) {
+            Report report = optionalReport.get(); // Obtiene el objeto Report del Optional
+            model.addAttribute("report", report); // Agrega el objeto Report al modelo
+        } else {
+            // Maneja el caso en el que el informe no se encuentra
+            // Puedes redirigir a una página de error o realizar otra acción apropiada
+        }
+        return "reportPanel";
+    }
+
+
+    @GetMapping("/deleteUser/{id}")
+    public String deleteUser(Model model,@PathVariable("id") Long idReport) {
+
+
+        Optional<Report> report = reportRepository.findById(idReport);
+        Optional<User> user = userRepository.findByUserID(report.get().getUserReported());
+        userRepository.deleteById(user.get().getUserID());
+        reportRepository.deleteById(report.get().getId());
+
+
+        return "redirect:/getReports";
+    }
+
+    @GetMapping("/conserveUser/{id}")
+    public String preserveUser(Model model,@PathVariable("id") Long idReport) {
+
+        Optional<Report> report = reportRepository.findById(idReport);
+        reportRepository.deleteById(report.get().getId());
+
+
+        return "redirect:/getReports";
+    }
+
+
+
+
 }

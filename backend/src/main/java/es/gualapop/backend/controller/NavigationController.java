@@ -36,11 +36,6 @@ public class NavigationController {
         return "index";
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "adminPanel";
-    }
-
     @GetMapping("/reportPanel")
     public String reportPanel() {
         return "reportPanel";
