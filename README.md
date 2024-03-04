@@ -85,17 +85,18 @@ Requisitos para la ejecución del programa:
 ![Diag_navegacion](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/64afdc0d-f56d-4011-bbb6-0110f75c8cf3)
 
 ## Diagrama con las entidades de la base de datos:
-![Diag_clases](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/4a1f873f-4eae-4ccf-bf25-8b25240b9b4c)
+![Diag_ER](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/98be0455-7d07-4d8e-9e6f-201f7c69711a)
+
 
 ## Diagrama de clases y templates
 Leyenda del diagrama:
 - Morado: Vistas
 - Verde: Controladores
 - Azul: Repositorios
-- Negro: Modelos
+- Gris: Modelos
 - Rojo: Servicios
 - Azul claro: Seguridad
-Introducir aquí imágen diagrama de clases
+![Diag_clases](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/4a1f873f-4eae-4ccf-bf25-8b25240b9b4c)
 
 ## Participación de miembros (Fase 2)
 
