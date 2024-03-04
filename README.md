@@ -5,7 +5,6 @@
 | Fernando Prieto Olías | f.prieto.2019@alumnos.urjc.es | Fervo8564 |
 | Cassiel Seth Mayorca Heirisman | cs.mayorca.2018@alumnos.urjc.es | cassiel_smh |
 | Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es | romofe01 |
-| Pablo Villamayor Iglesias | p.villamayor@alumnos.urjc.es | PabloVILL |
 
 ## Trello
 https://trello.com/b/oU51T77H/fase-2
@@ -144,10 +143,10 @@ Introducir aquí imágen diagrama de clases
 
 | Número	| Descripción	| Commit | Archivos |
    | :---: | :---: | :---: | :---: |
-   | 1º | Nombre commit	| Link al commit | Link al Archivo |
-   | 2º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 3º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 4º	| Nombre commit	| Link al commit | Link al Archivo |
-   | 5º	| Nombre commit	| Link al commit | Link al Archivo |
+   | 1º | Gestion de reportes	| [magement](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/bc72e38f2e79c8e162dac9f9143365f558ce490e) | [ReportController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/bc72e38f2e79c8e162dac9f9143365f558ce490e#diff-655a30a315195d210002dd5b387cd9af0eca3eeff9e2ab50285cfda16a335ab4) |
+   | 2º	| Añadir nuevos reportes	| [add new report](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/4117720fef26018a39791e99da95f28101663a1a) | [Report](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/4117720fef26018a39791e99da95f28101663a1a#diff-37b4d5720e174c4c0ff69411cff16bd368439171d610cfccf8808f026ef7f703) |
+   | 3º	| Añadir nuevo producto	| [add new product](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/935cee2e4c488d2dd199a1ed1b00ebc7c58bcf99) | [ProductController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/935cee2e4c488d2dd199a1ed1b00ebc7c58bcf99#diff-b0a1d03d1823606ca115167779bfac33b1f8fad632cbfc8c04260837b6f6f370) |
+   | 4º	| Inicializacion base de datos	| [Start Database](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/95075ad128433c542b290256624c588fbfe0ab14) | [DatabaseInizialiter](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/95075ad128433c542b290256624c588fbfe0ab14#diff-0f7118cb988f48134ea964e8f95943f43ea363ebe613e9efced6f9e4a051d76e) |
+   | 5º	| Inserccion imagenes a html	| [add images](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/536b6eab0b7f0be137a184289eea6ba9604bf63a)https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/536b6eab0b7f0be137a184289eea6ba9604bf63a | [ProductController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/536b6eab0b7f0be137a184289eea6ba9604bf63a#diff-b0a1d03d1823606ca115167779bfac33b1f8fad632cbfc8c04260837b6f6f370)https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/536b6eab0b7f0be137a184289eea6ba9604bf63a#diff-b0a1d03d1823606ca115167779bfac33b1f8fad632cbfc8c04260837b6f6f370 |
 
 
