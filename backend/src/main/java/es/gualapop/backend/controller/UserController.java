@@ -59,7 +59,7 @@ public class UserController {
 		User user = new User(username, null, email, password, name, null,"USER");
 		if(userService.checkPassword(password, repeatPassword)){
 			model.addAttribute("error",false);
-			if (!userService.registerUsers(user, image)) {
+			if (!userService.registerUser(user, image)) {
 				model.addAttribute("hasBeenRegistered", true);
 				return "signUp";
 			} else {
@@ -72,7 +72,7 @@ public class UserController {
     }
 
 	@GetMapping("/profile")
-    public String profile(Model model, HttpServletRequest request) {
+	    public String profile(Model model, HttpServletRequest request) {
 
         String name = request.getUserPrincipal().getName();
 
@@ -80,11 +80,11 @@ public class UserController {
         model.addAttribute("rating", calculateReviewsMean(user.getUserID()));
 
         if(request.isUserInRole("USER") && !request.isUserInRole("ADMIN")) {
-        
+
             model.addAttribute("user", user);
             return "profile";
         }
-        
+
         return "redirect:/getReports";
     }
 
@@ -111,7 +111,7 @@ public class UserController {
 					pageable = PageRequest.of(pages, pageSize);
 					productsPage = productRepository.findAll(pageable);
 				}
-		
+
 				model.addAttribute("products", productsPage.getContent());
 			}
 
@@ -169,7 +169,7 @@ public class UserController {
 
 	 @GetMapping("/deleteAccount/{id}")
     public String deleteUser(Model model,@PathVariable("id") Long userID) {
-        
+
         List<Product> userProducts = productRepository.findByOwner(userID);
         for (Product eachProduct : userProducts) {
             productRepository.deleteById(eachProduct.getId());

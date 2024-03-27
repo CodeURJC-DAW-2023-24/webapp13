@@ -48,7 +48,7 @@ public class ReportController {
         String username = request.getUserPrincipal().getName();
 
         //Obtener el nombre del usuario al que se va a reportar
-        String userReportedName = userRepository.findByUserID(userID).get().getName();
+        String userReportedName = userRepository.findByUserID(userID).get().getFullName();
 
         // Obtener la fecha actual
         LocalDate fechaActual = LocalDate.now();

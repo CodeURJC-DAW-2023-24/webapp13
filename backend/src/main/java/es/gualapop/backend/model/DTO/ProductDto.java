@@ -1,4 +1,4 @@
-package es.gualapop.backend.model;
+package es.gualapop.backend.model.DTO;
 
 public class ProductDto {
 

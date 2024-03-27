@@ -1,5 +1,7 @@
 package es.gualapop.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 
 import java.sql.Blob;
@@ -7,24 +9,34 @@ import java.util.List;
 
 @Entity
 public class User {
+    public interface Basic{}
+    public interface Detailed extends User.Basic{}
 
+    @JsonView(Basic.class)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userID;
-
+    @JsonView(Basic.class)
     private String encodedPassword;
-
+    @JsonView(Basic.class)
     private String fullName;
+    @JsonView(Basic.class)
     private String username;
+    @JsonView(Basic.class)
     private String userEmail;
+    @JsonView(Basic.class)
     private Double income;
+    @JsonView(Basic.class)
     private Double expense;
+    @JsonView(Basic.class)
     @Lob
     private Blob userImg;
 
+    @JsonView(Basic.class)
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
+    @JsonView(Basic.class)
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Integer> reviewList;
 

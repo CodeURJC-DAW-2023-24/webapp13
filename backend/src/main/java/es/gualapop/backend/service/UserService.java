@@ -67,11 +67,11 @@ public class UserService    {
     public boolean exist(long id) {
         return userRepository.existsById(id);
     }
-    
+
     public Optional<User> getUserId(long id){
 		return userRepository.findByUserID(id);
 	}
-	
+
 	public List<User> getAll(){
         return userRepository.findAll();
 	}
@@ -80,7 +80,7 @@ public class UserService    {
 		return (userRepository.findByUsername(username).orElseThrow(() -> new NoSuchElementException("User not found")));
 	}
 
-	public Boolean registerUsers(User user, MultipartFile image) throws IOException {
+	public Boolean registerUser(User user, MultipartFile image) throws IOException {
 
 		if(userRepository.existsUserByUsername(user.getUsername())) {
 			return false;
@@ -104,5 +104,5 @@ public class UserService    {
     public String encodePassword(String password){
         return encoder.encode(password);
     }
-    
+
 }
