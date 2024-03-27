@@ -1,5 +1,7 @@
 package es.gualapop.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,14 +10,21 @@ import java.util.Date;
 
 @Entity
 public class Report {
-
+    public interface Basic{}
+    public interface Detailed extends Report.Basic{}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(User.Basic.class)
     private Long id;
+    @JsonView(User.Basic.class)
     private Long owner;
+    @JsonView(User.Basic.class)
     private String title;
+    @JsonView(User.Basic.class)
     private String description;
+    @JsonView(User.Basic.class)
     private Long userReported;
+    @JsonView(User.Basic.class)
     private String creationDate;
 
 
