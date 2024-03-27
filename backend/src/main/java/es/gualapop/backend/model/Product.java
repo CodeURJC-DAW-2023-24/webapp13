@@ -2,32 +2,45 @@ package es.gualapop.backend.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonView;
 
 import java.sql.Blob;
 
 @Entity
 public class Product {
 
+    public interface Basic{}
+	public interface Detailed extends Product.Basic{}
+
+    @JsonView(Basic.class)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id = null;
 
+    @JsonView(Basic.class)
     private String title;
 
+    @JsonView(Basic.class)
     private String address;
 
+    @JsonView(Basic.class)
     private double price;
 
+    @JsonView(Basic.class)
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @JsonView(Basic.class)
     @Lob
     private Blob imageFile;
 
+    @JsonView(Basic.class)
     private boolean image;
 
+    @JsonView(Basic.class)
     private Long owner;
 
+    @JsonView(Basic.class)
     private Long productType;
 
     public Product(Long owner) {
@@ -83,7 +96,7 @@ public class Product {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

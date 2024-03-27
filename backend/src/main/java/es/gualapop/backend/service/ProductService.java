@@ -80,4 +80,9 @@ public class ProductService {
     public Page<Product> getProductsPage(Pageable page) {
 		return productRepository.findAll(page);
 	}
+
+    public List<Product> getNewProducts(){
+		Page<Product> products = productRepository.findAll(PageRequest.of(0, 8, Sort.by("id").descending()));
+		return products.getContent();
+	}
 }
