@@ -1,5 +1,6 @@
 package es.gualapop.backend.controller.api;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.Report;
 import es.gualapop.backend.model.Review;
 import es.gualapop.backend.model.User;
@@ -33,6 +35,17 @@ public class ReviewRestController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @JsonView(Review.Detailed.class)
+    @GetMapping("/")
+    public ResponseEntity<List<Review>> getAllProducts(){
+        List<Review> reviews = reviewRepository.findAll();
+        if (reviews.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(reviews);
+        }
+    }
 
     @JsonView(Review.Detailed.class)
     @GetMapping("/{id}")
@@ -52,7 +65,6 @@ public class ReviewRestController {
     public ResponseEntity<String> postReview(HttpServletRequest request,
                                                @RequestParam("rating") float rating,
                                                @RequestParam("sellerID") Long sellerID) {
-        //Create new report and set attributes
         Review review = new Review();
         Optional<User> user = userRepository.findById(sellerID);
         if(!user.isPresent()){
