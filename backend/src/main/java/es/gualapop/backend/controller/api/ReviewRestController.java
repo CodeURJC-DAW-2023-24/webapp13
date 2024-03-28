@@ -63,6 +63,18 @@ public class ReviewRestController {
     }
 
     @JsonView(Review.Detailed.class)
+    @GetMapping("/seller/{id}")
+    public ResponseEntity<List<Review>> getReviewsBySellerID(@PathVariable("id") long sellerID) {
+        List<Review> reviews = reviewRepository.findBySellerID(sellerID);
+
+        if (reviews.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(reviews);
+        }
+    }
+
+    @JsonView(Review.Detailed.class)
     @PostMapping("/new")
     public ResponseEntity<String> postReview(HttpServletRequest request,
                                                @RequestParam("rating") float rating,
