@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import es.gualapop.backend.model.Review;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
+import es.gualapop.backend.service.ReviewService;
 
 @RestController
 @CrossOrigin
@@ -80,5 +82,17 @@ public class ReviewRestController {
         reviewRepository.save(review);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Review added successfully");
+    }
+
+    @JsonView(Review.Detailed.class)
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteProduct(@PathVariable("id") long idReview){
+        Optional<Review> review = reviewRepository.findById(idReview);
+        if (review.isPresent()){
+            reviewRepository.deleteById(review.get().getReviewID());
+            return ResponseEntity.ok("Review deleted successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
