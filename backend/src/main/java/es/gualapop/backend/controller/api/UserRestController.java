@@ -30,7 +30,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/user")
+@RequestMapping("api/users")
 public class UserRestController {
 
     @Autowired
