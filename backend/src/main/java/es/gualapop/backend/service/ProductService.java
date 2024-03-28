@@ -85,4 +85,8 @@ public class ProductService {
 		Page<Product> products = productRepository.findAll(PageRequest.of(0, 8, Sort.by("id").descending()));
 		return products.getContent();
 	}
+
+    public void save(Product product){
+        productRepository.save(product);
+    }
 }
