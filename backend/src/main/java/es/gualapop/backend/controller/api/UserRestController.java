@@ -10,6 +10,9 @@ import es.gualapop.backend.repository.ReportRepository;
 import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -47,6 +50,11 @@ public class UserRestController {
     @Autowired
     private UserRepository userRepository;
 
+    @Operation(summary = "Get User by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the User"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @JsonView(User.Detailed.class)
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserByID(@PathVariable("id") long idUser) {
@@ -60,6 +68,11 @@ public class UserRestController {
         }
     }
 
+    @Operation(summary = "Download User Image by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the User Image"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @JsonView(User.Detailed.class)
     @GetMapping("/{userID}/image")
     public ResponseEntity<Object> downloadUserImage(@PathVariable long userID) throws SQLException {
@@ -77,6 +90,12 @@ public class UserRestController {
         }
     }
 
+    @Operation(summary = "Update User by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PatchMapping("/{userID}")
     public ResponseEntity<?> updateUser(@PathVariable Long userID,
                                         @RequestParam(required = false) String fullName,
@@ -126,6 +145,12 @@ public class UserRestController {
             return ResponseEntity.badRequest().body("User not found");
         }
     }
+
+    @Operation(summary = "Delete User by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @JsonView(User.Detailed.class)
     @DeleteMapping("/{userID}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userID) {
@@ -159,7 +184,11 @@ public class UserRestController {
 
         return ResponseEntity.ok().body("User deleted successfully");
     }
-
+    @Operation(summary = "Get User Profile by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the User Profile"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @JsonView(User.Detailed.class)
     @GetMapping("/profile/{id}")
     public ResponseEntity<Object> userProfile(@PathVariable("id") long id) {
@@ -171,6 +200,11 @@ public class UserRestController {
         }
     }
 
+    @Operation(summary = "Register User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User created successfully"),
+            @ApiResponse(responseCode = "404", description = "User registration failed")
+    })
     @JsonView(User.Detailed.class)
     @PostMapping("/registerUser")
     public ResponseEntity<Object> registerUser(String name, String username, String password, String repeatPassword, String email,
@@ -190,7 +224,11 @@ public class UserRestController {
         }
     }
 
-
+    @Operation(summary = "Get All Products by User ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the Products"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @JsonView(User.Detailed.class)
     @GetMapping("/{id}/allProducts")
     public ResponseEntity<Object> getProducts(@PathVariable("id") long id) {
