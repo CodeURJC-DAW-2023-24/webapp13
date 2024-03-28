@@ -1,7 +1,6 @@
 package es.gualapop.backend.controller.api;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.Report;
 import es.gualapop.backend.model.Review;
@@ -16,13 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -47,9 +46,6 @@ public class UserRestController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper; // ObjectMapper para la conversión JSON
 
     @JsonView(User.Detailed.class)
     @GetMapping("/{id}")
@@ -88,7 +84,7 @@ public class UserRestController {
                                         @RequestParam(required = false) String currentPassword,
                                         @RequestParam(required = false) String newPassword,
                                         @RequestParam(required = false) String confirmPassword,
-                                        @RequestParam(required = false) MultipartFile imageFile) throws IOException, SQLException {
+                                        @RequestParam(required = false) MultipartFile imageFile) throws IOException{
 
         Optional<User> optionalUser = userRepository.findById(userID);
 
@@ -115,7 +111,7 @@ public class UserRestController {
             }
 
             // Verificar y actualizar nombre de usuario
-            if (username != null && !username.isEmpty() && !userRepository.findByUsername(username).isPresent()) {
+            if (username != null && !username.isEmpty() && userRepository.findByUsername(username).isEmpty()) {
                 user.setUsername(username);
                 userRepository.save(user);
                 return ResponseEntity.ok().body("User updated successfully");
@@ -163,5 +159,48 @@ public class UserRestController {
 
         return ResponseEntity.ok().body("User deleted successfully");
     }
+
+    @JsonView(User.Detailed.class)
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<Object> userProfile(@PathVariable("id") long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()) {
+            return ResponseEntity.ok().body(optionalUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @JsonView(User.Detailed.class)
+    @PostMapping("/registerUser")
+    public ResponseEntity<Object> registerUser(String name, String username, String password, String repeatPassword, String email,
+                               @RequestParam(required = false) MultipartFile image) throws IOException {
+
+        User user = new User(username, null, email, password, name, null,"USER");
+        if(userService.checkPassword(password, repeatPassword)){
+            if (!userService.registerUser(user, image)) {
+                String body = "User " + username + " created correctly with id: " + user.getUserID();
+                return ResponseEntity.ok().body(body);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No ha sido posible registrar el usuario");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Las contraseñas no son las mismas");
+
+        }
+    }
+
+
+    @JsonView(User.Detailed.class)
+    @GetMapping("/{id}/allProducts")
+    public ResponseEntity<Object> getProducts(@PathVariable("id") long id) {
+        Optional<User> user = userRepository.findByUserID(id);
+        if(user.isPresent()) {
+            return ResponseEntity.ok().body(productRepository.findByOwner(id));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }
