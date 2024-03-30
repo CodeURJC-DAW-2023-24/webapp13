@@ -1,6 +1,8 @@
 package es.gualapop.backend.controller.api;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -19,6 +21,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -181,6 +184,44 @@ public class ProductsRestController {
 						.header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
 						.contentLength(product.get().getImageFile().length())
 						.body(file);
+			}else {
+				return ResponseEntity.noContent().build();
+			}
+		}else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+    @Operation(summary = "Create a Image Product by its id")
+	@ApiResponses(value = { 
+			@ApiResponse(
+					responseCode = "201", 
+					description = "Create the Image Product", 
+					content = {@Content(
+							mediaType = "application/json"
+							)}
+					),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Product not found", 
+					content = @Content
+					),
+			@ApiResponse(
+					responseCode = "204", 
+					description = "Image not found", 
+					content = @Content
+					)
+	})
+	@PostMapping("/{id}/image")
+	public ResponseEntity<Object> uploadImage1( @Parameter(description="id of Product to be searched") @PathVariable int id, @Parameter(description="Image 1 Product") @RequestParam() MultipartFile image) throws SQLException, IOException{
+		Optional<Product> product = productService.findById(id);
+		if(product.isPresent()) {
+			if(image != null) {
+				product.get().setImageFile(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
+				product.get().setImage(true);
+				productService.save(product.get());
+				URI location = fromCurrentRequest().build().toUri();
+				return ResponseEntity.created(location).build();
 			}else {
 				return ResponseEntity.noContent().build();
 			}
