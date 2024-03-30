@@ -86,6 +86,10 @@ public class ProductService {
 		return products.getContent();
 	}
 
+    public List<Product> getProductsByProductType(Long productType){
+		return productRepository.findProductsByProductType(productType);
+	}
+
     public void save(Product product){
         productRepository.save(product);
     }
