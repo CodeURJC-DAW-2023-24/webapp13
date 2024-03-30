@@ -48,6 +48,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/checkout/**").hasAnyRole("USER");
         http.authorizeRequests().antMatchers("/deleteUser/**").hasAnyRole("ADMIN");
         http.authorizeRequests().antMatchers("/deleteAccount/**").hasAnyRole("ADMIN");
+        http.authorizeRequests().antMatchers("product/**/delete").hasAnyRole("ADMIN");
+
 
         // Login form
         http.formLogin().loginPage("/login");

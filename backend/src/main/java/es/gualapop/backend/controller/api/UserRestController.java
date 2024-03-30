@@ -1,7 +1,6 @@
 package es.gualapop.backend.controller.api;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.Report;
 import es.gualapop.backend.model.Review;
@@ -11,18 +10,21 @@ import es.gualapop.backend.repository.ReportRepository;
 import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
 import es.gualapop.backend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -48,9 +50,11 @@ public class UserRestController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper; // ObjectMapper para la conversión JSON
-
+    @Operation(summary = "Get User by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the User"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @JsonView(User.Detailed.class)
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserByID(@PathVariable("id") long idUser) {
@@ -64,6 +68,11 @@ public class UserRestController {
         }
     }
 
+    @Operation(summary = "Download User Image by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the User Image"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @JsonView(User.Detailed.class)
     @GetMapping("/{userID}/image")
     public ResponseEntity<Object> downloadUserImage(@PathVariable long userID) throws SQLException {
@@ -81,6 +90,12 @@ public class UserRestController {
         }
     }
 
+    @Operation(summary = "Update User by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PatchMapping("/{userID}")
     public ResponseEntity<?> updateUser(@PathVariable Long userID,
                                         @RequestParam(required = false) String fullName,
@@ -88,7 +103,7 @@ public class UserRestController {
                                         @RequestParam(required = false) String currentPassword,
                                         @RequestParam(required = false) String newPassword,
                                         @RequestParam(required = false) String confirmPassword,
-                                        @RequestParam(required = false) MultipartFile imageFile) throws IOException, SQLException {
+                                        @RequestParam(required = false) MultipartFile imageFile) throws IOException{
 
         Optional<User> optionalUser = userRepository.findById(userID);
 
@@ -115,7 +130,7 @@ public class UserRestController {
             }
 
             // Verificar y actualizar nombre de usuario
-            if (username != null && !username.isEmpty() && !userRepository.findByUsername(username).isPresent()) {
+            if (username != null && !username.isEmpty() && userRepository.findByUsername(username).isEmpty()) {
                 user.setUsername(username);
                 userRepository.save(user);
                 return ResponseEntity.ok().body("User updated successfully");
@@ -130,6 +145,12 @@ public class UserRestController {
             return ResponseEntity.badRequest().body("User not found");
         }
     }
+
+    @Operation(summary = "Delete User by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @JsonView(User.Detailed.class)
     @DeleteMapping("/{userID}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userID) {
@@ -163,5 +184,61 @@ public class UserRestController {
 
         return ResponseEntity.ok().body("User deleted successfully");
     }
+    @Operation(summary = "Get User Profile by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the User Profile"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @JsonView(User.Detailed.class)
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<Object> userProfile(@PathVariable("id") long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()) {
+            return ResponseEntity.ok().body(optionalUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Operation(summary = "Register User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User created successfully"),
+            @ApiResponse(responseCode = "404", description = "User registration failed")
+    })
+    @JsonView(User.Detailed.class)
+    @PostMapping("/registerUser")
+    public ResponseEntity<Object> registerUser(String name, String username, String password, String repeatPassword, String email,
+                               @RequestParam(required = false) MultipartFile image) throws IOException {
+
+        User user = new User(username, null, email, password, name, null,"USER");
+        if(userService.checkPassword(password, repeatPassword)){
+            if (!userService.registerUser(user, image)) {
+                String body = "User " + username + " created correctly with id: " + user.getUserID();
+                return ResponseEntity.ok().body(body);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No ha sido posible registrar el usuario");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Las contraseñas no son las mismas");
+
+        }
+    }
+
+    @Operation(summary = "Get All Products by User ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the Products"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @JsonView(User.Detailed.class)
+    @GetMapping("/{id}/allProducts")
+    public ResponseEntity<Object> getProducts(@PathVariable("id") long id) {
+        Optional<User> user = userRepository.findByUserID(id);
+        if(user.isPresent()) {
+            return ResponseEntity.ok().body(productRepository.findByOwner(id));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }
