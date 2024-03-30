@@ -3,9 +3,7 @@ package es.gualapop.backend.controller.api;
 import com.fasterxml.jackson.annotation.JsonView;
 import es.gualapop.backend.model.Report;
 import es.gualapop.backend.model.User;
-import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ReportRepository;
-import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,12 +24,6 @@ public class ReportRestController {
     private UserRepository userRepository;
 
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
-
-    @Autowired
     private ReportRepository reportRepository;
 
     @JsonView(Report.Detailed.class)
@@ -49,13 +41,14 @@ public class ReportRestController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String fechaFormateada = fechaActual.format(formatter);
 
-        return ResponseEntity.ok().body(
-                new ReportFormResponse(fechaFormateada, username, userReportedName));
+        String respuesta = "\"date: \"" + fechaFormateada + "\"user: \"" + username + "\"reported user: \"" + userReportedName;
+
+        return ResponseEntity.ok().body(respuesta);
     }
 
     @JsonView(Report.Detailed.class)
     @PostMapping("/new")
-    public ResponseEntity<String> addNewReport(HttpServletRequest request,
+    public ResponseEntity<Report> addNewReport(HttpServletRequest request,
                                                @RequestParam("userReported") String userReportedName,
                                                @RequestParam("description") String description,
                                                @RequestParam("category") String category) {
@@ -89,7 +82,7 @@ public class ReportRestController {
         }
         reportRepository.save(report);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Report added successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(report);
     }
     @JsonView(Report.Detailed.class)
     @GetMapping("/")
@@ -117,17 +110,4 @@ public class ReportRestController {
         return ResponseEntity.ok().body("Report deleted successfully");
     }
 
-    private static class ReportFormResponse {
-        private final String fechaActual;
-        private final String user;
-        private final String userReported;
-
-        public ReportFormResponse(String fechaActual, String user, String userReported) {
-            this.fechaActual = fechaActual;
-            this.user = user;
-            this.userReported = userReported;
-        }
-
-        // Getters
-    }
 }
