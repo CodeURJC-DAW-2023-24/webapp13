@@ -68,7 +68,7 @@ public class DatabaseInizialiter {
 
         Review review1 = new Review(3, id1);
         Review review2 = new Review(4, id1);
-        Review review3 = new Review(1, id2);
+        Review review3 = new Review(1, id3);
 
         ProductType pt1 = new ProductType("Electronica");
 

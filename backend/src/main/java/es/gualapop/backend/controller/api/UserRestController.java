@@ -248,7 +248,7 @@ public class UserRestController {
     @JsonView(Review.Detailed.class)
     @GetMapping("/{userID}/reviews")
     public ResponseEntity<List<Review>> getUserReviews(@PathVariable long userID) {
-        // Aquí deberías implementar la lógica para obtener las revisiones del usuario con el ID dado
+
         List<Review> userReviews = reviewRepository.findBySellerID(userID);
 
         if (!userReviews.isEmpty()) {
