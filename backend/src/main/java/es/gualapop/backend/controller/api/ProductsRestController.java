@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.service.ProductService;
+import es.gualapop.backend.service.SearchService;
 import es.gualapop.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -54,6 +55,8 @@ public class ProductsRestController {
     private ProductService productService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SearchService searchService;
 
     @Operation(summary = "Get New Eight Products")
     @ApiResponses(value = {
@@ -416,13 +419,36 @@ public class ProductsRestController {
         )
     })
     @JsonView(Product.Detailed.class)
-    @GetMapping("{id}/similar")
+    @GetMapping("/{id}/similar")
     public ResponseEntity<List<Product>> getSimilarProducts(@Parameter(description="id of Product to be searched") @PathVariable long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "8") int pageSize){
         List<Product> products = productService.getSimilarProducts(id, page, pageSize);
         if (products.isEmpty()){
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok().body(products);
+        }
+    }
+
+    @Operation(summary = "Get search")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Found the Products",
+            content = {@Content(
+                mediaType = "application/json"
+            )}
+        )
+    })
+    @JsonView(Product.Detailed.class)
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> getSearch(@RequestParam String search){
+        Pageable pageable = PageRequest.of(0, 8);
+        Page<Product> products = searchService.searchProducts(search, pageable);
+        List<Product> p = products.getContent();
+        if (products.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(p);
         }
     }
 }
