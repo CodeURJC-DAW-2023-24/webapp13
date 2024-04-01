@@ -151,3 +151,68 @@ Leyenda del diagrama:
    | 5º	| Inserccion imagenes a html	| [add images](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/536b6eab0b7f0be137a184289eea6ba9604bf63a) | [ProductController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/536b6eab0b7f0be137a184289eea6ba9604bf63a#diff-b0a1d03d1823606ca115167779bfac33b1f8fad632cbfc8c04260837b6f6f370) |
 
 
+
+# Fase 3
+## API y Dockerización
+
+## Diagrama de Clases actualizado
+Leyenda del diagrama:
+- Morado: Vistas
+- Verde: Controladores
+- Azul: Repositorios
+- Gris: Modelos
+- Rojo: Servicios
+- Azul claro: Seguridad
+![Diag_clases](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/16d3181d-a6f5-401f-b097-47d1ffc4b3cd)
+
+## Participación de miembros (Fase 3)
+
+### Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es
+
+> Descripcion
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | descripcion	| [Commit Link](link) | [File Link](link) |
+   | 2º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 3º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 4º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 5º	| descripcion	| [Commit Link](link) | [File Link](link) |
+
+### Fernando Prieto Olías	| f.prieto.2019@alumnos.urjc.es
+
+> Descripcion
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | descripcion	| [Commit Link](link) | [File Link](link) |
+   | 2º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 3º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 4º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 5º	| descripcion	| [Commit Link](link) | [File Link](link) |
+
+
+### Jose Luis Salvador Martín	| jl.salvador.2023@alumnos.urjc.es
+
+> Descripcion
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | descripcion	| [Commit Link](link) | [File Link](link) |
+   | 2º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 3º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 4º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 5º	| descripcion	| [Commit Link](link) | [File Link](link) |
+
+
+### Cassiel Seth Mayorca Heirisman	| cs.mayorca.2018@alumnos.urjc.es
+
+>  Descripcion
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | descripcion	| [Commit Link](link) | [File Link](link) |
+   | 2º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 3º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 4º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 5º	| descripcion	| [Commit Link](link) | [File Link](link) |
