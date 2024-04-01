@@ -153,7 +153,43 @@ Leyenda del diagrama:
 
 
 # Fase 3
+
 ## API y Dockerización
+
+### Documentación API Rest
+
+*Archivo yaml: [https://github.com/CodeURJC-DAW-2021-22/webapp8/blob/main/backend/webandtech/api-docs/api-docs.yaml](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/api-docs/api-docs.yaml)
+
+*Documentación API REST: [https://rawcdn.githack.com/CodeURJC-DAW-2021-22/webapp8/7dde1b87c7c046e7c02de58391e7e06e63f4adf8/backend/webandtech/api-docs/api-docs.html](https://rawcdn.githack.com/CodeURJC-DAW-2023-24/webapp13/01421b7332b7c3156f13500b17656b745d6d7289/backend/api-docs/api-docs.html)
+
+### Instrucciones de ejecución de la aplicación dockerizada:
+
+1. Es necesaria la instalacion de docker y docker compose. 
+
+2. Abrir la terminal navegar hasta la carpeta Docker. 
+
+3.1. Windows: Escribir el comando: "docker-compose up --build". 
+
+3.2. Linux: Escribir el comando: "sudo docker-compose up --build".
+
+4. Una vez finalizado el proceso de construcción de docker abrir el navegador y escribir:"https://localhost:8443/". 
+
+5. Una vez escrita te redirigida a la pantalla de inicio de la aplicacion: "https://localhost:8443/index" una vez se cargue estará lista para ser utilizada.
+
+### Documentación para construcción de la imagen docker:
+LINUX:
+
+1. Clonar repositorio mediante git clone https://github.com/CodeURJC-DAW-2021-22/webapp8.git
+
+2. Descargar Docker 
+
+3. Descargar Docker Compose
+
+4. Navegar hasta la carpeta Docker
+
+5. Ejecutar el comando: "chmod 777 create_image.sh"
+
+6. Ejecutar el comando: "./create_image.sh"
 
 ## Diagrama de Clases actualizado
 Leyenda del diagrama:
