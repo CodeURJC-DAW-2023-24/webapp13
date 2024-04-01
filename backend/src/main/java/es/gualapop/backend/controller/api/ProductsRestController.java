@@ -28,6 +28,9 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,12 +67,15 @@ public class ProductsRestController {
     })
     @JsonView(Product.Detailed.class)
     @GetMapping("/")
-    public ResponseEntity<List<Product>> getAllProducts(){
-        List<Product> products = productService.getNewProducts();
-        if (products.isEmpty()){
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(defaultValue = "1") int page,
+                                                        @RequestParam(defaultValue = "8") int size){
+        Pageable pageable = PageRequest.of(page - 1, size); // Ajuste para que la página comience desde 1
+        Page<Product> productPage = productService.getProductsPage(pageable);
+
+        if (productPage.isEmpty()){
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok().body(products);
+            return ResponseEntity.ok().body(productPage.getContent());
         }
     }
 
