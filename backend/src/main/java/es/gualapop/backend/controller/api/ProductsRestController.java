@@ -2,13 +2,16 @@ package es.gualapop.backend.controller.api;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
 import es.gualapop.backend.model.Product;
+import es.gualapop.backend.model.User;
 import es.gualapop.backend.service.ProductService;
+import es.gualapop.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -46,6 +49,8 @@ public class ProductsRestController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private UserService userService;
 
     @Operation(summary = "Get New Eight Products")
     @ApiResponses(value = {
@@ -89,16 +94,26 @@ public class ProductsRestController {
         if (product == null) {
             return new ResponseEntity<Product>(product,HttpStatus.NOT_ACCEPTABLE);
         }
+        Optional<User> user = userService.findById(product.getOwner());
         if (product.getTitle() == null || product.getTitle().isEmpty() ||
         product.getAddress() == null || product.getAddress().isEmpty() ||
         product.getPrice() <= 0 || product.getDescription() == null || product.getDescription().isEmpty() ||
-        product.getOwner() <= 0 || product.getProductType() <= 0) {
+        product.getOwner() <= 0 || product.getProductType() <= 0 || !user.isPresent()) {
             return new ResponseEntity<Product>(product,HttpStatus.NOT_ACCEPTABLE);
         }
         productService.save(product);
         Product productAux = productService.getProductById(product.getId());
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(product.getId()).toUri();
-        return ResponseEntity.created(location).body(productAux);
+
+        // Construye la URL para el recurso de producto
+        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        String locationUrl = baseUrl + "/products/" + product.getId(); // Por ejemplo, /products/{productID}
+
+        // Agrega la cabecera "Location" con la URL del recurso creado
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", locationUrl);
+
+        // Devuelve la respuesta con el código 201 y la cabecera "Location"
+        return ResponseEntity.created(URI.create(locationUrl)).headers(headers).body(productAux);
     }
     
     @Operation( summary = "Get Product by its id")
@@ -220,8 +235,15 @@ public class ProductsRestController {
 				product.get().setImageFile(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
 				product.get().setImage(true);
 				productService.save(product.get());
-				URI location = fromCurrentRequest().build().toUri();
-				return ResponseEntity.created(location).build();
+				String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+                String locationUrl = baseUrl + "/products/" + product.get().getId(); // Por ejemplo, /products/{productID}
+                
+                // Agrega la cabecera "Location" con la URL del producto actualizado
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Location", locationUrl);
+
+                // Devuelve la respuesta con el código 201 y la cabecera "Location"
+                return ResponseEntity.created(URI.create(locationUrl)).headers(headers).build();
 			}else {
 				return ResponseEntity.noContent().build();
 			}

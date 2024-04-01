@@ -9,9 +9,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -57,7 +59,7 @@ public class ReportRestController {
 
     @JsonView(Report.Detailed.class)
     @Operation(summary = "Add new report")
-    @PostMapping("/new")
+    @PostMapping("/")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Report created successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
@@ -68,8 +70,7 @@ public class ReportRestController {
                                                @RequestParam("category") String category) {
         //Create new report and set attributes
         Report report = new Report();
-        String username = request.getUserPrincipal().getName();
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByUsername(userReportedName)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         User userReported = userRepository.findUserByUsername(userReportedName)
                 .orElseThrow(() -> new RuntimeException("User to report not found"));
@@ -79,7 +80,7 @@ public class ReportRestController {
         String fechaFormateada = fechaActual.format(formatter);
         report.setCreationDate(fechaFormateada);
         report.setUserReported(userReported.getUserID());
-        report.setOwner(user.getUserID());
+        report.setOwner((long) 2);
         report.setDescription(description);
         switch (category) {
             case "Nombre inapropiado":
@@ -96,7 +97,15 @@ public class ReportRestController {
         }
         reportRepository.save(report);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(report);
+        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        String locationUrl = baseUrl + "/reports/" + report.getId(); // Por ejemplo, /reports/{reportID}
+
+        // Agrega la cabecera "Location" con la URL del reporte creado
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", locationUrl);
+
+        // Devuelve la respuesta con el código 201 y la cabecera "Location" incluida
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(report);
     }
     @JsonView(Report.Detailed.class)
     @Operation(summary = "Get all reports")

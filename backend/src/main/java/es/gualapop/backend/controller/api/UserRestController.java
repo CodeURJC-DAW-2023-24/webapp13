@@ -23,7 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -206,20 +206,27 @@ public class UserRestController {
             @ApiResponse(responseCode = "404", description = "User registration failed")
     })
     @JsonView(User.Detailed.class)
-    @PostMapping("/registerUser")
+    @PostMapping("/")
     public ResponseEntity<Object> registerUser(String name, String username, String password, String repeatPassword, String email,
                                @RequestParam(required = false) MultipartFile image) throws IOException {
 
         User user = new User(username, null, email, password, name, null,"USER");
         if(userService.checkPassword(password, repeatPassword)){
-            if (!userService.registerUser(user, image)) {
-                String body = "User " + username + " created correctly with id: " + user.getUserID();
-                return ResponseEntity.ok().body(body);
+            if (userService.registerUser(user, image)) {
+                String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+                String locationUrl = baseUrl + "/users/" + user.getUserID(); // Por ejemplo, /users/{userID}
+
+                // Agrega la cabecera "Location" con la URL del recurso creado
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Location", locationUrl);
+
+                // Devuelve la respuesta con el código 200 y la cabecera "Location"
+                return ResponseEntity.ok().headers(headers).body("User created successfully");
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No ha sido posible registrar el usuario");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No ha sido posible registrar el usuario");
             }
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Las contraseñas no son las mismas");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Las contraseñas no son las mismas");
 
         }
     }

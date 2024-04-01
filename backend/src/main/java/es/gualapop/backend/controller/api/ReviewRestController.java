@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -75,7 +77,7 @@ public class ReviewRestController {
             @ApiResponse(responseCode = "404", description = "Seller not found")
     })
     @JsonView(Review.Detailed.class)
-    @PostMapping("/new")
+    @PostMapping("/")
     public ResponseEntity<String> postReview(HttpServletRequest request,
                                                @RequestParam("rating") float rating,
                                                @RequestParam("sellerID") Long sellerID) {
@@ -93,7 +95,12 @@ public class ReviewRestController {
 
         reviewRepository.save(review);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Review added successfully");
+        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        String locationUrl = baseUrl + request.getRequestURI() + "/" + review.getReviewID();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", locationUrl);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body("Review added successfully");
     }
 
     @Operation(summary = "Delete a review by ID")

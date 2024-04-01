@@ -85,7 +85,7 @@ public class UserService    {
 		if(userRepository.existsUserByUsername(user.getUsername())) {
 			return false;
 		}else {
-			if(image.getOriginalFilename() != "") {
+			if(image != null && image.getOriginalFilename() != "") {
 				user.setUserImg(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
 			} else {
                 Resource imageUser1 = new ClassPathResource("/static/images/imgUser1.png");
