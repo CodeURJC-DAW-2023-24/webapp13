@@ -8,14 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -108,5 +101,35 @@ public class ReviewRestController {
         }
     }
 
+
+    @JsonView(Review.Detailed.class)
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateReview(@PathVariable long id,
+                                          @RequestParam(required = false) Float rating,
+                                          @RequestParam(required = false) Long sellerID) {
+        Optional<Review> optionalReview = reviewRepository.findById(id);
+
+        if (optionalReview.isPresent()) {
+            Review review = optionalReview.get();
+
+            if (rating != null) {
+                if (rating >= 0 && rating <= 5) {
+                    review.setRating(rating);
+                } else {
+                    return ResponseEntity.badRequest().body("Rating must be between 0 and 5");
+                }
+            }
+
+            if (sellerID != null) {
+                review.setSellerID(sellerID);
+            }
+
+            reviewRepository.save(review);
+
+            return ResponseEntity.ok().body(review);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
