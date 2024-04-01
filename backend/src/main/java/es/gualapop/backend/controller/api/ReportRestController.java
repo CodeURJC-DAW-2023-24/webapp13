@@ -126,10 +126,4 @@ public class ReportRestController {
         }
     }
 
-
-    public ResponseEntity<String> deleteReport(@PathVariable("id") Long idReport) {
-        reportRepository.deleteById(idReport);
-        return ResponseEntity.ok().body("Report deleted successfully");
-    }
-
 }
