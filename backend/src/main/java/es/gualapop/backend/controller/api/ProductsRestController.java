@@ -441,14 +441,20 @@ public class ProductsRestController {
     })
     @JsonView(Product.Detailed.class)
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> getSearch(@RequestParam String search){
-        Pageable pageable = PageRequest.of(0, 8);
+    public ResponseEntity<List<Product>> getSearch(@RequestParam String search,
+                                                    @RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "8") int size){
+        // Crear objeto Pageable para la paginación
+        Pageable pageable = PageRequest.of(page, size);
+        
+        // Realizar la búsqueda paginada
         Page<Product> products = searchService.searchProducts(search, pageable);
-        List<Product> p = products.getContent();
+        
+        // Verificar si se encontraron productos
         if (products.isEmpty()){
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok().body(p);
+            return ResponseEntity.ok().body(products.getContent());
         }
     }
 }
