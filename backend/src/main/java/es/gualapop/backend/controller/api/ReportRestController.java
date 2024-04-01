@@ -39,21 +39,22 @@ public class ReportRestController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     public ResponseEntity<?> newReports(HttpServletRequest request, @PathVariable("userID") Long userID) {
-        //Obtener el nombre del usuario de la sesion
-        String username = request.getUserPrincipal().getName();
         //Obtener el nombre del usuario al que se va a reportar
-        String userReportedName = userRepository.findByUserID(userID)
-                .orElseThrow(() -> new RuntimeException("User not found"))
-                .getFullName();
-        // Obtener la fecha actual
-        LocalDate fechaActual = LocalDate.now();
-        // Formatear la fecha en el formato deseado
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String fechaFormateada = fechaActual.format(formatter);
+        Optional<User> userReportedName = userRepository.findByUserID(userID);
+        if(userReportedName.isPresent()) {
+            // Obtener la fecha actual
+            LocalDate fechaActual = LocalDate.now();
+            // Formatear la fecha en el formato deseado
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String fechaFormateada = fechaActual.format(formatter);
 
-        String respuesta = "\"date: \"" + fechaFormateada + "\"user: \"" + username + "\"reported user: \"" + userReportedName;
+            String respuesta = "\"date: \"" + fechaFormateada + "\"reported user: \"" + userReportedName.get().getUsername();
 
-        return ResponseEntity.ok().body(respuesta);
+            return ResponseEntity.ok().body(respuesta);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 
@@ -70,42 +71,36 @@ public class ReportRestController {
                                                @RequestParam("category") String category) {
         //Create new report and set attributes
         Report report = new Report();
-        User user = userRepository.findByUsername(userReportedName)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        User userReported = userRepository.findUserByUsername(userReportedName)
-                .orElseThrow(() -> new RuntimeException("User to report not found"));
-        LocalDate fechaActual = LocalDate.now();
-        // Format the date to the desired one
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String fechaFormateada = fechaActual.format(formatter);
-        report.setCreationDate(fechaFormateada);
-        report.setUserReported(userReported.getUserID());
-        report.setOwner((long) 2);
-        report.setDescription(description);
-        switch (category) {
-            case "Nombre inapropiado":
-                report.setTitle("Nombre inapropiado");
-                break;
-            case "Producto fraudulento":
-                report.setTitle("Producto fraudulento");
-                break;
-            case "Cuenta fraudulenta":
-                report.setTitle("Cuenta fraudulenta");
-                break;
-            default:
-                break;
+        Optional<User> userReported = userRepository.findUserByUsername(userReportedName);
+        if(userReported.isPresent()) {
+            LocalDate fechaActual = LocalDate.now();
+            // Format the date to the desired one
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String fechaFormateada = fechaActual.format(formatter);
+            report.setCreationDate(fechaFormateada);
+            report.setUserReported(userReported.get().getUserID());
+            report.setOwner((long) 2);
+            report.setDescription(description);
+            switch (category) {
+                case "Nombre inapropiado":
+                    report.setTitle("Nombre inapropiado");
+                    break;
+                case "Producto fraudulento":
+                    report.setTitle("Producto fraudulento");
+                    break;
+                case "Cuenta fraudulenta":
+                    report.setTitle("Cuenta fraudulenta");
+                    break;
+                default:
+                    break;
+            }
+            reportRepository.save(report);
+
+            return ResponseEntity.ok().body(report);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        reportRepository.save(report);
 
-        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        String locationUrl = baseUrl + "/reports/" + report.getId(); // Por ejemplo, /reports/{reportID}
-
-        // Agrega la cabecera "Location" con la URL del reporte creado
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", locationUrl);
-
-        // Devuelve la respuesta con el código 201 y la cabecera "Location" incluida
-        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(report);
     }
     @JsonView(Report.Detailed.class)
     @Operation(summary = "Get all reports")
