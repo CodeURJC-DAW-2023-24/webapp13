@@ -240,5 +240,23 @@ public class UserRestController {
         }
     }
 
+    @Operation(summary = "Get All reviews by User ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the Products"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @JsonView(User.Detailed.class)
+    @GetMapping("/{userID}/reviews")
+    public ResponseEntity<List<Review>> getUserReviews(@PathVariable long userID) {
+        // Aquí deberías implementar la lógica para obtener las revisiones del usuario con el ID dado
+        List<Review> userReviews = reviewRepository.findBySellerID(userID);
+
+        if (!userReviews.isEmpty()) {
+            return ResponseEntity.ok().body(userReviews);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }
