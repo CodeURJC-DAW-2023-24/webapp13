@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,11 @@ public class ReviewRestController {
     @Autowired
     private UserRepository userRepository;
 
+    @Operation(summary = "Get all reviews")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found reviews"),
+            @ApiResponse(responseCode = "404", description = "No reviews found")
+    })
     @JsonView(Review.Detailed.class)
     @GetMapping("/")
     public ResponseEntity<List<Review>> getAllProducts(){
@@ -42,6 +50,11 @@ public class ReviewRestController {
         }
     }
 
+    @Operation(summary = "Get review by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the review"),
+            @ApiResponse(responseCode = "404", description = "Review not found")
+    })
     @JsonView(Review.Detailed.class)
     @GetMapping("/{id}")
     public ResponseEntity<Review> getReviewByID(@PathVariable("id") long idReview) {
@@ -55,18 +68,12 @@ public class ReviewRestController {
         }
     }
 
-    @JsonView(Review.Detailed.class)
-    @GetMapping("/seller/{id}")
-    public ResponseEntity<List<Review>> getReviewsBySellerID(@PathVariable("id") long sellerID) {
-        List<Review> reviews = reviewRepository.findBySellerID(sellerID);
-
-        if (reviews.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(reviews);
-        }
-    }
-
+    @Operation(summary = "Create a new review")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Review created successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Seller not found")
+    })
     @JsonView(Review.Detailed.class)
     @PostMapping("/new")
     public ResponseEntity<String> postReview(HttpServletRequest request,
@@ -89,6 +96,11 @@ public class ReviewRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Review added successfully");
     }
 
+    @Operation(summary = "Delete a review by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Review deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Review not found")
+    })
     @JsonView(Review.Detailed.class)
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteProduct(@PathVariable("id") long idReview){
@@ -102,6 +114,12 @@ public class ReviewRestController {
     }
 
 
+    @Operation(summary = "Update a review by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Review updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Review not found")
+    })
     @JsonView(Review.Detailed.class)
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateReview(@PathVariable long id,
@@ -121,6 +139,11 @@ public class ReviewRestController {
             }
 
             if (sellerID != null) {
+                // Verificar si el usuario existe
+                Optional<User> optionalUser = userRepository.findById(sellerID);
+                if (!optionalUser.isPresent()) {
+                    return ResponseEntity.badRequest().body("User with ID " + sellerID + " not found");
+                }
                 review.setSellerID(sellerID);
             }
 
