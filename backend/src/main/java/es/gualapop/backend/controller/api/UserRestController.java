@@ -229,7 +229,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "200", description = "Found the Products"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    @JsonView(User.Detailed.class)
+    @JsonView(Product.Detailed.class)
     @GetMapping("/{id}/allProducts")
     public ResponseEntity<Object> getProducts(@PathVariable("id") long id) {
         Optional<User> user = userRepository.findByUserID(id);
