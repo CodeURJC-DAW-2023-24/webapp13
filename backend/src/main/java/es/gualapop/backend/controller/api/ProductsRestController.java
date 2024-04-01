@@ -404,4 +404,25 @@ public class ProductsRestController {
             return ResponseEntity.ok().body(products);
         }
     }
+
+    @Operation(summary = "Get similar products")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Found the Products",
+            content = {@Content(
+                mediaType = "application/json"
+            )}
+        )
+    })
+    @JsonView(Product.Detailed.class)
+    @GetMapping("{id}/similar")
+    public ResponseEntity<List<Product>> getSimilarProducts(@Parameter(description="id of Product to be searched") @PathVariable long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "8") int pageSize){
+        List<Product> products = productService.getSimilarProducts(id, page, pageSize);
+        if (products.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(products);
+        }
+    }
 }
