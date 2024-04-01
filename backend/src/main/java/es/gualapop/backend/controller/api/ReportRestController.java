@@ -5,6 +5,9 @@ import es.gualapop.backend.model.Report;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ReportRepository;
 import es.gualapop.backend.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +30,12 @@ public class ReportRestController {
     private ReportRepository reportRepository;
 
     @JsonView(Report.Detailed.class)
+    @Operation(summary = "Get new reports for a user")
     @GetMapping("/{userID}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "New reports retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     public ResponseEntity<?> newReports(HttpServletRequest request, @PathVariable("userID") Long userID) {
         //Obtener el nombre del usuario de la sesion
         String username = request.getUserPrincipal().getName();
@@ -46,8 +54,14 @@ public class ReportRestController {
         return ResponseEntity.ok().body(respuesta);
     }
 
+
     @JsonView(Report.Detailed.class)
+    @Operation(summary = "Add new report")
     @PostMapping("/new")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Report created successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     public ResponseEntity<Report> addNewReport(HttpServletRequest request,
                                                @RequestParam("userReported") String userReportedName,
                                                @RequestParam("description") String description,
@@ -85,14 +99,23 @@ public class ReportRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(report);
     }
     @JsonView(Report.Detailed.class)
+    @Operation(summary = "Get all reports")
     @GetMapping("/")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reports retrieved successfully")
+    })
     public ResponseEntity<List<Report>> getReports() {
         List<Report> reports = reportRepository.findAll();
         return ResponseEntity.ok().body(reports);
     }
 
     @JsonView(Report.Detailed.class)
+    @Operation(summary = "Manage report by ID")
     @GetMapping("/manage/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Report details retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Report not found")
+    })
     public ResponseEntity<?> manageReport(@PathVariable("id") Long idReport) {
         Optional<Report> optionalReport = reportRepository.findById(idReport);
         if (optionalReport.isPresent()) {
@@ -103,8 +126,7 @@ public class ReportRestController {
         }
     }
 
-    @JsonView(Report.Detailed.class)
-    @DeleteMapping("/{id}")
+
     public ResponseEntity<String> deleteReport(@PathVariable("id") Long idReport) {
         reportRepository.deleteById(idReport);
         return ResponseEntity.ok().body("Report deleted successfully");
