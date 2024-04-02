@@ -14,17 +14,17 @@ public class Report {
     public interface Detailed extends Report.Basic{}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(User.Basic.class)
+    @JsonView(Report.Basic.class)
     private Long id;
-    @JsonView(User.Basic.class)
+    @JsonView(Report.Basic.class)
     private Long owner;
-    @JsonView(User.Basic.class)
+    @JsonView(Report.Basic.class)
     private String title;
-    @JsonView(User.Basic.class)
+    @JsonView(Report.Basic.class)
     private String description;
-    @JsonView(User.Basic.class)
+    @JsonView(Report.Basic.class)
     private Long userReported;
-    @JsonView(User.Basic.class)
+    @JsonView(Report.Basic.class)
     private String creationDate;
 
 

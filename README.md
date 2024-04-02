@@ -232,13 +232,13 @@ Leyenda del diagrama:
 
 > Descripcion
 
-| Número	| Descripción	| Commit | Archivos |
-   | :---: | :---: | :---: | :---: |
-   | 1º | descripcion	| [Commit Link](link) | [File Link](link) |
-   | 2º	| descripcion	| [Commit Link](link) | [File Link](link) |
-   | 3º	| descripcion	| [Commit Link](link) | [File Link](link) |
-   | 4º	| descripcion	| [Commit Link](link) | [File Link](link) |
-   | 5º	| descripcion	| [Commit Link](link) | [File Link](link) |
+| Número	 | Descripción	|                                                           Commit                                                           |                                                                                                               Archivos                                                                                                                |
+   |:-------:| :---: |:--------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+   |  1º     | Creation of ProductRestController & modification of some classes	| [ProductRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/0f0ea6412f44ed21fa7e01f7c37914e9e2ad3d60)  | [ProductRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/tree/0f0ea6412f44ed21fa7e01f7c37914e9e2ad3d60/backendhttps://github.com/CodeURJC-DAW-2023-24/webapp13/tree/0f0ea6412f44ed21fa7e01f7c37914e9e2ad3d60/backend) |
+   |   2º	   |  Creation of ReportRestController 	|  [ReportRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/e0ecaa4d4fbb9318435e5870a101c686b384662d)  |                                                                                                           [ReportRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/e0ecaa4d4fbb9318435e5870a101c686b384662d)                                                                                                            |
+   |   3º	   |  Fix some "UserRestController" methods 	| [ Fixed UserController ](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/fbfc86a3618bee4f07eab7cad78dc8ab1db4580c) |                                                                                                           [ Fixed UserController ](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/fbfc86a3618bee4f07eab7cad78dc8ab1db4580c)                                                                                                            |
+   |   4º	   |  Some docuAPI from ReportRestController 	|        [DocuAPI](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/e5bf1479730c6b5385351f4d8e06dd285d846e18)         |                                                                                                           [DocuAPI](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/e5bf1479730c6b5385351f4d8e06dd285d846e18)                                                                                                            |
+   |   5º	   |  Login method created, fixed some methods of ReportRestController 	|                                                  [Login and Report](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/d2d9ad2ec5871332d39c1ef5aea8d137e65d5a0a)                                                  |                                                                                                           [Login and Report](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/d2d9ad2ec5871332d39c1ef5aea8d137e65d5a0a)                                                                                                               |
 
 
 ### Cassiel Seth Mayorca Heirisman	| cs.mayorca.2018@alumnos.urjc.es

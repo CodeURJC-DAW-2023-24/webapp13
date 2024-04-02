@@ -110,7 +110,7 @@ public class ReportRestController {
     })
     public ResponseEntity<List<Report>> getReports() {
         List<Report> reports = reportRepository.findAll();
-        return ResponseEntity.ok().body(reports);
+        return reports.isEmpty()? ResponseEntity.notFound().build() : ResponseEntity.ok().body(reports);
     }
 
     @JsonView(Report.Detailed.class)
