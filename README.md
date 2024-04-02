@@ -199,7 +199,8 @@ Leyenda del diagrama:
 - Gris: Modelos
 - Rojo: Servicios
 - Azul claro: Seguridad
-![Diag_clases](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/16d3181d-a6f5-401f-b097-47d1ffc4b3cd)
+![Diag_clases](![image](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/b0b895f7-c499-4783-a46a-09e42d6b976b)
+)
 
 ## Participación de miembros (Fase 3)
 
