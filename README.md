@@ -205,7 +205,6 @@ Leyenda del diagrama:
 
 ### Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es
 
-> Descripcion
 
 | Número	| Descripción	| Commit | Archivos |
    | :---: | :---: | :---: | :---: |
@@ -217,20 +216,18 @@ Leyenda del diagrama:
 
 ### Fernando Prieto Olías	| f.prieto.2019@alumnos.urjc.es
 
-> Descripcion
 
 | Número	| Descripción	| Commit | Archivos |
    | :---: | :---: | :---: | :---: |
-   | 1º | descripcion	| [Commit Link](link) | [File Link](link) |
-   | 2º	| descripcion	| [Commit Link](link) | [File Link](link) |
-   | 3º	| descripcion	| [Commit Link](link) | [File Link](link) |
-   | 4º	| descripcion	| [Commit Link](link) | [File Link](link) |
-   | 5º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 1º | Query GET para reviews	| [API GET Reviews](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/7c9bbda780d6990635df6207a7e1c292e151655d) | [ReviewRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/api/ReviewRestController.java) |
+   | 2º	| Query POST review to an user	| [API POST Review](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/f812a14da416320b9d5988bffd71380ff23ba932) | [ReviewRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/api/ReviewRestController.java) |
+   | 3º	| Query DELETE reviews by ID	| [API DELETE Reviews](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/b3bc5e1a1c30117f7c78c968767c29abd4d3f540) | [ReviewRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/api/ReviewRestController.java) |
+   | 4º	| Create Dockerfile	| [ADD Dockerfile](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/6acea49dc88af55a3dd38bf21815c5b0d8332a57) | [Dockerfile](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/Dockerfile) |
+   | 5º	| Create script for upload docker image	| [ADD Create_image.sh](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/8f828e184b4c8737def8859f533c7fe8adadf014) | [Create_image.sh](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/create_image.sh) |
 
 
 ### Jose Luis Salvador Martín	| jl.salvador.2023@alumnos.urjc.es
 
-> Descripcion
 
 | Número	 | Descripción	|                                                           Commit                                                           |                                                                                                               Archivos                                                                                                                |
    |:-------:| :---: |:--------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -243,7 +240,6 @@ Leyenda del diagrama:
 
 ### Cassiel Seth Mayorca Heirisman	| cs.mayorca.2018@alumnos.urjc.es
 
->  Descripcion
 
 | Número	| Descripción	| Commit | Archivos |
    | :---: | :---: | :---: | :---: |
