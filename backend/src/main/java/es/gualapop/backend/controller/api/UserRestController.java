@@ -82,8 +82,10 @@ public class UserRestController {
 
             Resource file = new InputStreamResource(user.get().getImageFile().getBinaryStream());
 
-            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpg")
-                    .contentLength(user.get().getImageFile().length()).body(file);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .contentLength(user.get().getImageFile().length())
+                    .body(file);
 
         } else {
             return ResponseEntity.notFound().build();
