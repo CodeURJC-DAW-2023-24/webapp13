@@ -158,9 +158,9 @@ Leyenda del diagrama:
 
 ### Documentación API Rest
 
-*Archivo yaml: [https://github.com/CodeURJC-DAW-2021-22/webapp8/blob/main/backend/webandtech/api-docs/api-docs.yaml](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/api-docs/api-docs.yaml)
+*Archivo yaml: [https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/api-docs/api-docs.yaml](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/api-docs/api-docs.yaml)
 
-*Documentación API REST: [https://rawcdn.githack.com/CodeURJC-DAW-2021-22/webapp8/7dde1b87c7c046e7c02de58391e7e06e63f4adf8/backend/webandtech/api-docs/api-docs.html](https://rawcdn.githack.com/CodeURJC-DAW-2023-24/webapp13/01421b7332b7c3156f13500b17656b745d6d7289/backend/api-docs/api-docs.html)
+*Documentación API REST: [https://rawcdn.githack.com/CodeURJC-DAW-2023-24/webapp13/01421b7332b7c3156f13500b17656b745d6d7289/backend/api-docs/api-docs.html](https://rawcdn.githack.com/CodeURJC-DAW-2023-24/webapp13/01421b7332b7c3156f13500b17656b745d6d7289/backend/api-docs/api-docs.html)
 
 ### Instrucciones de ejecución de la aplicación dockerizada:
 
