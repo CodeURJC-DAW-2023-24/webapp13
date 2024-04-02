@@ -179,7 +179,7 @@ Leyenda del diagrama:
 ### Documentación para construcción de la imagen docker:
 LINUX:
 
-1. Clonar repositorio mediante git clone https://github.com/CodeURJC-DAW-2021-22/webapp8.git
+1. Clonar repositorio mediante git clone https://github.com/CodeURJC-DAW-2023-24/webapp13.git
 
 2. Descargar Docker 
 
