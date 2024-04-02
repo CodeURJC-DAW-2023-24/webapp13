@@ -12,7 +12,7 @@ services:
     restart: always
 
   backend:
-    image: cassielsmh/gualapop:latest
+    image: fervo8564/gualapop:latest
     container_name: backend
     ports:
       - "8443:8443"
