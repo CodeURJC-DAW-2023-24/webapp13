@@ -244,8 +244,8 @@ Leyenda del diagrama:
 
 | Número	| Descripción	| Commit | Archivos |
    | :---: | :---: | :---: | :---: |
-   | 1º | descripcion	| [Commit Link](link) | [File Link](link) |
-   | 2º	| descripcion	| [Commit Link](link) | [File Link](link) |
-   | 3º	| descripcion	| [Commit Link](link) | [File Link](link) |
-   | 4º	| descripcion	| [Commit Link](link) | [File Link](link) |
-   | 5º	| descripcion	| [Commit Link](link) | [File Link](link) |
+   | 1º | create postman document	| [Postman doc](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/2c2fc8b814c709462ef57af629164d5c5b4897e6) | [api.postman](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/api.postman_collection.json) |
+   | 2º	| create and build docker-compose| [docker-compose](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/8fb040519f78c3d22a9733b7053584468f7c462a) | [docker-compose](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/docker-compose.yml) |
+   | 3º	| fix bad practices	| [fix api review](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/0d4f6e28011315647e88347e895868a28214d33a) | [reviewRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/api/ReviewRestController.java) |
+   | 4º	| add new methods to reviewRestController	| [method api review](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/b0c86a8fe0ba4dfdf614dd7df2ef7157e83e768b) | [reviewRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/api/ReviewRestController.java) |
+   | 5º	| add new methods to userRestController	| [method api user](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/048f380aea7b87a60122316be1462dcf228ff34a) | [userRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/api/UserRestController.java) |
