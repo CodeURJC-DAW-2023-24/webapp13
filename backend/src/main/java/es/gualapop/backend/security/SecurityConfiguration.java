@@ -59,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //API secutrity
         http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
                 .anyRequest().authenticated().and().httpBasic();
-        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "products/**").hasRole("USER")
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/products/**").hasRole("USER")
                 .anyRequest().authenticated().and().httpBasic();
 
 
