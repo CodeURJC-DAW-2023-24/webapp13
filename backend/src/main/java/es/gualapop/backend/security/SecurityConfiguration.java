@@ -3,6 +3,7 @@ package es.gualapop.backend.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -54,6 +55,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/deleteUser/**").hasAnyRole("ADMIN");
         http.authorizeRequests().antMatchers("/deleteAccount/**").hasAnyRole("ADMIN");
         http.authorizeRequests().antMatchers("product/**/delete").hasAnyRole("ADMIN");
+
+        //API secutrity
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                .anyRequest().authenticated().and().httpBasic();
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "products/**").hasRole("USER")
+                .anyRequest().authenticated().and().httpBasic();
+
 
 
         // Login form

@@ -1,10 +1,11 @@
 package es.gualapop.backend.controller.api;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -101,14 +102,14 @@ public class ProductsRestController {
     @PostMapping("/")
     public ResponseEntity<Product> registerProduct( @Parameter(description="Object Type Product") @RequestBody(required=false) Product product) throws IOException{
         if (product == null) {
-            return new ResponseEntity<Product>(product,HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(product, HttpStatus.NOT_ACCEPTABLE);
         }
         Optional<User> user = userService.findById(product.getOwner());
         if (product.getTitle() == null || product.getTitle().isEmpty() ||
         product.getAddress() == null || product.getAddress().isEmpty() ||
         product.getPrice() <= 0 || product.getDescription() == null || product.getDescription().isEmpty() ||
-        product.getOwner() <= 0 || product.getProductType() <= 0 || !user.isPresent()) {
-            return new ResponseEntity<Product>(product,HttpStatus.NOT_ACCEPTABLE);
+        product.getOwner() <= 0 || product.getProductType() <= 0 || user.isEmpty()) {
+            return new ResponseEntity<>(product, HttpStatus.NOT_ACCEPTABLE);
         }
         productService.save(product);
         Product productAux = productService.getProductById(product.getId());
@@ -144,11 +145,7 @@ public class ProductsRestController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct ( @Parameter(description="id of Product to be searched") @PathVariable int id) throws IOException{
         Optional<Product> product = productService.findById(id);
-        if(product.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(product.get());
-        }
+        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     
     @Operation(summary = "Delete a Product")
@@ -168,14 +165,27 @@ public class ProductsRestController {
 	})
 	@JsonView(Product.Detailed.class)
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Product> deleteProduct( @Parameter(description="id of Product to be searched") @PathVariable int id){
+	public ResponseEntity<Product> deleteProduct(@Parameter(description="id of Product to be searched") @PathVariable int id){
         Optional<Product> product = productService.findById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
         if (product.isPresent()){
-            productService.deleteProduct(product.get().getId());
-            return ResponseEntity.ok(product.get());
-        } else {
-            return ResponseEntity.notFound().build();
+            Optional<User> OpUser = userService.findById(product.get().getOwner());
+            User u = new User();
+            if(OpUser.isPresent())
+            {
+                u = OpUser.get();
+            }
+            if (u.getName().equals(currentUsername))  {
+                productService.deleteProduct(product.get().getId());
+                return ResponseEntity.ok(product.get());
+            } else {
+                // El usuario no es el propietario del producto
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
         }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
     }
 
     @Operation(summary = "Get a Image Product by its id")

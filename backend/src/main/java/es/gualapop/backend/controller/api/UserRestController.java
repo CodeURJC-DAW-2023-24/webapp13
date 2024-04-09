@@ -20,6 +20,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -155,6 +156,7 @@ public class UserRestController {
     })
     @JsonView(User.Detailed.class)
     @DeleteMapping("/{userID}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long userID) {
 
         // Eliminar productos del usuario
@@ -208,6 +210,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "404", description = "User registration failed")
     })
     @JsonView(User.Detailed.class)
+
     @PostMapping("/")
     public ResponseEntity<Object> registerUser(String name, String username, String password, String repeatPassword, String email,
                                @RequestParam(required = false) MultipartFile image) throws IOException {
