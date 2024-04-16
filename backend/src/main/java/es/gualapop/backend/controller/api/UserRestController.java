@@ -154,9 +154,9 @@ public class UserRestController {
             @ApiResponse(responseCode = "200", description = "User deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @JsonView(User.Detailed.class)
     @DeleteMapping("/{userID}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long userID) {
 
         // Eliminar productos del usuario

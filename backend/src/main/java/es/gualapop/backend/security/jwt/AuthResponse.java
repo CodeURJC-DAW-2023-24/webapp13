@@ -1,4 +1,4 @@
-	package es.gualapop.backend.security.jwt;
+package es.gualapop.backend.security.jwt;
 
 public class AuthResponse {
 
