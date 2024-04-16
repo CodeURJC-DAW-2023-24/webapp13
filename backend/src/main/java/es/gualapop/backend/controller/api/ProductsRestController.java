@@ -1,5 +1,10 @@
 package es.gualapop.backend.controller.api;
 
+import es.gualapop.backend.model.Review;
+import es.gualapop.backend.repository.ProductRepository;
+import es.gualapop.backend.repository.ReviewRepository;
+import es.gualapop.backend.repository.UserRepository;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,7 +63,12 @@ public class ProductsRestController {
     private UserService userService;
     @Autowired
     private SearchService searchService;
-
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Operation(summary = "Get New Eight Products")
     @ApiResponses(value = {
         @ApiResponse(
@@ -467,4 +477,51 @@ public class ProductsRestController {
             return ResponseEntity.ok().body(products.getContent());
         }
     }
+
+    @JsonView(Product.Detailed.class)
+    @GetMapping("/compras")
+    public ResponseEntity<?> purchaseProduct(
+            @RequestParam(name = "productID", required = true) Long productID,
+            @RequestParam(name = "rating", required = false, defaultValue = "0.0") float rating) {
+
+        Optional<Product> product = productRepository.findById(productID);
+        if (product.isPresent()) {
+            Product product1 = product.get();
+            Long sellerID = product1.getOwner();
+
+            if (rating > 0) {
+                // Guarda la revisión solo si la calificación es mayor que 0
+                Review review = new Review(rating, sellerID);
+                reviewRepository.save(review);
+            }
+
+            Double price = product1.getPrice();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentUsername = authentication.getName();
+
+            // Incrementa los ingresos del vendedor
+            Optional<User> seller = userRepository.findById(product1.getOwner());
+            seller.ifPresent(user -> {
+                user.setIncome(user.getIncome() + price);
+                userRepository.save(user);
+            });
+
+            // Aumenta los gastos del comprador
+            Optional<User> buyer = userRepository.findByUsername(currentUsername);
+            buyer.ifPresent(thisUser -> {
+                thisUser.setExpense(thisUser.getExpense() + price);
+                userRepository.save(thisUser);
+            });
+
+            // Elimina el producto de la base de datos después de la compra
+            productRepository.deleteById(productID);
+
+            return ResponseEntity.ok().body("Producto comprado: " + product.get());
+        } else {
+            // Si el producto no se encuentra
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }
