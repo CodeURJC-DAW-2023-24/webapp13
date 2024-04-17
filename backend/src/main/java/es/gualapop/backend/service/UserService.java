@@ -40,6 +40,10 @@ public class UserService    {
         return userRepository.findByFullName(fullname);
     }
 
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     public List<String> getRolfromUser(Long userID) {
         // Get user by id
         User user = userRepository.findByUserID(userID).orElse(null);

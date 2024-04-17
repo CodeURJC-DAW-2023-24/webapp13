@@ -115,26 +115,34 @@ public class ProductsRestController {
         if (product == null) {
             return new ResponseEntity<>(product, HttpStatus.NOT_ACCEPTABLE);
         }
-        Optional<User> user = userService.findById(product.getOwner());
-        if (product.getTitle() == null || product.getTitle().isEmpty() ||
-        product.getAddress() == null || product.getAddress().isEmpty() ||
-        product.getPrice() <= 0 || product.getDescription() == null || product.getDescription().isEmpty() ||
-        product.getOwner() <= 0 || product.getProductType() <= 0 || user.isEmpty()) {
-            return new ResponseEntity<>(product, HttpStatus.NOT_ACCEPTABLE);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        Optional<User> user1 = userService.findByUsername(currentUsername);
+        if (user1.isPresent()) {
+            User user = user1.get();
+            if (product.getTitle() == null || product.getTitle().isEmpty() ||
+            product.getAddress() == null || product.getAddress().isEmpty() ||
+            product.getPrice() <= 0 || product.getDescription() == null || product.getDescription().isEmpty() ||
+            product.getProductType() <= 0) {
+                return new ResponseEntity<>(product, HttpStatus.NOT_ACCEPTABLE);
+            }
+            product.setOwner(user.getUserID());
+            productService.save(product);
+            Product productAux = productService.getProductById(product.getId());
+
+            // Construye la URL para el recurso de producto
+            String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+            String locationUrl = baseUrl + "/products/" + product.getId(); // Por ejemplo, /products/{productID}
+
+            // Agrega la cabecera "Location" con la URL del recurso creado
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", locationUrl);
+
+            // Devuelve la respuesta con el código 201 y la cabecera "Location"
+            return ResponseEntity.created(URI.create(locationUrl)).headers(headers).body(productAux);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        productService.save(product);
-        Product productAux = productService.getProductById(product.getId());
-
-        // Construye la URL para el recurso de producto
-        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        String locationUrl = baseUrl + "/products/" + product.getId(); // Por ejemplo, /products/{productID}
-
-        // Agrega la cabecera "Location" con la URL del recurso creado
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", locationUrl);
-
-        // Devuelve la respuesta con el código 201 y la cabecera "Location"
-        return ResponseEntity.created(URI.create(locationUrl)).headers(headers).body(productAux);
     }
     
     @Operation( summary = "Get Product by its id")
