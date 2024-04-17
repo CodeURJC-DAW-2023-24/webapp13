@@ -6,6 +6,7 @@ import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -175,27 +176,43 @@ public class ProductsRestController {
 	})
 	@JsonView(Product.Detailed.class)
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Product> deleteProduct(@Parameter(description="id of Product to be searched") @PathVariable int id){
+    public ResponseEntity<Product> deleteProduct(@PathVariable int id) {
         Optional<Product> product = productService.findById(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
-        if (product.isPresent()){
-            Optional<User> OpUser = userService.findById(product.get().getOwner());
-            User u = new User();
-            if(OpUser.isPresent())
-            {
-                u = OpUser.get();
-            }
-            if (u.getName().equals(currentUsername))  {
-                productService.deleteProduct(product.get().getId());
-                return ResponseEntity.ok(product.get());
-            } else {
-                // El usuario no es el propietario del producto
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        if (product.isPresent()) {
+            Optional<User> opUser = userService.findById(product.get().getOwner());
+            if (opUser.isPresent()) {
+                User owner = opUser.get();
+
+                // Obtener el primer rol del usuario autenticado
+                String firstRole = getFirstRoleFromAuthentication(authentication);
+
+                // Verificar si el usuario actual tiene permiso para eliminar el producto
+                if (owner.getName().equals(currentUsername) || "ROLE_ADMIN".equals(firstRole)) {
+                    productService.deleteProduct(product.get().getId());
+                    return ResponseEntity.ok(product.get());
+                } else {
+                    // El usuario no es el propietario del producto ni tiene rol de ADMIN
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                }
             }
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
+        // Producto no encontrado o usuario no autorizado
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+    // Método para obtener el primer rol del usuario autenticado
+    private String getFirstRoleFromAuthentication(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            if (!authentication.getAuthorities().isEmpty()) {
+                GrantedAuthority firstAuthority = authentication.getAuthorities().iterator().next();
+                return firstAuthority.getAuthority();
+            }
+        }
+        return null;
     }
 
     @Operation(summary = "Get a Image Product by its id")
