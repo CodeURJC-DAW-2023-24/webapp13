@@ -1,5 +1,6 @@
 package es.gualapop.backend.controller.api;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,19 @@ public class LoginRestController {
 
     @PostMapping("/logout")
     public ResponseEntity<AuthResponse> logOut(HttpServletRequest request, HttpServletResponse response) {
+        // Eliminar la cookie 'accessToken'
+        Cookie accessTokenCookie = new Cookie("accessToken", null);
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(0);
+        response.addCookie(accessTokenCookie);
 
-        return ResponseEntity.ok(new AuthResponse(AuthResponse.Status.SUCCESS, userService.logout(request, response)));
+        // Eliminar la cookie 'refreshToken'
+        Cookie refreshTokenCookie = new Cookie("refreshToken", null);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(0);
+        response.addCookie(refreshTokenCookie);
+
+        // Devolver una respuesta exitosa
+        return ResponseEntity.ok(new AuthResponse(AuthResponse.Status.SUCCESS, "Logout successful"));
     }
 }

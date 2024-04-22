@@ -21,10 +21,10 @@ import java.security.SecureRandom;
 @Configuration
 @Order(1)
 public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10, new SecureRandom());
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder(10, new SecureRandom());
+//    }
 
     @Autowired
     private UserDetailsService userDetailsService;
