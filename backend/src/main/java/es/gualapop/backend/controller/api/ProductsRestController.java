@@ -504,46 +504,56 @@ public class ProductsRestController {
     }
 
     @JsonView(Product.Detailed.class)
-    @GetMapping("/compras")
+    @GetMapping("/purchase")
     public ResponseEntity<?> purchaseProduct(
             @RequestParam(name = "productID", required = true) Long productID,
             @RequestParam(name = "rating", required = false, defaultValue = "0.0") float rating) {
 
-        Optional<Product> product = productRepository.findById(productID);
-        if (product.isPresent()) {
-            Product product1 = product.get();
-            Long sellerID = product1.getOwner();
+        if (productID == null) {
+            return ResponseEntity.badRequest().body("ProductID is required");
+        }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        Optional<Product> product = productRepository.findById(productID);
+
+        if (product.isPresent()) {
+            Product purchasedProduct = product.get();
+
+            // Check if the current user is the owner of the product
+            if (!purchasedProduct.getOwner().equals(currentUsername)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to purchase this product");
+            }
+
+            Double price = purchasedProduct.getPrice();
+
+            // Save the review if a valid rating is provided
             if (rating > 0) {
-                // Guarda la revisión solo si la calificación es mayor que 0
-                Review review = new Review(rating, sellerID);
+                Review review = new Review(rating, purchasedProduct.getOwner());
                 reviewRepository.save(review);
             }
 
-            Double price = product1.getPrice();
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String currentUsername = authentication.getName();
-
-            // Incrementa los ingresos del vendedor
-            Optional<User> seller = userRepository.findById(product1.getOwner());
+            // Update seller's income
+            Optional<User> seller = userRepository.findById(purchasedProduct.getOwner());
             seller.ifPresent(user -> {
                 user.setIncome(user.getIncome() + price);
                 userRepository.save(user);
             });
 
-            // Aumenta los gastos del comprador
+            // Update buyer's expenses
             Optional<User> buyer = userRepository.findByUsername(currentUsername);
-            buyer.ifPresent(thisUser -> {
-                thisUser.setExpense(thisUser.getExpense() + price);
-                userRepository.save(thisUser);
+            buyer.ifPresent(user -> {
+                user.setExpense(user.getExpense() + price);
+                userRepository.save(user);
             });
 
-            // Elimina el producto de la base de datos después de la compra
-            productRepository.deleteById(productID);
+            // Delete the product from the database after purchase
+            productRepository.delete(purchasedProduct);
 
-            return ResponseEntity.ok().body("Producto comprado: " + product.get());
+            return ResponseEntity.ok().body("Product purchased: " + purchasedProduct);
         } else {
-            // Si el producto no se encuentra
+            // If the product is not found
             return ResponseEntity.notFound().build();
         }
     }

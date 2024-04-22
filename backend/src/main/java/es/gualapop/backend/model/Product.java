@@ -69,7 +69,7 @@ public class Product {
     }
 
     public Long getOwner() {
-        return owner;
+        return this.owner;
     }
 
     public void setOwner(Long owner) {
