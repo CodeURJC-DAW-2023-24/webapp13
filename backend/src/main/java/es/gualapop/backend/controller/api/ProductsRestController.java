@@ -70,7 +70,7 @@ public class ProductsRestController {
     private ReviewRepository reviewRepository;
     @Autowired
     private UserRepository userRepository;
-    @Operation(summary = "Get New Eight Products")
+    @Operation(summary = "Get Products")
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
@@ -83,14 +83,24 @@ public class ProductsRestController {
     @JsonView(Product.Detailed.class)
     @GetMapping("/")
     public ResponseEntity<List<Product>> getAllProducts(@RequestParam(defaultValue = "1") int page,
-                                                        @RequestParam(defaultValue = "8") int size){
-        Pageable pageable = PageRequest.of(page - 1, size); // Ajuste para que la página comience desde 1
-        Page<Product> productPage = productService.getProductsPage(pageable);
+                                                        @RequestParam(defaultValue = "8") int size,
+                                                        @RequestParam(required = false, defaultValue = "0") Long productType){
+        if (productType == 0){
+            Pageable pageable = PageRequest.of(page - 1, size); // Ajuste para que la página comience desde 1
+            Page<Product> productPage = productService.getProductsPage(pageable);
 
-        if (productPage.isEmpty()){
-            return ResponseEntity.notFound().build();
+            if (productPage.isEmpty()){
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok().body(productPage.getContent());
+            }
         } else {
-            return ResponseEntity.ok().body(productPage.getContent());
+            List<Product> products = productService.getProductsByProductType(productType);
+            if (products.isEmpty()){
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok().body(products);
+            }
         }
     }
 
@@ -305,153 +315,6 @@ public class ProductsRestController {
 			return ResponseEntity.notFound().build();
 		}
 	}
-
-    @Operation(summary = "Get All electronic products")
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found the Products",
-            content = {@Content(
-                mediaType = "application/json"
-            )}
-        )
-    })
-    @JsonView(Product.Detailed.class)
-    @GetMapping("/electronics")
-    public ResponseEntity<List<Product>> getElectronics(){
-        List<Product> products = productService.getProductsByProductType((long) 1);
-        if (products.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(products);
-        }
-    }
-
-    @Operation(summary = "Get All furniture products")
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found the Products",
-            content = {@Content(
-                mediaType = "application/json"
-            )}
-        )
-    })
-    @JsonView(Product.Detailed.class)
-    @GetMapping("/furniture")
-    public ResponseEntity<List<Product>> getFurniture(){
-        List<Product> products = productService.getProductsByProductType((long) 2);
-        if (products.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(products);
-        }
-    }
-
-    @Operation(summary = "Get All clothing products")
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found the Products",
-            content = {@Content(
-                mediaType = "application/json"
-            )}
-        )
-    })
-    @JsonView(Product.Detailed.class)
-    @GetMapping("/clothes")
-    public ResponseEntity<List<Product>> getClothes(){
-        List<Product> products = productService.getProductsByProductType((long) 3);
-        if (products.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(products);
-        }
-    }
-
-    @Operation(summary = "Get All book products")
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found the Products",
-            content = {@Content(
-                mediaType = "application/json"
-            )}
-        )
-    })
-    @JsonView(Product.Detailed.class)
-    @GetMapping("/books")
-    public ResponseEntity<List<Product>> getBooks(){
-        List<Product> products = productService.getProductsByProductType((long) 4);
-        if (products.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(products);
-        }
-    }
-
-    @Operation(summary = "Get All sport products")
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found the Products",
-            content = {@Content(
-                mediaType = "application/json"
-            )}
-        )
-    })
-    @JsonView(Product.Detailed.class)
-    @GetMapping("/sports")
-    public ResponseEntity<List<Product>> getSports(){
-        List<Product> products = productService.getProductsByProductType((long) 5);
-        if (products.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(products);
-        }
-    }
-
-    @Operation(summary = "Get All home and garden products")
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found the Products",
-            content = {@Content(
-                mediaType = "application/json"
-            )}
-        )
-    })
-    @JsonView(Product.Detailed.class)
-    @GetMapping("/homegarden")
-    public ResponseEntity<List<Product>> getHomeGarden(){
-        List<Product> products = productService.getProductsByProductType((long) 6);
-        if (products.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(products);
-        }
-    }
-
-    @Operation(summary = "Get All toy products")
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "Found the Products",
-            content = {@Content(
-                mediaType = "application/json"
-            )}
-        )
-    })
-    @JsonView(Product.Detailed.class)
-    @GetMapping("/toys")
-    public ResponseEntity<List<Product>> getToys(){
-        List<Product> products = productService.getProductsByProductType((long) 7);
-        if (products.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(products);
-        }
-    }
 
     @Operation(summary = "Get similar products")
     @ApiResponses(value = {
