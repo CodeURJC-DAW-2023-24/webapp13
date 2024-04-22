@@ -1,18 +1,19 @@
 #!/bin/bash
 
-# Login in dockerhub
-echo "Login into Docker Hub..."
-docker login
-
-# image name and tag
-IMAGE_NAME="fervo8564/gualapop"
+USERNAME="fervo8564"
+IMAGE_NAME="gualapop"
 TAG="latest"
 
-# compilation of the image
-docker build -t "$IMAGE_NAME:$TAG" .
+# delete image from local disk if exist
+echo "Deleting previous image..."
+docker image rm "$USERNAME/$IMAGE_NAME:$TAG" 2>/dev/null
+
+# Ccompile the image
+echo "Compiling the image..."
+docker build -t "$USERNAME/$IMAGE_NAME:$TAG" .
 
 # publish the image into dockerhub
 echo "Publishing image into Docker Hub..."
-docker push "$IMAGE_NAME:$TAG"
+docker push "$USERNAME/$IMAGE_NAME:$TAG"
 
 echo "Succesfully uploaded the image in Docker Hub"
