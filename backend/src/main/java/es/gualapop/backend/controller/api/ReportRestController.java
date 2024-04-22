@@ -31,32 +31,6 @@ public class ReportRestController {
     @Autowired
     private ReportRepository reportRepository;
 
-    @JsonView(Report.Detailed.class)
-    @Operation(summary = "Get new reports for a user")
-    @GetMapping("/{userID}")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "New reports retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "User not found")
-    })
-    public ResponseEntity<?> newReports(HttpServletRequest request, @PathVariable("userID") Long userID) {
-        //Obtener el nombre del usuario al que se va a reportar
-        Optional<User> userReportedName = userRepository.findByUserID(userID);
-        if(userReportedName.isPresent()) {
-            // Obtener la fecha actual
-            LocalDate fechaActual = LocalDate.now();
-            // Formatear la fecha en el formato deseado
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String fechaFormateada = fechaActual.format(formatter);
-
-            String respuesta = "\"date: \"" + fechaFormateada + "\"reported user: \"" + userReportedName.get().getUsername();
-
-            return ResponseEntity.ok().body(respuesta);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-
-    }
-
 
     @JsonView(Report.Detailed.class)
     @Operation(summary = "Add new report")
@@ -115,7 +89,7 @@ public class ReportRestController {
 
     @JsonView(Report.Detailed.class)
     @Operation(summary = "Manage report by ID")
-    @GetMapping("/manage/{id}")
+    @GetMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Report details retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "Report not found")
