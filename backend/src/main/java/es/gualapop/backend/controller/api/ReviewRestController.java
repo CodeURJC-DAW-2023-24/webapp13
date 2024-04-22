@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,13 +20,11 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import es.gualapop.backend.model.Product;
-import es.gualapop.backend.model.Report;
+
 import es.gualapop.backend.model.Review;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
-import es.gualapop.backend.service.ReviewService;
 
 @RestController
 @CrossOrigin
@@ -81,26 +82,34 @@ public class ReviewRestController {
     public ResponseEntity<String> postReview(HttpServletRequest request,
                                                @RequestParam("rating") float rating,
                                                @RequestParam("sellerID") Long sellerID) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
         Review review = new Review();
         Optional<User> user = userRepository.findById(sellerID);
-        if(!user.isPresent()){
+        if(user.isEmpty()){
             return ResponseEntity.badRequest().body("Seller not found");
         }
         if(rating<0 || rating>5){
             return ResponseEntity.badRequest().body("Review's rating must be between 0 and 5");
         }
-        
-        review.setRating(rating);
-        review.setSellerID(sellerID);
 
-        reviewRepository.save(review);
+        if(currentUsername.equals(user.get().getName()))  {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You cant write any review for your own products");
+        } else {
+            review.setRating(rating);
+            review.setSellerID(sellerID);
 
-        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        String locationUrl = baseUrl + request.getRequestURI() + "/" + review.getReviewID();
+            reviewRepository.save(review);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", locationUrl);
-        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body("Review added successfully");
+            String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+            String locationUrl = baseUrl + request.getRequestURI() + "/" + review.getReviewID();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", locationUrl);
+            return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body("Review added successfully");
+        }
     }
 
     @Operation(summary = "Delete a review by ID")
@@ -148,7 +157,7 @@ public class ReviewRestController {
             if (sellerID != null) {
                 // Verificar si el usuario existe
                 Optional<User> optionalUser = userRepository.findById(sellerID);
-                if (!optionalUser.isPresent()) {
+                if (optionalUser.isEmpty()) {
                     return ResponseEntity.badRequest().body("User with ID " + sellerID + " not found");
                 }
                 review.setSellerID(sellerID);
