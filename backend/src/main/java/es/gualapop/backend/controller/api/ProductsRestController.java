@@ -503,8 +503,18 @@ public class ProductsRestController {
         }
     }
 
+    @Operation(summary = "Purchase Product")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Product purchased",
+            content = {@Content(
+                mediaType = "application/json"
+            )}
+        )
+    })
     @JsonView(Product.Detailed.class)
-    @GetMapping("/purchase")
+    @PostMapping("/purchase")
     public ResponseEntity<?> purchaseProduct(
             @RequestParam(name = "productID", required = true) Long productID,
             @RequestParam(name = "rating", required = false, defaultValue = "0.0") float rating) {
@@ -522,9 +532,16 @@ public class ProductsRestController {
             Product purchasedProduct = product.get();
 
             // Check if the current user is the owner of the product
-            if (!purchasedProduct.getOwner().equals(currentUsername)) {
+            Optional<User> user1 = userRepository.findById(purchasedProduct.getOwner());
+            if (user1.isPresent()){
+                String owner = user1.get().getUsername();
+                if (owner.equals(currentUsername)) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to purchase this product");
+                }
+            } else {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to purchase this product");
             }
+            
 
             Double price = purchasedProduct.getPrice();
 
