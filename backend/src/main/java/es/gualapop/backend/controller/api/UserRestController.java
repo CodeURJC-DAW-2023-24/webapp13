@@ -1,6 +1,7 @@
 package es.gualapop.backend.controller.api;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import es.gualapop.backend.controller.api.RequestStructures.UserRegistrationRequest;
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.Report;
 import es.gualapop.backend.model.Review;
@@ -210,31 +211,39 @@ public class UserRestController {
             @ApiResponse(responseCode = "404", description = "User registration failed")
     })
     @JsonView(User.Detailed.class)
-
     @PostMapping("/")
-    public ResponseEntity<Object> registerUser(String name, String username, String password, String repeatPassword, String email,
-                               @RequestParam(required = false) MultipartFile image) throws IOException {
+    public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationRequest request) throws IOException {
+        // Extraer datos del objeto UserRegistrationRequest
+        String name = request.getName();
+        String username = request.getUsername();
+        String password = request.getPassword();
+        String repeatPassword = request.getRepeatPassword();
+        String email = request.getEmail();
+        MultipartFile image = request.getImage();
 
-        User user = new User(username, null, email, password, name, null,"USER");
-        if(userService.checkPassword(password, repeatPassword)){
+        // Crear y registrar el usuario usando los datos proporcionados
+        User user = new User(username, null, email, password, name, null, "USER");
+
+        if (userService.checkPassword(password, repeatPassword)) {
             if (userService.registerUser(user, image)) {
+                // Crear la URL de ubicación del recurso creado
                 String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
                 String locationUrl = baseUrl + "/users/" + user.getUserID(); // Por ejemplo, /users/{userID}
 
-                // Agrega la cabecera "Location" con la URL del recurso creado
+                // Agregar la cabecera "Location" con la URL del recurso creado
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Location", locationUrl);
 
-                // Devuelve la respuesta con el código 200 y la cabecera "Location"
+                // Devolver la respuesta con el código 200 y la cabecera "Location"
                 return ResponseEntity.ok().headers(headers).body("User created successfully");
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No ha sido posible registrar el usuario");
             }
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Las contraseñas no son las mismas");
-
         }
     }
+
 
     @Operation(summary = "Get All Products by User ID")
     @ApiResponses(value = {
