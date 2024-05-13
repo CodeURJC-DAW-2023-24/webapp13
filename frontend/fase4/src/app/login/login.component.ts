@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,17 +9,27 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   admin = true;
+  formulario: FormGroup;
 
-  constructor(private router: Router) {}
-
+  constructor(private router: Router,private formBuilder: FormBuilder) {
+    this.formulario = this.formBuilder.group({
+      Username: ['', Validators.required],
+      Password: ['', Validators.required],
+    });
+  }
   ngOnInit(): void {
   }
 
   redirectLogin(){
-    if (this.admin){
-      this.router.navigate(['/admin']);
+    if (this.formulario.valid) {
+      console.log("Formulario válido, enviar datos:", this.formulario.value);
+      if (this.admin){
+        this.router.navigate(['/admin']);
+      } else {
+        this.router.navigate(['/']);
+      }
     } else {
-      this.router.navigate(['/']);
+      console.log("Formulario inválido, revisa los campos.");
     }
   }
 }

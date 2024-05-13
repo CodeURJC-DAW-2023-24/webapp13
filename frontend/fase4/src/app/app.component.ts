@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   constructor(private router: Router) {}
-  logged = true;
+  logged = false;
   redirectProfile(){
     if (this.logged){
       this.router.navigate(['/profile']);

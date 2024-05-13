@@ -1,51 +1,55 @@
 <section>
     <div class="container mt-5">
-    <form method="post"  action="/addNewProduct" enctype="multipart/form-data">
+
+
+    <form [formGroup]="formulario" (ngSubmit)="registerProduct()">
         <div class="mb-3">
             <label  class="form-label">Titulo</label>
-            <input name='Title' type="text" class="form-control" placeholder="bicicleta de montaña">
+            <input formControlName='Title' type="text" class="form-control" placeholder="bicicleta de montaña">
+
         </div>
         <div class="form-group">
             <label for="formFileSingle" class="form-label">Selecciona una imagen:</label>
-            <input class="form-control" name='imageFile' type="file" id="formFileSingle" accept="image/*" required/>
+            <input formControlName='imageFile' class="form-control"  type="file" id="formFileSingle" accept="image/*" required/>
         </div>
 
         <div class="mb-3">
             <label  class="form-label">Precio</label>
-            <input name='Price' type="number" step="0.01" class="form-control" placeholder="€">
+            <input formControlName='Price' type="number" step="0.01" class="form-control" placeholder="€">
         </div>
 
         <div class="mb-3">
-            <textarea name ='Description' class="form-control" id="exampleFormControlTextarea1" rows="3"
+            <textarea formControlName ='Description' class="form-control" id="exampleFormControlTextarea1" rows="3"
                       placeholder="Descripcion del producto..."></textarea>
         </div>
         <div class="dropdown">
+          <label class="form-label">Categoría</label>
             <div class="dropdown-item">
-                <input type="radio" id="category1" name='Category' value="Electrónica">
+                <input type="radio" id="category1" formControlName='Category' value="Electrónica">
                 <label for="category1">Electrónica</label>
             </div>
             <div class="dropdown-item">
-                <input type="radio" id="category2" name='Category' value="Muebles">
+                <input type="radio" id="category2" formControlName='Category' value="Muebles">
                 <label for="category2">Muebles</label>
             </div>
             <div class="dropdown-item">
-                <input type="radio" id="category3" name='Category' value="Ropa">
+                <input type="radio" id="category3" formControlName='Category' value="Ropa">
                 <label for="category1">Ropa</label>
             </div>
             <div class="dropdown-item">
-                <input type="radio" id="category4" name='Category' value="Libros">
+                <input type="radio" id="category4" formControlName='Category' value="Libros">
                 <label for="category2">Libros</label>
             </div>
             <div class="dropdown-item">
-                <input type="radio" id="category5" name='Category' value="Deportes">
+                <input type="radio" id="category5" formControlName='Category' value="Deportes">
                 <label for="category2">Deportes</label>
             </div>
             <div class="dropdown-item">
-                <input type="radio" id="category6" name='Category' value="Hogar">
+                <input type="radio" id="category6" formControlName='Category' value="Hogar">
                 <label for="category1">Hogar y Jardín</label>
             </div>
             <div class="dropdown-item">
-                <input type="radio" id="category7" name='Category' value="Juguetes">
+                <input type="radio" id="category7" formControlName='Category' value="Juguetes">
                 <label for="category2">Juguetes</label>
             </div>
         </div>
@@ -53,32 +57,33 @@
             <div class="row g-3">
                 <div class="col-12">
                     <label for="inputAddress" class="form-label">Dirección</label>
-                    <input name='Address' type="text" class="form-control" id="inputAddress" placeholder="Gran Via, 3">
+                    <input formControlName='Address' type="text" class="form-control" id="inputAddress" placeholder="Gran Via, 3">
                 </div>
                 <div class="col-md-6">
                     <label for="inputCity" class="form-label">Ciudad</label>
-                    <input name='City' type="text" class="form-control" id="inputCity">
+                    <input formControlName='City' type="text" class="form-control" id="inputCity">
                 </div>
                 <div class="col-md-4">
                     <label for="inputState" class="form-label">Provincia</label>
-                    <select name='Province' id="inputState" class="form-select">
-                        <option selected>Elige...</option>
-                        <option>A Coruña</option>
-                        <option>Álava</option>
-                        <option>Albacete</option>
-                        <option>Alicante</option>
-                        <!-- Otras opciones de provincia -->
+                    <select formControlName='Province' id="inputState" class="form-select">
+                        <option value="" disabled selected>Elige...</option>
+                        <option value="A Coruña">A Coruña</option>
+                        <option value="Álava">Álava</option>
+                        <option value="Albacete">Albacete</option>
+                        <option value="Alicante">Alicante</option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <label for="inputZip" class="form-label">Código postal</label>
-                    <input name='Cp' type="text" class="form-control" id="inputZip">
+                    <input formControlName='Cp' type="text" class="form-control" id="inputZip">
                 </div>
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary btn-lg btn-block" (click)="registerProduct()">Registrar Nuevo Producto</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Registrar Nuevo Producto</button>
                 </div>
             </div>
         </div>
     </form>
+
+
     </div>
 </section>
