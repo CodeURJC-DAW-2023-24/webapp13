@@ -5,12 +5,14 @@ import { LoginComponent } from './login/login.component';
 import { IndexComponent } from './index/index.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { NewProductComponent } from './new-product/new-product.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent},
   { path: 'login', component: LoginComponent},
   { path: 'profile', component: ProfileComponent},
-  { path: 'admin', component: AdminPanelComponent} // Asume que tienes un componente llamado LoginComponent
+  { path: 'admin', component: AdminPanelComponent},
+  { path: 'newProduct', component: NewProductComponent} // Asume que tienes un componente llamado LoginComponent
   // Puedes agregar más rutas aquí según las necesidades de tu aplicación
 ];
 
