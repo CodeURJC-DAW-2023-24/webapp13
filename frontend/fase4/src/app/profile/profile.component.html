@@ -1,0 +1,147 @@
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <div class="container">
+      <div class="container px-4 px-lg-5">
+        <a class="fa fa-arrow-left mb-3" href="/" aria-hidden="true"> Return</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></button>
+      <div class="row flex-lg-nowrap">
+        <div class="col">
+          <div class="row">
+            <div class="col mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="e-profile">
+                    <!--{{#user}}-->
+                    <div class="row">
+                      <div class="col-12 col-sm-auto mb-3">
+                        <div class="mx-auto" style="width: 140px; height: 140px;">
+                          <div class="d-flex justify-content-center align-items-center rounded">
+                               <img src="/user/1/image" alt="avatar" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                        </div>
+                      </div>
+                      <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                          <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">FULLNAME</h4>
+                          <p class="mb-0">@USERNAME</p>
+                          <p class="mb-0 d-block">Valoración: 2</p>
+                        </div>
+                        <div class="px-xl-3 w3-right">
+                          <a href="/logout" class="btn btn-block btn-secondary">
+                            <i class="fa fa-sign-out"></i>
+                            <span>Logout</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w3-bar w3-blue">
+                      <button class="w3-bar-item w3-button w3-hover-light-blue" onclick="openTab('Products')"><i class="fa fa-fw fa-archive"></i>Products</button>
+                      <button class="w3-bar-item w3-button w3-hover-light-blue" onclick="openTab('Beneficts')"><i class="fa fa-fw fa-line-chart"></i>Beneficts</button>
+                      <button class="w3-bar-item w3-button w3-hover-light-blue" onclick="openTab('Settings')"><i class="fa fa-fw fa-cog"></i>Settings</button>
+                    </div>
+    
+                    <div id="Products" class="w3-container tab">
+                      <h2>Products</h2>
+                      <p>Here are your products you have uploaded</p>
+                      <div class="mt-2 mb-2">
+                        <a class="btn btn-primary" href="/newProduct">
+                          <span>Añadir producto</span>
+                        </a>
+                        <div id="productsContainer"></div>
+                        <a class="btn btn-primary" id="loadMoreBtn">
+                          <span>More Products</span>
+                        </a>
+                      </div>
+                    </div>
+    
+                    <div id="Beneficts" class="w3-container tab" style="display:none">
+                      <h2>Beneficts</h2>
+                      <p>Here is your balance graphic of your purchases/sales</p>
+                      <div class="mx-auto" style="width: 400px; height: 400px;">
+                        <canvas id="balanceChart" data-ingresos="5" data-gastos="7"></canvas>
+                      </div>
+                    </div>
+                    
+    
+                    <div id="Settings" class="w3-container tab" style="display:none">
+                      <h2>Settings</h2>
+                        <div data-content id="settings" class="active">
+                          <form id="updateForm" class="mx-1 mx-md-4" action="/updateUser/1" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                              <div class="col">
+                                <div class="row">
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label for="fullName">Full Name</label>
+                                      <input class="form-control" id="fullName" type="text" name="fullName" placeholder="Nuevo nombre"/>
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label for="username">Username</label>
+                                      <input class="form-control" id="username" type="text" name="username" placeholder="Nuevo nombre de usuario"/>
+                                    </div>
+                                    <div class="delete">
+                                      <a type="button" class="btn btn-primary btn-lg red" href="/deleteAccount/1" >Eliminar</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-sm-6 mb-3">
+                                <div class="mb-2"><b>Change Password</b></div>
+                                <div class="row">
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label for="currentPassword">Current Password</label>
+                                      <input class="form-control" id="currentPassword" type="password" name="currentPassword" placeholder="••••••"/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!--{{#error}}-->
+                                <div class="form-outline mb-4 w-50 mx-auto">
+                                    <p class="text-danger">Las contraseñas no coinciden</p>
+                                </div>
+                                <!--{{/error}}-->
+                                <div class="row">
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label for="newPassword">New Password</label>
+                                      <input class="form-control" id="newPassword" type="password" name="newPassword" placeholder="••••••"/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col">
+                                    <div class="form-group">
+                                      <label for="confirmPassword">Confirm Password</label>
+                                      <input class="form-control" id="confirmPassword" type="password" name="confirmPassword" placeholder="••••••"/>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="form-group">
+                                <div class="mb-2"><b>Change Photo</b>
+                                <input class="form-control" name='imageFile' type="file" id="imageFile" accept="image/*"/>
+                              </div>
+                              </div>
+                              </div>
+                            <div class="row">
+                              <div class="col d-flex justify-content-end">
+                                <button class="btn btn-primary" type="submit">Save Changes</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                    </div>
+                    <!--{{/user}}-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
