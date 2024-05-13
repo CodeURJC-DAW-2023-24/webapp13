@@ -1,0 +1,93 @@
+<section>
+  <div class="container">
+  <div class="row align-items-center">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+
+          <div class="pt-20 rounded-top" style="background:
+      url(https://e0.pxfuel.com/wallpapers/715/904/desktop-wallpaper-dark-grey-space-grey.jpg) no-repeat;
+      background-size: cover;">
+          </div>
+          <div class="card rounded-bottom smooth-shadow-sm">
+              <div class="d-flex align-items-center justify-content-between pt-4 pb-6 px-4">
+                  <div class="d-flex align-items-center">
+                      <!--{{#user}}-->
+                      <div class="avatar-xxl avatar-indicators avatar-online me-2 position-relative d-flex justify-content-end align-items-end mt-n10">
+                          <img class="avatar-xxl rounded-circle border border-2 " alt="Image"><!--src="/user/{{userID}}/image"-->
+                      </div>
+                      <div class="lh-1">
+                          <h2 class="mb-0"><!--{{name}}-->nombre</h2>
+                          <p class="mb-0 d-block">Valoración: <!--{{rating}}--></p>
+                      </div>
+                      <!--{{/user}}-->
+                      <!--{{#logged}}-->
+                      <div class="mt-2 mb-2 m-lg-5">
+                          <a class="btn btn-primary " routerLink="/report"> <!--href="/report/{{userID}}"-->
+                              <span>Reportar</span>
+                          </a>
+                      </div>
+                      <!--{{/logged}}-->
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <br>
+  <h2 class="mb-0">Products</h2>
+  <br>
+      <div class="py-6">
+      <div class="row">
+          <!--{{#products}}-->
+
+          <div class="col-lg-4 col-12">
+              <div class="card mb-5 rounded-3">
+                  <div>
+                      <img alt="Image" class="img-fluid rounded-top"><!--src="/product/{{id}}/image"-->
+                  </div>
+                  <div class="card-body">
+                      <h4 class="mb-1"><!--{{title}}-->titulo</h4>
+                      <div>
+                          <div class="d-flex justify-content-between align-items-center">
+                              <a routerLink="/product" class="btn btn-outline-primary">Ver Anuncio</a><!--href="/product/{{id}}"-->
+                              <div class="dropdown dropstart">
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuOne">
+                                      <a class="dropdown-item d-flex align-items-center" href="#!">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                               stroke-linecap="round" stroke-linejoin="round"
+                                               class="feather feather-file-text me-2 icon-xxs dropdown-item-icon">
+                                              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                              <polyline points="14 2 14 8 20 8"></polyline>
+                                              <line x1="16" y1="13" x2="8" y2="13"></line>
+                                              <line x1="16" y1="17" x2="8" y2="17"></line>
+                                              <polyline points="10 9 9 9 8 9"></polyline>
+                                          </svg>
+                                          Editar
+                                      </a>
+                                      <a class="dropdown-item d-flex align-items-center" href="#!">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                               stroke-linecap="round" stroke-linejoin="round"
+                                               class="feather feather-trash-2 me-2 icon-xxs dropdown-item-icon">
+                                              <polyline points="3 6 5 6 21 6"></polyline>
+                                              <path
+                                                      d="M16 6l-1.083-1.083A2 2 0 0 0 13.917 4H10.083a2 2 0 0 0-1.916.917L7 6M4 6V4h16v2"></path>
+                                              <line x1="9" y1="14" x2="15" y2="14"></line>
+                                              <path
+                                                      d="M12 14V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1H10v1a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-6"></path>
+                                          </svg>
+                                          Eliminar
+                                      </a>
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!--{{/products}}-->
+
+      </div>
+  </div>
+  </div>
+</section>

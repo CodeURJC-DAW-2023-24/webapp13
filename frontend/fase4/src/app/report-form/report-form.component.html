@@ -1,0 +1,52 @@
+<section>
+  <form [formGroup]="formulario" (ngSubmit)="addReport()"><!--action="/addNewReport/{{userReported}}"-->
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <h1 class="title"> Informar sobre un usuario</h1>
+        <div class="card w-100 IndividualCard ">
+           <div class="container">
+               <!--{{#user}}-->
+             <div class="reporter-details">
+               <h6>Datos del Usuario que Reporta:</h6>
+               <p>Nombre de usuario: <!--{{user}}--></p>
+               <p name ="Date">Fecha de Reporte: <!--{{fechaActual}}--></p>
+             </div>
+               <!--{{/user}}-->
+               <!--{{#userReported}}-->
+             <div class="reported-details">
+               <h6>Datos del Usuario Reportado: </h6>
+                 <p>Nombre de usuario: <!--{{userReported}}--></p>
+             </div>
+               <!--{{/userReported}}-->
+             <br>
+             <h6>Reportar al usuario por:</h6>
+             <div class="dropdown">
+               <div class="dropdown-item">
+                 <input type="radio" id="category1" formControlName='Category' value="Nombre inapropiado" required>
+                 <label for="category1">Nombre inapropiado</label>
+               </div>
+               <div class="dropdown-item">
+                 <input type="radio" id="category2" formControlName='Category' value="Producto fraudulento">
+                 <label for="category2">Producto fraudulento</label>
+               </div>
+               <div class="dropdown-item">
+                 <input type="radio" id="category3" formControlName='Category' value="Cuenta fraudulenta">
+                 <label for="category1">Cuenta fraudulenta</label>
+               </div>
+             </div>
+            <br>
+            <div class="report-description" >
+              <h6>Descripción del Reporte</h6>
+              <textarea rows="10" cols="80" formControlName="Description" required></textarea>
+           </div>
+        </div>
+      </div>
+    </div>
+    <div class="ndelete">
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Enviar reporte</button>
+    </div>
+  </div>
+  </div>
+</form>
+</section>
