@@ -4,7 +4,7 @@ import es.gualapop.backend.model.Review;
 import es.gualapop.backend.repository.ProductRepository;
 import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
-import org.springframework.http.MediaType;
+import es.gualapop.backend.service.ProductTypeService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,6 +61,8 @@ public class ProductsRestController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductTypeService productTypeService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -366,6 +369,12 @@ public class ProductsRestController {
         }
     }
 
+    @JsonView(Product.Detailed.class)
+    @GetMapping("/getCategories")
+    public ResponseEntity<ArrayList<String>> getAllCategories(){
+        return ResponseEntity.ok().body(productTypeService.getAllCategories());
+    }
+
     @Operation(summary = "Purchase Product")
     @ApiResponses(value = {
         @ApiResponse(
@@ -376,6 +385,7 @@ public class ProductsRestController {
             )}
         )
     })
+
     @JsonView(Product.Detailed.class)
     @PostMapping("/purchase")
     public ResponseEntity<?> purchaseProduct(
