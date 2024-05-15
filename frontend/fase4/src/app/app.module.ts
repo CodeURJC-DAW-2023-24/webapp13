@@ -14,6 +14,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { ProfileConsultComponent } from './profile-consult/profile-consult.component';
 import { IndividualProductComponent } from './individual-product/individual-product.component';
 import { ReportFormComponent } from './report-form/report-form.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { ReportFormComponent } from './report-form/report-form.component';
     BrowserModule,
     AppRoutingModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

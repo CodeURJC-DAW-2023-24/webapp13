@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../Models/user.model';
 import { Product } from '../Models/product.model';
-import {Rewiew} from "../Models/rewiew.model";
+import {Review} from "../Models/review.model";
 
 
 const BASE_URL = '/api/users/';
@@ -14,9 +14,7 @@ export class UsersService{
   constructor(private httpClient: HttpClient) { }
 
   getUser(id: number | string): Observable<User> {
-    return this.httpClient.get(BASE_URL + id).pipe(
-      //catchError(error => this.handleError(error))
-    ) as Observable<User>;
+    return this.httpClient.get(BASE_URL + id).pipe() as Observable<User>;
   }
 
   addUserOrUpdate(user: User) {
@@ -44,10 +42,10 @@ export class UsersService{
       //catchError(error => this.handleError(error))
     ) as Observable<Product[]>;
   }
-  getUserRewiewsById(id: number | string): Observable<Rewiew[]> {
+  getUserRewiewsById(id: number | string): Observable<Review[]> {
     return this.httpClient.get(BASE_URL + id +'/reviews').pipe(
       //catchError(error => this.handleError(error))
-    ) as Observable<Rewiew[]>;
+    ) as Observable<Review[]>;
   }
 
   getUserImageById(id: number | string): Observable<Blob>{

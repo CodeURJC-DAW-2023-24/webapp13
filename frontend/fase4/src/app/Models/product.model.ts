@@ -4,8 +4,7 @@ export interface Product {
   address: string;
   price: number;
   description: string;
-  imageFile: Blob;
-  image: boolean;
-  owner: number;
   productType: number;
+  owner: number;
+  image?: boolean;
 }
