@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../Models/user.model';
 import { Product } from '../Models/product.model';
-import {Review} from "../Models/review.model";
+import { Review } from "../Models/review.model";
 
 
 const BASE_URL = '/api/users/';
@@ -14,7 +14,9 @@ export class UsersService{
   constructor(private httpClient: HttpClient) { }
 
   getUser(id: number | string): Observable<User> {
-    return this.httpClient.get(BASE_URL + id).pipe() as Observable<User>;
+    return this.httpClient.get<User>(BASE_URL + id).pipe(
+      catchError(error => this.handleError(error))
+    ) as Observable<User>;
   }
 
   addUserOrUpdate(user: User) {
@@ -38,19 +40,19 @@ export class UsersService{
   }
 
   getUserProductsById(id: number | string): Observable<Product[]> {
-    return this.httpClient.get(BASE_URL + id +'/allProducts').pipe(
-      //catchError(error => this.handleError(error))
+    return this.httpClient.get<Product[]>(BASE_URL + id +'/allProducts').pipe(
+      catchError(error => this.handleError(error))
     ) as Observable<Product[]>;
   }
   getUserRewiewsById(id: number | string): Observable<Review[]> {
-    return this.httpClient.get(BASE_URL + id +'/reviews').pipe(
-      //catchError(error => this.handleError(error))
+    return this.httpClient.get<Review[]>(BASE_URL + id +'/reviews').pipe(
+      catchError(error => this.handleError(error))
     ) as Observable<Review[]>;
   }
 
   getUserImageById(id: number | string): Observable<Blob>{
-    return this.httpClient.get(BASE_URL + id +'/image').pipe(
-      //catchError(error => this.handleError(error))
+    return this.httpClient.get<Blob>(BASE_URL + id +'/image').pipe(
+      catchError(error => this.handleError(error))
     ) as Observable<Blob>;
   }
   private handleError(error: any) {

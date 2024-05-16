@@ -772,6 +772,26 @@
 			},
 			"response": []
 		},
+
+		{
+			"name": "Delete Report by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://localhost:8443/api/reports/",
+					"protocol": "https",
+					"host": ["localhost"],
+					"port": "8443",
+					"path": ["api","reports", "2"]
+				},
+				"description": "Delete a report by its ID"
+			},
+			"response": []
+		},
+
+
 		{
 			"name": "Login",
 			"request": {

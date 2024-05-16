@@ -1,17 +1,24 @@
 package es.gualapop.backend.controller.api;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.Report;
+import es.gualapop.backend.model.Review;
 import es.gualapop.backend.model.User;
 import es.gualapop.backend.repository.ReportRepository;
 import es.gualapop.backend.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -94,7 +101,7 @@ public class ReportRestController {
             @ApiResponse(responseCode = "200", description = "Report details retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "Report not found")
     })
-    public ResponseEntity<?> manageReport(@PathVariable("id") Long idReport) {
+    public ResponseEntity<Report> manageReport(@PathVariable("id") Long idReport) {
         Optional<Report> optionalReport = reportRepository.findById(idReport);
         if (optionalReport.isPresent()) {
             Report report = optionalReport.get();
@@ -102,6 +109,53 @@ public class ReportRestController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Operation(summary = "Delete Report by ID")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Successful Report delete",
+                    content = {@Content(
+                            mediaType = "application/json"
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Report not found",
+                    content = @Content
+            )
+    })
+    @JsonView(Report.Detailed.class)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteReport(@PathVariable Long id) {
+
+        Optional<Report> optionalReport = reportRepository.findById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String firstRole = getFirstRoleFromAuthentication(authentication);
+        if (optionalReport.isPresent()) {
+            if ("ROLE_ADMIN".equals(firstRole)) {
+                reportRepository.deleteById(id);
+                return ResponseEntity.ok().body("Report deleted successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    private String getFirstRoleFromAuthentication(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            if (!authentication.getAuthorities().isEmpty()) {
+                GrantedAuthority firstAuthority = authentication.getAuthorities().iterator().next();
+                return firstAuthority.getAuthority();
+            }
+        }
+        return null;
     }
 
 }
