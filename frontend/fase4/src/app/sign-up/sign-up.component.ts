@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,9 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
 
-  constructor(private router: Router,private formBuilder: FormBuilder) {
+  constructor(private router: Router,private formBuilder: UntypedFormBuilder) {
     this.formulario = this.formBuilder.group({
       Name: ['', Validators.required],
       Username: ['', Validators.required],
@@ -26,7 +26,7 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  passwordMatchValidator(form: FormGroup) {
+  passwordMatchValidator(form: UntypedFormGroup) {
     const password = form.get('Password');
     const repeatPassword = form.get('RepeatPassword');
 

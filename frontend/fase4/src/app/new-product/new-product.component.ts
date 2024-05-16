@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-new-product',
@@ -8,9 +8,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./new-product.component.css']
 })
 export class NewProductComponent implements OnInit {
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
 
-  constructor(private router: Router,private formBuilder: FormBuilder) {
+  constructor(private router: Router,private formBuilder: UntypedFormBuilder) {
     this.formulario = this.formBuilder.group({
       Title: ['', Validators.required],
       imageFile: ['', Validators.required],

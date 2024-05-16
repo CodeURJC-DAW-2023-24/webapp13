@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsersService } from '../Services/user.service';
 
@@ -10,9 +10,9 @@ import { UsersService } from '../Services/user.service';
 })
 export class LoginComponent implements OnInit {
   admin = true;
-  formulario: FormGroup;
+  formulario: UntypedFormGroup;
 
-  constructor(private router: Router,private formBuilder: FormBuilder, private usersService: UsersService) {
+  constructor(private router: Router,private formBuilder: UntypedFormBuilder, private usersService: UsersService) {
     this.formulario = this.formBuilder.group({
       Username: ['', Validators.required],
       Password: ['', Validators.required],
