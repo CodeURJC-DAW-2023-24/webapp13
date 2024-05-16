@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@angular/core": "^17.3.8",
+    "@auth0/angular-jwt": "^5.2.0",
+    "ngx-cookie-service": "^17.1.0"
+  }
+}

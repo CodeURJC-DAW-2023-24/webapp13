@@ -21,12 +21,18 @@
                     </div>
                     <!--{{/invalid}}-->
                     <!-- Submit button -->
-                    <button type="submit" value="Sign In" class="btn btn-primary btn-block mb-4">Ingresar</button>
+                    <button type="button" (click)="redirectLogin()" value="Sign In" class="btn btn-primary btn-block mb-4">Ingresar</button>
                     <!-- Register buttons -->
-                    <div class="text-center">
-                        <p>No tienes aun una cuenta? <a routerLink="/signUp">Registrarte</a></p>
-                    </div>
                 </form>
+                <div class="text-center">
+                    <p><button (click)="getUserInfo()">Check Info</button></p>
+                </div>
+                <div class="text-center">
+                    <p><button (click)="logout()">Logout</button></p>
+                </div>
+                <div class="text-center">
+                    <p><button (click)="getCookies()">Cookies</button></p>
+                </div>
             </div>
         </div>
     </div>
