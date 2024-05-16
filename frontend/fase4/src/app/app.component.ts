@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductType } from './Models/product-type.model';
-import { ProductService } from './Services/product.service';
+import { ProductService } from './Services/product.service'; // Asegúrate de que la ruta es correcta
 
 @Component({
   selector: 'app-root',
@@ -10,15 +9,16 @@ import { ProductService } from './Services/product.service';
 })
 export class AppComponent implements OnInit {
   title = 'Gualapop';
-  categories: ProductType[] = [];
+  categories: string[] = [];
   logged = false;
 
   constructor(private router: Router, private productService: ProductService) {}
 
   ngOnInit(): void {
     this.productService.getAllCategories().subscribe({
-      next: (categories: ProductType[]) => {
+      next: (categories: string[]) => {
         this.categories = categories;
+        console.log(this.categories); // Verifica que las categorías se están recibiendo correctamente
       },
       error: (err) => {
         console.error('Error fetching categories', err);
@@ -35,5 +35,6 @@ export class AppComponent implements OnInit {
   }
 
   searchProducts(): void {
+    // Implementa la lógica de búsqueda aquí
   }
 }

@@ -8,18 +8,9 @@ import { ProductService } from '../Services/product.service';
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
-  categories: ProductType[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.productService.getAllCategories().subscribe({
-      next: (categories: ProductType[]) => {
-        this.categories = categories;
-      },
-      error: (err) => {
-        console.error('Error fetching categories', err);
-      }
-    });
   }
 }
