@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductType } from '../Models/product-type.model';
+import { ProductService } from '../Services/product.service';
 
 @Component({
   selector: 'app-index',
@@ -7,9 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
   }
-
 }
