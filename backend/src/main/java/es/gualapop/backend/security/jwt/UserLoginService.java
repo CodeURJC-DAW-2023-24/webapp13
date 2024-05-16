@@ -49,8 +49,8 @@ public class UserLoginService {
 		Boolean refreshTokenValid = jwtTokenProvider.validateToken(refreshToken);
 
 		HttpHeaders responseHeaders = new HttpHeaders();
-		Token newAccessToken;
-		Token newRefreshToken;
+		Token newAccessToken = new Token(null, username, null, null);
+		Token newRefreshToken= new Token(null, username, null, null);
 		if (!accessTokenValid && !refreshTokenValid) {
 			newAccessToken = jwtTokenProvider.generateToken(user);
 			newRefreshToken = jwtTokenProvider.generateRefreshToken(user);
@@ -72,6 +72,9 @@ public class UserLoginService {
 
 		AuthResponse loginResponse = new AuthResponse(AuthResponse.Status.SUCCESS,
 				"Auth successful. Tokens are created in cookie.");
+
+		loginResponse.setAccessToken(newAccessToken);
+		loginResponse.setRefreshToken(newRefreshToken);
 		return ResponseEntity.ok().headers(responseHeaders).body(loginResponse);
 	}
 

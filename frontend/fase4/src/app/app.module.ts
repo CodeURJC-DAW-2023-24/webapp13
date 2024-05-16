@@ -3,13 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-<<<<<<< HEAD
 import { HttpClientModule } from '@angular/common/http';
-=======
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
->>>>>>> 1ffb219ae89e7e1976bea9b4ccbe33498824cbfa
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -39,15 +35,12 @@ import { ReportFormComponent } from './report-form/report-form.component';
     BrowserModule,
     AppRoutingModule,
     RouterModule,
-<<<<<<< HEAD
     HttpClientModule,
-    ReactiveFormsModule
-=======
+    ReactiveFormsModule,
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule
->>>>>>> 1ffb219ae89e7e1976bea9b4ccbe33498824cbfa
   ],
   providers: [],
   bootstrap: [AppComponent]

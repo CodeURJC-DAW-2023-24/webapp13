@@ -4,12 +4,9 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from '../Models/user.model';
 import { Product } from '../Models/product.model';
-<<<<<<< HEAD
-import {Rewiew} from "../Models/rewiew.model";
 import { CookieService } from 'ngx-cookie-service';
-=======
 import {Review} from "../Models/review.model";
->>>>>>> 1ffb219ae89e7e1976bea9b4ccbe33498824cbfa
+
 
 
 const BASE_URL = '/api/users/';
@@ -79,8 +76,8 @@ export class UsersService{
           // Por ejemplo, puedes guardar el token en el almacenamiento local o en una cookie
           // Aquí asumiré que el servidor devuelve un token de acceso en la respuesta
 
-          const authToken = response.AuthToken;
-          const refreshToken = response.RefreshToken;
+          const authToken = response.accessToken;
+          const refreshToken = response.refreshToken;
 
           // Guardar las cookies en el almacenamiento local
           this.cookieService.set('authToken', authToken);
@@ -107,7 +104,7 @@ export class UsersService{
     return this.httpClient.get('https://localhost:8443/api/auth/userInfo', { headers, responseType: 'text' });
   }
 
-  getCookies(): { authToken: string | null, refreshToken: string | null } {
+  getCookies(): { authToken: Object, refreshToken: Object } {
     const authToken = this.cookieService.get('authToken');
     const refreshToken = this.cookieService.get('refreshToken');
     
