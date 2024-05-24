@@ -212,28 +212,25 @@ public class UserRestController {
     })
     @JsonView(User.Detailed.class)
     @PostMapping("/")
-    public ResponseEntity<Object> registerUser(@RequestBody UserRegistrationRequest request) throws IOException {
-        // Extraer datos del objeto UserRegistrationRequest
-        String name = request.getName();
-        String username = request.getUsername();
-        String password = request.getPassword();
-        String repeatPassword = request.getRepeatPassword();
-        String email = request.getEmail();
-        MultipartFile image = request.getImage();
-
+    public ResponseEntity<Object> registerUser(@RequestPart("name") String name,
+                                              @RequestPart("username") String username,
+                                              @RequestPart("password") String password,
+                                              @RequestPart("repeatPassword") String repeatPassword,
+                                              @RequestPart("email") String email,
+                                              @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
         // Crear y registrar el usuario usando los datos proporcionados
         User user = new User(username, null, email, password, name, null, "USER");
-
+    
         if (userService.checkPassword(password, repeatPassword)) {
             if (userService.registerUser(user, image)) {
                 // Crear la URL de ubicación del recurso creado
                 String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
                 String locationUrl = baseUrl + "/users/" + user.getUserID(); // Por ejemplo, /users/{userID}
-
+    
                 // Agregar la cabecera "Location" con la URL del recurso creado
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Location", locationUrl);
-
+    
                 // Devolver la respuesta con el código 200 y la cabecera "Location"
                 return ResponseEntity.ok().headers(headers).body("User created successfully");
             } else {

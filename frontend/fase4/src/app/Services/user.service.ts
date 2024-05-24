@@ -24,21 +24,40 @@ export class UsersService{
   }
 
   addUserOrUpdate(user: User) {
-
-    if (!user.userID) {
-      return this.httpClient.post(BASE_URL, user)
+    const formData = new FormData();
+    const fullName = user.getFullName() ?? '';
+    const username = user.getUsername() ?? '';
+    const email = user.getUserEmail() ?? '';
+    const password = user.getEncodedPassword() ?? '';
+  
+    // Agregar campos de texto al formData
+    formData.append('name', fullName);
+    formData.append('username', username);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('repeatPassword', password);
+  
+    // Agregar la imagen al formData si está presente en el modelo de datos User
+    const image = user.getUserImg();
+    if (image) {
+      formData.append('image', image); // Asegúrate de que el nombre 'image' coincida con el nombre esperado en el backend
+    }
+    
+    if (!user.getUserID()) {
+      return this.httpClient.post("https://localhost:8443/api/users/", formData)
         .pipe(
           catchError(error => this.handleError(error))
         );// si no existe el usuario se crea uno nuevo
     } else {
-      return this.httpClient.patch(BASE_URL + user.userID, user).pipe(
+      return this.httpClient.patch(BASE_URL + user.getUserID(), formData).pipe(
         catchError(error => this.handleError(error))
       ); // si ya existe el usuario se actualiza
     }
   }
+  
 
   deleteUser(user: User) {
-    return this.httpClient.delete(BASE_URL + user.userID).pipe(
+    return this.httpClient.delete(BASE_URL + user.getUserID()).pipe(
       catchError(error => this.handleError(error))
     );
   }
