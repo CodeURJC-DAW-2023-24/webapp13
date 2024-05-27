@@ -54,7 +54,7 @@ public class AuthResponse {
         return accessToken;
     }
 
-    public void setAccessToken(Token accessToken) {
+	public void setAccessToken(Token accessToken) {
         this.accessToken = accessToken;
     }
 

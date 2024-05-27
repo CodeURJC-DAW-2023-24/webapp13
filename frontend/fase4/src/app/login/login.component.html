@@ -1,28 +1,63 @@
 <section>
+  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Registro</p>
+  <div class="container mx-auto text-center">
+      <div class="row justify-content-center">
+          <div class="col mt-3 p-5">
+              <form action="#">
+                  <!-- Username input -->
+                  <div class="form-outline mb-4 w-50 mx-auto">
+                      <input type="text" [(ngModel)]="loginObj.username" class="form-control" name="username" />
+                      <label name="Username" class="form-label" for="form2Example1">Usuario</label>
+                  </div>
+                  <!-- Password input -->
+                  <div class="form-outline mb-4 w-50 mx-auto">
+                      <input type="password" [(ngModel)]="loginObj.password" class="form-control" name="password"/>
+                      <label name="password" class="form-label" for="form2Example2">Contraseña</label>
+                  </div>
+                  <!-- Login error-->
+                  <!--{{#invalid}}-->
+                  <div class="form-outline mb-4 w-50 mx-auto">
+                      <p class="text-danger">El usuario o contraseña no validos</p>
+                  </div>
+                  <!--{{/invalid}}-->
+                  <!-- Submit button -->
+                  <button type="button" (click)="onLogin()" value="Sign In" class="btn btn-primary btn-block mb-4">Ingresar</button>
+                  <!-- Register buttons -->
+              </form>
+              <div class="text-center">
+                  <p><a [routerLink]="['/signUp']">¿Aún no tienes cuenta? Registrate</a></p>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!--
+<section>
     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Registro</p>
     <div class="container mx-auto text-center">
         <div class="row justify-content-center">
             <div class="col mt-3 p-5">
                 <form [formGroup]="formulario">
-                    <!-- Username input -->
+                    Username input
                     <div class="form-outline mb-4 w-50 mx-auto">
                         <input type="text" id="form2Example1" formControlName="Username" class="form-control" />
                         <label name="Username" class="form-label" for="form2Example1">Usuario</label>
                     </div>
-                    <!-- Password input -->
+                    Password input
                     <div class="form-outline mb-4 w-50 mx-auto">
                         <input type="password" id="form2Example2" formControlName="Password" class="form-control" />
                         <label name="password" class="form-label" for="form2Example2">Contraseña</label>
                     </div>
-                    <!-- Login error-->
-                    <!--{{#invalid}}-->
+                    Login error
+                    {{#invalid}}
                     <div class="form-outline mb-4 w-50 mx-auto">
                         <p class="text-danger">El usuario o contraseña no validos</p>
                     </div>
-                    <!--{{/invalid}}-->
-                    <!-- Submit button -->
+                    {{/invalid}}
+                    Submit button
                     <button type="button" (click)="redirectLogin()" value="Sign In" class="btn btn-primary btn-block mb-4">Ingresar</button>
-                    <!-- Register buttons -->
+                    Register buttons
                 </form>
                 <div class="text-center">
                     <p><a [routerLink]="['/signUp']">¿Aún no tienes cuenta? Registrate</a></p>
@@ -31,3 +66,4 @@
         </div>
     </div>
 </section>
+-->

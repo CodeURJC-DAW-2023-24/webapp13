@@ -70,6 +70,24 @@ public class UserRestController {
         }
     }
 
+    @Operation(summary = "Get User by Username")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the User"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @JsonView(User.Detailed.class)
+    @GetMapping("/username/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username) {
+        Optional<User> userOptional = userService.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return ResponseEntity.ok().body(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @Operation(summary = "Download User Image by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the User Image"),

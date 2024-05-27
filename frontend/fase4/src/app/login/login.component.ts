@@ -1,13 +1,69 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsersService } from '../Services/user.service';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
+export class LoginComponent {
+
+  user:any;
+  loginObj: Login;
+  loginURL = '/api/auth/login';
+
+  constructor(private http:HttpClient, private router: Router, private authService: AuthService){
+    this.loginObj = new Login();
+  }
+
+  onLogin() {
+    this.http.post(this.loginURL, this.loginObj, { observe: 'response' }).subscribe((res:any)=>{
+      if(!res.error) {
+        alert('Login success');
+        localStorage.setItem('Token', res.body.accessToken.tokenValue);
+        this.user = this.authService.getUserToken();
+        debugger;
+        if(this.user.auth[0].authority == 'ROLE_ROLE_ADMIN') {
+          this.router.navigateByUrl('/report')
+        } else {
+          this.router.navigateByUrl('/profile');
+        }
+      } else {
+        alert(res.message)
+      }
+    })
+  }
+
+  /*
+  private getTokenFromResponse(response: any): string | null {
+    const authTokenCookie = response.headers.get('Set-Cookie');
+    if (authTokenCookie) {
+      const authTokenMatch = authTokenCookie.match(/AuthToken=([^;]+)/);
+      if (authTokenMatch) {
+        return authTokenMatch[1];
+      }
+    }
+    return null;
+  }
+  */
+}
+
+export class Login {
+  username:string;
+  password:string;
+  constructor(){
+    this.username = "";
+    this.password = "";
+  }
+}
+
+
+/*
 export class LoginComponent implements OnInit {
   admin = true;
   formulario: UntypedFormGroup;
@@ -63,8 +119,8 @@ export class LoginComponent implements OnInit {
   getCookies(){
     console.log(this.usersService.getCookies());
   }
-  
+
   password(username: any, password: any) {
     throw new Error('Method not implemented.');
   }
-}
+}*/
