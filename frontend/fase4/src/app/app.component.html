@@ -20,9 +20,11 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li *ngFor="let category of categories">
-              <a class="dropdown-item category-link">{{ category }}</a>
-            </li>
+            <ng-container *ngFor="let category of categories">
+              <li>
+                <a class="dropdown-item category-link">{{ category }}</a>
+              </li>
+            </ng-container>
           </ul>
         </li>
       </ul>
