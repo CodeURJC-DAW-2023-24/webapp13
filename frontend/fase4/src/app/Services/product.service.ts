@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders,HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Product } from '../Models/product.model';
-
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +17,13 @@ export class ProductService {
     return throwError(() => new Error(`Server error (${error.status}): ${error.message}`));
   }
 
-  getAllProducts(page: number, size: number, productType: number): Observable<Product[]> {
-    const url = `${this.BASE_URL}?page=${page}&size=${size}&productType=${productType}`;
-    return this.httpClient.get<Product[]>(url).pipe(
+  getAllProducts(page: number = 1, size: number = 8, productType: number = 0): Observable<Product[]> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('productType', productType.toString());
+
+    return this.httpClient.get<Product[]>(this.BASE_URL, { params }).pipe(
       catchError(this.handleError)
     );
   }
