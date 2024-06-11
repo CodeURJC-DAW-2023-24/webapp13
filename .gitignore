@@ -19,6 +19,8 @@ target/
 *.iml
 *.ipr
 
+src/frontend/Fase4/node_modules/
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

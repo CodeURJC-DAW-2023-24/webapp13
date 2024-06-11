@@ -1,10 +1,11 @@
 export interface Product {
-  id: number;
+  id?: number;
   title: string;
   address: string;
   price: number;
   description: string;
-  productType: number;
+  imageFile?: Blob;
+  image: boolean;
   owner: number;
-  image?: boolean;
+  productType: number;
 }

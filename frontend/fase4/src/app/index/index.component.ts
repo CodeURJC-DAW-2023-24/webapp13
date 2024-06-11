@@ -24,7 +24,7 @@ export class IndexComponent implements OnInit {
       (data: Product[]) => {
         this.products = data;
       },
-      error => {
+      (      error: any) => {
         console.error('Error fetching products:', error);
       }
     );
@@ -36,7 +36,7 @@ export class IndexComponent implements OnInit {
       (data: Product[]) => {
         this.products = this.products.concat(data);
       },
-      error => {
+      (      error: any) => {
         console.error('Error fetching more products:', error);
       }
     );
