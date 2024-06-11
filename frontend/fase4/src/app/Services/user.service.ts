@@ -20,22 +20,22 @@ export class UsersService{
 
   getUser(id: number | string): Observable<User> {
     return this.httpClient.get<User>(BASE_URL + id).pipe(
-      catchError(error => this.handleError(error))
+      catchError((error: any) => this.handleError(error))
     ) as Observable<User>;
   }
 
   getUserByUsername(username: string): Observable<User> {
     return this.httpClient.get<User>(BASE_URL + 'username/' + username).pipe(
-      catchError(error => this.handleError(error))
+      catchError((error: any) => this.handleError(error))
     ) as Observable<User>;
   }
 
   addUserOrUpdate(user: User) {
     const formData = new FormData();
-    const fullName = user.getFullName() ?? '';
-    const username = user.getUsername() ?? '';
-    const email = user.getUserEmail() ?? '';
-    const password = user.getEncodedPassword() ?? '';
+    const fullName = user.fullName ?? '';
+    const username = user.username ?? '';
+    const email = user.userEmail ?? '';
+    const password = user.encodedPassword ?? '';
 
     // Agregar campos de texto al formData
     formData.append('name', fullName);
@@ -45,44 +45,44 @@ export class UsersService{
     formData.append('repeatPassword', password);
 
     // Agregar la imagen al formData si está presente en el modelo de datos User
-    const image = user.getUserImg();
+    const image = user.userImg;
     if (image) {
       formData.append('image', image); // Asegúrate de que el nombre 'image' coincida con el nombre esperado en el backend
     }
 
-    if (!user.getUserID()) {
+    if (!user.userID) {
       return this.httpClient.post("https://localhost:8443/api/users/", formData)
         .pipe(
-          catchError(error => this.handleError(error))
+          catchError((error: any) => this.handleError(error))
         );// si no existe el usuario se crea uno nuevo
     } else {
-      return this.httpClient.patch(BASE_URL + user.getUserID(), formData).pipe(
-        catchError(error => this.handleError(error))
+      return this.httpClient.patch(BASE_URL + user.userID, formData).pipe(
+        catchError((error: any) => this.handleError(error))
       ); // si ya existe el usuario se actualiza
     }
   }
 
 
   deleteUser(user: User) {
-    return this.httpClient.delete(BASE_URL + user.getUserID()).pipe(
-      catchError(error => this.handleError(error))
+    return this.httpClient.delete(BASE_URL + user.userID).pipe(
+      catchError((error: any) => this.handleError(error))
     );
   }
 
   getUserProductsById(id: number | string): Observable<Product[]> {
     return this.httpClient.get<Product[]>(BASE_URL + id +'/allProducts').pipe(
-      catchError(error => this.handleError(error))
+      catchError((error: any) => this.handleError(error))
     ) as Observable<Product[]>;
   }
   getUserRewiewsById(id: number | string): Observable<Review[]> {
     return this.httpClient.get<Review[]>(BASE_URL + id +'/reviews').pipe(
-      catchError(error => this.handleError(error))
+      catchError((error: any) => this.handleError(error))
     ) as Observable<Review[]>;
   }
 
   getUserImageById(id: number | string): Observable<Blob>{
     return this.httpClient.get<Blob>(BASE_URL + id +'/image').pipe(
-      catchError(error => this.handleError(error))
+      catchError((error: any) => this.handleError(error))
     ) as Observable<Blob>;
   }
   private handleError(error: any) {

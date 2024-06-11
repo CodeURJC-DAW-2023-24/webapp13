@@ -49,17 +49,17 @@ export class SignUpComponent implements OnInit {
         this.formulario.value.Email,
         this.formulario.value.Password,
         this.formulario.value.Name,
-        [], // Asume que reviewList empieza vacío
+        '', // Asume que reviewList empieza vacío
         "USER"// Asume que roles se envían como un array separado por comas si hay roles en el formulario
         // ...this.formulario.value.roles ? this.formulario.value.roles.split(',') : []
       );
       this.usersService.addUserOrUpdate(this.newUser).subscribe(
-        response => {
+        (        response: any) => {
           console.log('Usuario registrado exitosamente:', response);
           // Navega a la página de login después de registrar el usuario
           this.router.navigate(['/login']);
         },
-        error => {
+        (        error: any) => {
           console.error('Error al registrar el usuario:', error);
           // Manejo de errores adicional si es necesario
         }

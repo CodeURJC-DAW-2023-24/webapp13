@@ -3,42 +3,36 @@
       <div class="row gx-4 gx-lg-5 align-items-center">
           <!--{{#product}}-->
           <div class="col-md-6">
-              <img class="card-img-top mb-5 mb-md-0"  alt="..." /><!--src="/product/{{id}}/image"-->
+              <img class="card-img-top mb-5 mb-md-0" [src]="imageUrl"  alt="..." /><!--src="/product/{{id}}/image"-->
           </div>
           <div class="col-md-6">
-              <h1 class="display-5 fw-bolder"><!--{{title}}--></h1>
+              <h1 class="display-5 fw-bolder">{{product.title}}</h1>
               <div class="fs-5 mb-5">
-                  <span><!--${{price}}--></span>
+                  <span>${{product.price}}</span>
               </div>
-              <p class="lead"><!--{{description}}--></p>
-              <form  [formGroup]="formulario" (ngSubmit)="getProduct()"><!--action="/checkout/{{id}}"-->
-                  <input type="hidden" formControlName="ProductID"  /><!--value="{{id}}"-->
-                  <div class="d-flex">
-                      <button class="btn btn-outline-dark flex-shrink-0" type="submit">
-                          <i class="bi-cart-fill me-1"></i> Comprar
-                      </button>
-                  </div>
-              </form>
+              <p class="lead">{{product.description}}</p>
+                <div class="d-flex">
+                    <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                        <i class="bi-cart-fill me-1"></i> Comprar
+                    </button>
+                </div>
               <br>
               <div class="row">
                   <div class="col-lg-4">
                       <div class="card mb-4">
                           <div class="card-body text-center">
-                              <!--{{#user}}-->
-                              <img  alt="avatar" class="rounded-circle img-fluid" style="width: 150px;"><!--src="/user/{{userID}}/image"-->
-                              <h5 class="my-3"><!--{{username}}--></h5>
+                              <img [src]="userImageUrl"  alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                              <h5 class="my-3">{{  user.username  }}</h5>
                               <div class="flex-grow-1 ms-3">
                                   <div class="d-flex justify-content-center mb-2">
                                       <a routerLink="/profileConsult" class="btn btn-primary" role="button">Visitar perfil</a><!--href="/user/{{userID}}"-->
                                   </div>
                               </div>
-                              <!--{{/user}}-->
                           </div>
                       </div>
                   </div>
               </div>
           </div>
-      <!--{{/product}}-->
       </div>
   </div>
 </section>
@@ -47,20 +41,13 @@
   <div class="container px-4 px-lg-5 mt-5">
       <h2 class="fw-bolder mb-4">Related products</h2>
       <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-          <!--{{#recommendations}}-->
-          <div class="col mb-5">
+          <div class="col mb-5" *ngFor="let recommendation of related">
               <div class="card h-100">
-                  <!-- Product image-->
-                  <!--{{#image}}-->
-                  <img class="card-img-top" alt="La imagen no carga" /><!--src="/product/{{id}}/image"-->
-                  <!--{{/image}}-->
-                  <!-- Product details-->
+                  <img class="card-img-top" [src]="recommendation.imageUrl" alt="La imagen no carga" />
                   <div class="card-body p-4">
                       <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder"><!--{{title}}--></h5>
-                          <!-- Product price-->
-                          <!--{{price}}-->123456789€
+                          <h5 class="fw-bolder">{{  recommendation.title  }}</h5>
+                          € {{  recommendation.price  }}
                       </div>
                   </div>
                   <!-- Product actions-->

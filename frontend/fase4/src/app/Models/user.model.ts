@@ -1,121 +1,118 @@
 export class User {
-  private userID?: number;
-  private encodedPassword?: string;
-  private fullName?: string;
-  private username?: string;
-  private userEmail?: string;
-  private income: number;
-  private expense: number;
-  private userImg?: Blob;
-  private roles: string[];
-  private reviewList: number[];
+  private _userID?: number;
+  private _encodedPassword?: string;
+  private _fullName?: string;
+  private _username?: string;
+  private _userEmail?: string;
+  private _income: number;
+  private _expense: number;
+  private _userImg?: Blob;
+  private _roles: string[];
+  private _reviewList: number[];
 
-  constructor();
-  constructor(username: string, userImg: Blob, userEmail: string, encodedPassword: string, fullName: string, reviewList: number[], ...roles: string[]);
   constructor(
-    username?: string,
-    userImg?: Blob,
-    userEmail?: string,
+    income: number = 0,
+    expense: number = 0,
+    roles: string[] = [],
+    reviewList: number[] = [],
+    userID?: number,
     encodedPassword?: string,
     fullName?: string,
-    reviewList?: number[],
-    ...roles: string[]
+    username?: string,
+    userEmail?: string,
+    userImg?: Blob
   ) {
-    this.income = 0;
-    this.expense = 0;
-    this.roles = roles || [];
-    this.reviewList = reviewList || [];
-    
-    if (username) {
-      this.username = username;
-      this.userImg = userImg;
-      this.userEmail = userEmail;
-      this.encodedPassword = encodedPassword;
-      this.fullName = fullName;
-      this.reviewList = reviewList || [];
-      this.roles = roles || [];
-    }
+    this._userID = userID;
+    this._encodedPassword = encodedPassword;
+    this._fullName = fullName;
+    this._username = username;
+    this._userEmail = userEmail;
+    this._income = income;
+    this._expense = expense;
+    this._userImg = userImg;
+    this._roles = roles;
+    this._reviewList = reviewList;
   }
 
   // Getters
-  getUserID(): number | undefined {
-    return this.userID;
+  get userID(): number | undefined {
+    return this._userID;
   }
 
-  getEncodedPassword(): string | undefined {
-    return this.encodedPassword;
+  get encodedPassword(): string | undefined {
+    return this._encodedPassword;
   }
 
-  getFullName(): string | undefined {
-    return this.fullName;
+  get fullName(): string | undefined {
+    return this._fullName;
   }
 
-  getUsername(): string | undefined {
-    return this.username;
+  get username(): string | undefined {
+    return this._username;
   }
 
-  getUserEmail(): string | undefined {
-    return this.userEmail;
+  get userEmail(): string | undefined {
+    return this._userEmail;
   }
 
-  getIncome(): number {
-    return this.income;
+  get income(): number {
+    return this._income;
   }
 
-  getExpense(): number {
-    return this.expense;
+  get expense(): number {
+    return this._expense;
   }
 
-  getUserImg(): Blob | undefined {
-    return this.userImg;
+  get userImg(): Blob | undefined {
+    return this._userImg;
   }
 
-  getRoles(): string[] {
-    return this.roles;
+  get roles(): string[] {
+    return this._roles;
   }
 
-  getReviewList(): number[] {
-    return this.reviewList;
+  get reviewList(): number[] {
+    return this._reviewList;
   }
 
   // Setters
-  setUserID(userID: number): void {
-    this.userID = userID;
+  set userID(value: number | undefined) {
+    this._userID = value;
   }
 
-  setEncodedPassword(encodedPassword: string): void {
-    this.encodedPassword = encodedPassword;
+  set encodedPassword(value: string | undefined) {
+    this._encodedPassword = value;
   }
 
-  setFullName(fullName: string): void {
-    this.fullName = fullName;
+  set fullName(value: string | undefined) {
+    this._fullName = value;
   }
 
-  setUsername(username: string): void {
-    this.username = username;
+  set username(value: string | undefined) {
+    this._username = value;
   }
 
-  setUserEmail(userEmail: string): void {
-    this.userEmail = userEmail;
+  set userEmail(value: string | undefined) {
+    this._userEmail = value;
   }
 
-  setIncome(income: number): void {
-    this.income = income;
+  set income(value: number) {
+    this._income = value;
   }
 
-  setExpense(expense: number): void {
-    this.expense = expense;
+  set expense(value: number) {
+    this._expense = value;
   }
 
-  setUserImg(userImg: Blob): void {
-    this.userImg = userImg;
+  set userImg(value: Blob | undefined) {
+    this._userImg = value;
   }
 
-  setRoles(roles: string[]): void {
-    this.roles = roles;
+  set roles(value: string[]) {
+    this._roles = value;
   }
 
-  setReviewList(reviewList: number[]): void {
-    this.reviewList = reviewList;
+  set reviewList(value: number[]) {
+    this._reviewList = value;
   }
 }
