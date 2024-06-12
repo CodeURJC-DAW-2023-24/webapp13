@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../Models/product.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../Services/product.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
@@ -42,7 +42,7 @@ export class ProductComponent implements OnInit{
     console.log(rating);
   }
 
-  purchaseProduct(): void {
+  async purchaseProduct(): Promise<void> {
     this.productService.purchaseProduct(this.product.id, this.rating).subscribe(
       (response: any) => {
         console.log('Producto comprado exitosamente:', response);
@@ -53,7 +53,21 @@ export class ProductComponent implements OnInit{
         // Manejo de errores adicional si es necesario
       }
     );
-    this.router.navigate(['/profile']);
+    await this.wait(0.1);
+    this.productService.getProductById(this.product.id).subscribe(
+      (prod: Product) => {
+        if (prod != null) {
+          alert("You can't buy your own product!");
+        }
+      }
+    )
+    this.router.navigate(['/']);
+  }
+
+  wait(seconds: number): Promise<void> {
+    return new Promise(resolve => {
+      setTimeout(resolve, seconds * 1000);
+    });
   }
 
 }

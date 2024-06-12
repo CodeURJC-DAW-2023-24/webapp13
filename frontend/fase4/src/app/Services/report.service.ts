@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import {Report} from "../Models/report.model";
 import {User} from "../Models/user.model";
 
-const BASE_URL = '/api/reports';
+const BASE_URL = '/api/reports/';
 
 @Injectable({ providedIn: 'root' })
 export class ReportService{
@@ -25,8 +25,12 @@ export class ReportService{
   }
 
 
-  addReport(report: Report) {
-    return this.httpClient.post(BASE_URL, report)
+  addReport(user: string, description: string, category: string) {
+    const formData = new FormData();
+    formData.append('userReported', user);
+    formData.append('description', description);
+    formData.append('category', category);
+    return this.httpClient.post(BASE_URL, formData)
       .pipe(
         catchError(error => this.handleError(error))
       );

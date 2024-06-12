@@ -1,8 +1,8 @@
 export class User {
-  private _userID?: number;
+  private _userID: number;
   private _encodedPassword?: string;
   private _fullName?: string;
-  private _username?: string;
+  private _username: string;
   private _userEmail?: string;
   private _income: number;
   private _expense: number;
@@ -15,10 +15,10 @@ export class User {
     expense: number = 0,
     roles: string[] = [],
     reviewList: number[] = [],
-    userID?: number,
+    userID: number = 0,
+    username: string = '',
     encodedPassword?: string,
     fullName?: string,
-    username?: string,
     userEmail?: string,
     userImg?: Blob
   ) {
@@ -35,7 +35,7 @@ export class User {
   }
 
   // Getters
-  get userID(): number | undefined {
+  get userID(): number {
     return this._userID;
   }
 
@@ -47,7 +47,7 @@ export class User {
     return this._fullName;
   }
 
-  get username(): string | undefined {
+  get username(): string {
     return this._username;
   }
 
@@ -76,7 +76,7 @@ export class User {
   }
 
   // Setters
-  set userID(value: number | undefined) {
+  set userID(value: number ) {
     this._userID = value;
   }
 
@@ -88,7 +88,7 @@ export class User {
     this._fullName = value;
   }
 
-  set username(value: string | undefined) {
+  set username(value: string ) {
     this._username = value;
   }
 

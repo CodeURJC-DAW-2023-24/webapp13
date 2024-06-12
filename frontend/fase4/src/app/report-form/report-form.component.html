@@ -9,14 +9,14 @@
                <!--{{#user}}-->
              <div class="reporter-details">
                <h6>Datos del Usuario que Reporta:</h6>
-               <p>Nombre de usuario: <!--{{user}}--></p>
-               <p name ="Date">Fecha de Reporte: <!--{{fechaActual}}--></p>
+               <p>Nombre de usuario: {{  currentUser  }}</p>
+               <p name ="Date">Fecha de Reporte: {{  date | date:'dd/MM/yyyy'  }}</p>
              </div>
                <!--{{/user}}-->
                <!--{{#userReported}}-->
              <div class="reported-details">
                <h6>Datos del Usuario Reportado: </h6>
-                 <p>Nombre de usuario: <!--{{userReported}}--></p>
+                 <p>Nombre de usuario: {{  user.username  }}</p>
              </div>
                <!--{{/userReported}}-->
              <br>

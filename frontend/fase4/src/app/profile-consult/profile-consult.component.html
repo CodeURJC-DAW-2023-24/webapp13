@@ -10,22 +10,18 @@
           <div class="card rounded-bottom smooth-shadow-sm">
               <div class="d-flex align-items-center justify-content-between pt-4 pb-6 px-4">
                   <div class="d-flex align-items-center">
-                      <!--{{#user}}-->
                       <div class="avatar-xxl avatar-indicators avatar-online me-2 position-relative d-flex justify-content-end align-items-end mt-n10">
-                          <img class="avatar-xxl rounded-circle border border-2 " alt="Image"><!--src="/user/{{userID}}/image"-->
+                          <img class="avatar-xxl rounded-circle border border-2 " [src]="imgUrl" alt="Image">
                       </div>
                       <div class="lh-1">
-                          <h2 class="mb-0"><!--{{name}}-->nombre</h2>
-                          <p class="mb-0 d-block">Valoración: <!--{{rating}}--></p>
+                          <h2 class="mb-0">{{  user.username  }}</h2>
+                          <p class="mb-0 d-block">Valoración: {{  rating  }}</p>
                       </div>
-                      <!--{{/user}}-->
-                      <!--{{#logged}}-->
                       <div class="mt-2 mb-2 m-lg-5">
-                          <a class="btn btn-primary " routerLink="/report"> <!--href="/report/{{userID}}"-->
+                          <a class="btn btn-primary " [routerLink]="['/report', user.userID]">
                               <span>Reportar</span>
                           </a>
                       </div>
-                      <!--{{/logged}}-->
                   </div>
               </div>
           </div>
@@ -38,16 +34,16 @@
       <div class="row">
           <!--{{#products}}-->
 
-          <div class="col-lg-4 col-12">
-              <div class="card mb-5 rounded-3">
+          <div class="col-lg-4 col-12" *ngFor="let product of products">
+              <div class="card mb-5 rounded-3" >
                   <div>
-                      <img alt="Image" class="img-fluid rounded-top"><!--src="/product/{{id}}/image"-->
+                      <img alt="Image" class="img-fluid rounded-top" [src]="product.imageUrl">
                   </div>
                   <div class="card-body">
-                      <h4 class="mb-1"><!--{{title}}-->titulo</h4>
+                      <h4 class="mb-1">{{  product.title  }}</h4>
                       <div>
                           <div class="d-flex justify-content-between align-items-center">
-                              <a routerLink="/product" class="btn btn-outline-primary">Ver Anuncio</a><!--href="/product/{{id}}"-->
+                              <a [routerLink]="['/product', product.id]" class="btn btn-outline-primary">Ver Anuncio</a>
                               <div class="dropdown dropstart">
                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuOne">
                                       <a class="dropdown-item d-flex align-items-center" href="#!">

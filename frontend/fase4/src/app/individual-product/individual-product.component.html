@@ -25,7 +25,7 @@
                               <h5 class="my-3">{{  user.username  }}</h5>
                               <div class="flex-grow-1 ms-3">
                                   <div class="d-flex justify-content-center mb-2">
-                                      <a routerLink="/profileConsult" class="btn btn-primary" role="button">Visitar perfil</a><!--href="/user/{{userID}}"-->
+                                      <a routerLink="/profileConsult" class="btn btn-primary" role="button" [routerLink]="['/profileConsult', user.userID]">Visitar perfil</a><!--href="/user/{{userID}}"-->
                                   </div>
                               </div>
                           </div>
@@ -52,11 +52,10 @@
                   </div>
                   <!-- Product actions-->
                   <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                      <div class="text-center"><a class="btn btn-outline-dark mt-auto" routerLink="/product">Comprar</a></div><!--href="/product/{{id}}"-->
+                      <div class="text-center"><a class="btn btn-outline-dark mt-auto" [routerLink]="['/product', recommendation.id]">Comprar</a></div>
                   </div>
               </div>
           </div>
-          <!--{{/recommendations}}-->
       </div>
   </div>
 </section>

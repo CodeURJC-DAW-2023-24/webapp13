@@ -19,9 +19,9 @@ const routes: Routes = [
   { path: 'admin', component: AdminPanelComponent},
   { path: 'newProduct', component: NewProductComponent},
   { path: 'signUp', component: SignUpComponent},
-  { path: 'profileConsult', component: ProfileConsultComponent},
+  { path: 'profileConsult/:id', component: ProfileConsultComponent},
   { path: 'product/:id', component: IndividualProductComponent},
-  { path: 'report', component: ReportFormComponent},
+  { path: 'report/:id', component: ReportFormComponent},
   { path: 'checkout/:id', component: ProductComponent}
 ];
 
