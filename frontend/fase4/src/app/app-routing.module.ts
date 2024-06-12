@@ -10,6 +10,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { ProfileConsultComponent } from './profile-consult/profile-consult.component';
 import { IndividualProductComponent } from './individual-product/individual-product.component';
 import { ReportFormComponent } from './report-form/report-form.component';
+import { ProductComponent } from './product/product.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent},
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'signUp', component: SignUpComponent},
   { path: 'profileConsult', component: ProfileConsultComponent},
   { path: 'product/:id', component: IndividualProductComponent},
-  { path: 'report', component: ReportFormComponent}
+  { path: 'report', component: ReportFormComponent},
+  { path: 'checkout/:id', component: ProductComponent}
 ];
 
 @NgModule({
