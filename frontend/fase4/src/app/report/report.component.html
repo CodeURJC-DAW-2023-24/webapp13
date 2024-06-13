@@ -1,1 +1,38 @@
-<p>report works!</p>
+<section>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col">
+          <h1 class="title"> Reporte pendientes:</h1>
+          <div class="card w-100 IndividualCard ">
+            <div class="card-body">
+              <h5 class="card-title">{{  report.title  }}</h5>
+             <div class="container">
+               <div class="report-details">
+                 <h6>Datos del Usuario que reporta</h6>
+                 <p>ID de usuario: {{  report.owner  }}</p>
+                 <p>Fecha de Reporte: {{  report.creationDate  }}</p>
+                 <h6>Datos del Usuario reportado</h6>
+                 <p>ID de usuario: {{  report.userReported  }}</p>
+               </div>
+               <div class="report-description">
+                 <h6>Descripción del Reporte</h6>
+                 <p>{{  report.description  }}</p>
+               </div>
+             </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+      <div class="delete">
+        <a type="button" class="btn btn-primary btn-lg red" (click)="delete()" >Eliminar</a>
+      </div>
+      <div class="ndelete">
+        <a class="btn btn-primary btn-lg btn-block" (click)="mantain()">Conservar</a>
+      </div>
+      <div class="ndelete2">
+        <a class="btn btn-primary btn-lg btn-block"></a>
+      </div>
+
+    </div>
+  </section>

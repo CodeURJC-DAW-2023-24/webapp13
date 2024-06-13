@@ -1,0 +1,45 @@
+.card.report {
+    margin: 10px;
+}
+.title {
+    margin: 10px; 
+}
+body {
+    margin-bottom: 100px;
+}
+
+.more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.delete {
+    margin-top: 90px;
+    margin-bottom: 50px;
+    float: right;
+}
+
+.ndelete {
+    margin-top: 90px;
+    margin-bottom: 50px;
+    float: left;
+}
+
+.ndelete2 {
+    margin-top: 90px;
+    margin-bottom: 50px;
+    visibility: hidden;
+}
+
+.red {
+    background-color: red;
+    border-color: red;
+    float: left;
+    margin-right: 5px;
+}
+.delete .btn.red:hover {
+    background-color: red;
+    border-color: red;
+}

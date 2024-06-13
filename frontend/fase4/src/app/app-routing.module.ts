@@ -11,6 +11,7 @@ import { ProfileConsultComponent } from './profile-consult/profile-consult.compo
 import { IndividualProductComponent } from './individual-product/individual-product.component';
 import { ReportFormComponent } from './report-form/report-form.component';
 import { ProductComponent } from './product/product.component';
+import { ReportComponent } from './report/report.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent},
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'profileConsult/:id', component: ProfileConsultComponent},
   { path: 'product/:id', component: IndividualProductComponent},
   { path: 'report/:id', component: ReportFormComponent},
-  { path: 'checkout/:id', component: ProductComponent}
+  { path: 'checkout/:id', component: ProductComponent},
+  { path: 'reportManagement/:id', component: ReportComponent}
 ];
 
 @NgModule({

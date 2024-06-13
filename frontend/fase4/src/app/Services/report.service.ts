@@ -36,8 +36,8 @@ export class ReportService{
       );
   }
 
-  deleteUReport(report: Report) {
-    return this.httpClient.delete(BASE_URL + report.id).pipe(
+  deleteReport(id: number) {
+    return this.httpClient.delete(BASE_URL + id).pipe(
       catchError(error => this.handleError(error))
     );
   }

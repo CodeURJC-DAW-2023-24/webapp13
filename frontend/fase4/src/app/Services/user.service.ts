@@ -63,8 +63,8 @@ export class UsersService{
   }
 
 
-  deleteUser(user: User) {
-    return this.httpClient.delete(BASE_URL + user.userID).pipe(
+  deleteUser(id: number) {
+    return this.httpClient.delete(BASE_URL + id).pipe(
       catchError((error: any) => this.handleError(error))
     );
   }

@@ -4,10 +4,10 @@
         <div class="col" id="productsContainerRep">
           <h1 class="title"> Reportes pendientes:</h1>
           <!--{{#reports}}-->
-          <div class="card w-75 report">
+          <div class="card w-75 report" *ngFor="let report of reports">
             <div class="card-body">
-              <h5 class="card-title">EJEMPLO</h5>
-              <a href="/gestionReport/1" class="btn btn-primary">Gestionar</a>
+              <h5 class="card-title">{{  report.title  }}</h5>
+              <a [routerLink]="['/reportManagement', report.id]" class="btn btn-primary">Gestionar</a>
             </div>
           </div>
           <!--{{/reports}}-->

@@ -1,0 +1,51 @@
+.card.report {
+    margin: 10px;
+}
+.title {
+    margin: 10px; 
+}
+body {
+    margin-bottom: 100px;
+}
+.footer {
+    margin-top: auto;
+    background-color: #333;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+.IndividualCard{
+    height: 100%;
+}
+
+.delete {
+    margin-top: 90px;
+    margin-bottom: 50px;
+    float: right;
+}
+
+.ndelete {
+    margin-top: 90px;
+    margin-bottom: 50px;
+    float: left;
+}
+.red {
+    background-color: red;
+    border-color: red;
+    float: left;
+    margin-right: 5px;
+}
+.delete .btn.red:hover {
+    background-color: red;
+    border-color: red;
+}
