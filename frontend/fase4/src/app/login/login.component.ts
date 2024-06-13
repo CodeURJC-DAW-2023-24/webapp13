@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UsersService } from '../Services/user.service';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../Services/auth.service';
 
@@ -29,9 +28,9 @@ export class LoginComponent {
         this.user = this.authService.getUserToken();
         debugger;
         if(this.user.auth[0].authority == 'ROLE_ROLE_ADMIN') {
-          this.router.navigateByUrl('/report')
+          this.router.navigate(['/admin']);
         } else {
-          this.router.navigateByUrl('/profile');
+          this.router.navigate(['/profile']);
         }
       } else {
         alert(res.message)
