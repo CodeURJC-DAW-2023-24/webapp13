@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../Models/product.model';
 import { ProductService } from '../Services/product.service';
 import { User } from '../Models/user.model';
@@ -18,13 +18,13 @@ export class IndividualProductComponent implements OnInit {
   userImageUrl: string | undefined;
   related!: Product[];
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private userService: UsersService) {
+  constructor(private route: ActivatedRoute, private productService: ProductService, private userService: UsersService, private router: Router) {
   }
 
   ngOnInit(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
     this.route.params.pipe(
-      switchMap(params => {
-        const id = Number(params['id']);
+      switchMap(() => {
         return this.productService.getProductById(id);
       })
     ).subscribe(
@@ -75,6 +75,7 @@ export class IndividualProductComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error loading product:', error);
+        this.router.navigate(['/error']);
       }
     );
   }

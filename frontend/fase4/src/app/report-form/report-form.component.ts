@@ -51,6 +51,10 @@ export class ReportFormComponent implements OnInit {
     this.userService.getUser(id).subscribe(
       (user: User) => {
         this.user = user;
+      },
+      (error: any) => {
+        console.log(error);
+        this.router.navigate(['/error']);
       }
     )
     this.currentUser = this.userService.getUserInfo();

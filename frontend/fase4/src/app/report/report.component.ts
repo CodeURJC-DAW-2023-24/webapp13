@@ -22,6 +22,10 @@ export class ReportComponent implements OnInit {
     this.reportService.getReportById(id).subscribe(
       (data: Report) => {
         this.report = data;
+      },
+      (error: any) => {
+        console.log(error);
+        this.router.navigate(['/error']);
       }
     )
   }

@@ -12,6 +12,7 @@ import { IndividualProductComponent } from './individual-product/individual-prod
 import { ReportFormComponent } from './report-form/report-form.component';
 import { ProductComponent } from './product/product.component';
 import { ReportComponent } from './report/report.component';
+import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent},
@@ -24,7 +25,9 @@ const routes: Routes = [
   { path: 'product/:id', component: IndividualProductComponent},
   { path: 'report/:id', component: ReportFormComponent},
   { path: 'checkout/:id', component: ProductComponent},
-  { path: 'reportManagement/:id', component: ReportComponent}
+  { path: 'reportManagement/:id', component: ReportComponent},
+  { path: 'error', component: ErrorComponent}, // Ruta para la página de error
+  { path: '**', redirectTo: '/error'}
 ];
 
 @NgModule({

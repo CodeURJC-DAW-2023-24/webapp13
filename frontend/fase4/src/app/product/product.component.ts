@@ -31,6 +31,10 @@ export class ProductComponent implements OnInit{
       this.productService.getProductById(id).subscribe(
         (data: Product) => {
           this.product = data;
+        },
+        (error: any) => {
+          console.log(error);
+          this.router.navigate(['/error']);
         }
       )
     }
