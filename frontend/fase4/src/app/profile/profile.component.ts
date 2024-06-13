@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../Services/auth.service';
 import { UsersService } from '../Services/user.service';
+import { Chart } from 'chart.js';
 import { User } from '../Models/user.model';
 
 @Component({
@@ -15,6 +16,7 @@ export class ProfileComponent implements OnInit {
   username:any;
   imageURL:string;
   //user: User;
+  activeTab: string = 'Products';
 
   constructor(private router: Router, private authService: AuthService, private userService: UsersService) {
     this.imageURL = '';
@@ -23,6 +25,10 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.username = this.userService.getUserInfo();
     this.user = this.getUserDetails(this.username);
+  }
+
+  setActiveTab(tabName: string) {
+    this.activeTab = tabName;
   }
 
   addProduct(){
@@ -39,5 +45,10 @@ export class ProfileComponent implements OnInit {
         console.error('Error al obtener los detalles del usuario:', error);
       }
     );
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }
