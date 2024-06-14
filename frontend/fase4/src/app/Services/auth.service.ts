@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 
 
@@ -7,7 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   getToken(): string | null {
     return localStorage.getItem('Token');
@@ -22,7 +23,8 @@ export class AuthService {
     return null;
   }
 
-  logout(): void {
+  logout() {
     localStorage.removeItem('Token');
+    this.router.navigate(['/']);
   }
 }
