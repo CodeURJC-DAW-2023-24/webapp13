@@ -35,11 +35,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-  searchProducts(): void {
-    // Implementa la lógica de búsqueda aquí
-  }
-
   selectCategory(index: number): void {
     this.sharedService.changeCategory(index);
+  }
+
+  searchProducts(term: string): void {
+    this.sharedService.changeSearchTerm(term);
   }
 }

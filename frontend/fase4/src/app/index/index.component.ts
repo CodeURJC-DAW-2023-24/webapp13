@@ -15,6 +15,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   size: number = 8;
   productType: number = 0;
   categorySubscription!: Subscription;
+  searchSubscription!: Subscription;
 
   constructor(private productService: ProductService, private sharedService: SharedService) {}
 
@@ -24,10 +25,15 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.categorySubscription = this.sharedService.categoryChanged$.subscribe(index => {
       this.loadProductsByCategory(index);
     });
+
+    this.searchSubscription = this.sharedService.searchChanged$.subscribe(term => {
+      this.searchProducts(term);
+    });
   }
 
   ngOnDestroy(): void {
     this.categorySubscription.unsubscribe();
+    this.searchSubscription.unsubscribe();
   }
 
   loadProducts(): void {
@@ -63,5 +69,13 @@ export class IndexComponent implements OnInit, OnDestroy {
         console.error('Error fetching products by category:', error);
       }
     );
+  }
+
+  searchProducts(search: string): void {
+    this.productService.searchProducts(search, 0, 8).subscribe(
+      (data: Product[]) => {
+        this.products = data;
+      }
+    )
   }
 }
