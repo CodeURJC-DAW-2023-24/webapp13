@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from './Services/product.service'; // Asegúrate de que la ruta es correcta
+import { SharedService } from './Services/shared.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent implements OnInit {
   categories: string[] = [];
   logged = false;
 
-  constructor(private router: Router, private productService: ProductService) {}
+  constructor(private router: Router, private productService: ProductService, private sharedService: SharedService) {}
 
   ngOnInit(): void {
     this.productService.getAllCategories().subscribe({
@@ -36,5 +37,9 @@ export class AppComponent implements OnInit {
 
   searchProducts(): void {
     // Implementa la lógica de búsqueda aquí
+  }
+
+  selectCategory(index: number): void {
+    this.sharedService.changeCategory(index);
   }
 }

@@ -18,11 +18,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
         <li class="nav-item dropdown" ngbDropdown>
-          <a class="nav-link dropdown-toggle" id="navbarDropdown" ngbDropdownToggle href="#" role="button" aria-expanded="false">Categorias</a>
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" ngbDropdownToggle role="button" aria-expanded="false">Categorias</a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
-            <ng-container *ngFor="let category of categories">
+            <ng-container *ngFor="let category of categories; let i = index">
               <li>
-                <a class="dropdown-item category-link">{{ category }}</a>
+                <a class="dropdown-item category-link" (click)="selectCategory(i)">{{ category }}</a>
               </li>
             </ng-container>
           </ul>

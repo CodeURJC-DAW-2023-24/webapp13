@@ -41,6 +41,13 @@ export class ProductService {
     );
   }
 
+  getProductsByType(id: number): Observable<Product> {
+    const url = `${this.BASE_URL}type/${id}`;
+    return this.httpClient.get<Product>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   deleteProduct(id: number): Observable<void> {
     const url = `${this.BASE_URL}${id}`;
     return this.httpClient.delete<void>(url).pipe(

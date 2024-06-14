@@ -77,6 +77,13 @@ public class ProductService {
         return productsPage.getContent();
     }
 
+    public List<Product> getProductsByType(Long productType, int pageNumber, int pageSize) {
+
+        List<Product> productsPage = productRepository.findProductsByProductType(productType);
+
+        return productsPage;
+    }
+
     public Page<Product> getProductsPage(Pageable page) {
 		return productRepository.findAll(page);
 	}

@@ -340,6 +340,27 @@ public class ProductsRestController {
         }
     }
 
+    @Operation(summary = "Get products by type")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Found the Products",
+            content = {@Content(
+                mediaType = "application/json"
+            )}
+        )
+    })
+    @JsonView(Product.Detailed.class)
+    @GetMapping("/type/{id}")
+    public ResponseEntity<List<Product>> getProductsByType(@Parameter(description="id of Product to be searched") @PathVariable long id){
+        List<Product> products = productService.getProductsByProductType(id);
+        if (products.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().body(products);
+        }
+    }
+
     @Operation(summary = "Get search")
     @ApiResponses(value = {
         @ApiResponse(
