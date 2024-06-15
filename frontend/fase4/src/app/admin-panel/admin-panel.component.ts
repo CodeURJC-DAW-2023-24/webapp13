@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Report } from '../Models/report.model';
 import { ReportService } from '../Services/report.service';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -10,7 +11,7 @@ import { ReportService } from '../Services/report.service';
 export class AdminPanelComponent implements OnInit {
   reports!: Report[];
 
-  constructor(private reportService: ReportService) { }
+  constructor(private reportService: ReportService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.reportService.getReports().subscribe(
@@ -18,6 +19,10 @@ export class AdminPanelComponent implements OnInit {
         this.reports = data;
       }
     )
+  }
+
+  onLogout(): void{
+    this.authService.logout();
   }
 
 }

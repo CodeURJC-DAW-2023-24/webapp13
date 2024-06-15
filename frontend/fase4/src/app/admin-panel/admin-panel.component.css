@@ -49,3 +49,9 @@ body {
     background-color: red;
     border-color: red;
 }
+
+.btn-secondary{
+    float: right;
+    max-width: 150px;
+    margin-top: 30px;
+}
