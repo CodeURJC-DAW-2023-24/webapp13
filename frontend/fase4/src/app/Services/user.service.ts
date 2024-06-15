@@ -95,12 +95,4 @@ export class UsersService{
     return userInfo ? userInfo.sub : null;
   }
 
-  isLoggedIn(): boolean {
-    // Verificar si el token de autenticación está presente en las cookies
-    return !!this.authService.getToken();
-  }
-
-  logout(): void {
-    // Limpiar las cookies al cerrar sesión
-  }
 }
