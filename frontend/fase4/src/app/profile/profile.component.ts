@@ -12,7 +12,7 @@ import { ProductService } from '../Services/product.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit, AfterViewInit {
+export class ProfileComponent implements OnInit{
 
   user?: User;
   username:any;
@@ -38,18 +38,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     )
   }
 
-  ngAfterViewInit() {
-    if (this.activeTab === 'Beneficts') {
-      /*this.loadChart();*/
-    }
-  }
-
   setActiveTab(tabName: string) {
     this.activeTab = tabName;
     if (this.activeTab === 'Beneficts' && this.user) {
       setTimeout(() => {
         this.loadChart();
-      }, 0); // Llama a loadChart después de que Angular complete las actualizaciones del DOM
+      }, 0);
     }
   }
 

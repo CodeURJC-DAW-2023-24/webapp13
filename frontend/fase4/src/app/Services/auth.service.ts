@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private loggedIn = new BehaviorSubject<boolean>(this.checkToken());
 
   constructor(private router: Router) { }
 
@@ -26,5 +28,13 @@ export class AuthService {
   logout() {
     localStorage.removeItem('Token');
     this.router.navigate(['/']);
+  }
+
+  private checkToken(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  isLoggedIn(): boolean {
+    return this.getToken() !== null;
   }
 }
