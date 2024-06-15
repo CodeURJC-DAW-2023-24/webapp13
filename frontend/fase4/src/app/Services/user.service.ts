@@ -50,7 +50,7 @@ export class UsersService{
       formData.append('image', image); // Asegúrate de que el nombre 'image' coincida con el nombre esperado en el backend
     }
 
-    if (!user.userID) {
+    if (!user.userID || user.userID == 0) {
       return this.httpClient.post("https://localhost:8443/api/users/", formData)
         .pipe(
           catchError((error: any) => this.handleError(error))

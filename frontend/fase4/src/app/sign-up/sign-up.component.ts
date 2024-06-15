@@ -43,16 +43,7 @@ export class SignUpComponent implements OnInit {
   registerUser(){
     if (this.formulario.valid) {
       console.log("Formulario válido, enviar datos:", this.formulario.value);
-      this.newUser = new User(
-        this.formulario.value.Username,
-        this.formulario.value.Image,
-        this.formulario.value.Email,
-        this.formulario.value.Password,
-        this.formulario.value.Name,
-        '', // Asume que reviewList empieza vacío
-        "USER"// Asume que roles se envían como un array separado por comas si hay roles en el formulario
-        // ...this.formulario.value.roles ? this.formulario.value.roles.split(',') : []
-      );
+      this.newUser = new User(0,0,['USER'],[],0,this.formulario.value.Username,this.formulario.value.Password, this.formulario.value.Name, this.formulario.value.Email, this.formulario.value.Image);
       this.usersService.addUserOrUpdate(this.newUser).subscribe(
         (        response: any) => {
           console.log('Usuario registrado exitosamente:', response);
