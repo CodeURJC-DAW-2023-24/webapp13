@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { User } from '../Models/user.model';
 import { Product } from '../Models/product.model';
 import { CookieService } from 'ngx-cookie-service';
@@ -30,6 +30,13 @@ export class UsersService{
     ) as Observable<User>;
   }
 
+  getUserIdByUsername(username: string): Observable<number> {
+    return this.httpClient.get<User>(BASE_URL + 'username/' + username).pipe(
+      map((user: User) => user.userID),
+      catchError((error: any) => this.handleError(error))
+    ) as Observable<number>;
+  }
+
   addUserOrUpdate(user: User) {
     const formData = new FormData();
     const fullName = user.fullName ?? '';
@@ -38,6 +45,7 @@ export class UsersService{
     const password = user.encodedPassword ?? '';
 
     // Agregar campos de texto al formData
+
     formData.append('name', fullName);
     formData.append('username', username);
     formData.append('email', email);
@@ -60,6 +68,28 @@ export class UsersService{
         catchError((error: any) => this.handleError(error))
       ); // si ya existe el usuario se actualiza
     }
+  }
+
+  updateUser(user: User, currentPassword: string) {
+    const formData = new FormData();
+    const fullName = user.fullName ?? '';
+    const username = user.username ?? '';
+    const newPassword = user.encodedPassword ?? '';
+    const image = user.userImg;
+
+    formData.append('userID', fullName);
+    formData.append('fullName', fullName);
+    formData.append('username', username);
+    formData.append('currentPassword', currentPassword);
+    formData.append('newPassword', newPassword);
+    formData.append('confirmPassword', newPassword);
+    if (image) {
+      formData.append('imageFile', image);
+    }
+
+    return this.httpClient.patch(BASE_URL + user.userID, formData).pipe(
+      catchError((error: any) => this.handleError(error))
+    );
   }
 
 

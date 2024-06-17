@@ -15,7 +15,8 @@
                     <div class="col-12 col-sm-auto mb-3">
                       <div class="mx-auto" style="width: 140px; height: 140px;">
                         <div class="d-flex justify-content-center align-items-center rounded">
-                             <img alt="avatar" [src]="user?.userImg" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                          <img alt="avatar" [src]="user?.userImg" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                       </div>
                     </div>
                     <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
@@ -43,7 +44,6 @@
                       <i class="fa fa-fw fa-cog"></i>Settings
                     </button>
                   </div>
-
                   <div *ngIf="activeTab === 'Products'" class="w3-container tab">
                     <h2>Products</h2>
                     <p>Here are your products you have uploaded</p>
@@ -67,7 +67,6 @@
                       </a>
                     </div>
                   </div>
-
                   <div *ngIf="activeTab === 'Beneficts'" class="w3-container tab">
                     <h2>Beneficts</h2>
                     <p>Here is your balance graphic of your purchases/sales</p>
@@ -75,27 +74,26 @@
                       <canvas id="balanceChart"></canvas>
                     </div>
                   </div>
-
                   <div *ngIf="activeTab === 'Settings'" class="w3-container tab">
                     <h2>Settings</h2>
                     <div data-content id="settings" class="active">
-                      <form id="updateForm" class="mx-1 mx-md-4" action="/updateUser/1" method="post" enctype="multipart/form-data">
+                      <form [formGroup]="formulario" (ngSubmit)="onSettings()">
                         <div class="row">
                           <div class="col">
                             <div class="row">
                               <div class="col">
                                 <div class="form-group">
                                   <label for="fullName">Full Name</label>
-                                  <input class="form-control" id="fullName" type="text" name="fullName" placeholder="Nuevo nombre"/>
+                                  <input class="form-control" id="fullName" type="text" name="fullName" formControlName="Name" placeholder="Nuevo nombre"/>
                                 </div>
                               </div>
                               <div class="col">
                                 <div class="form-group">
                                   <label for="username">Username</label>
-                                  <input class="form-control" id="username" type="text" name="username" placeholder="Nuevo nombre de usuario"/>
+                                  <input class="form-control" id="username" type="text" name="username" formControlName="Username" placeholder="Nuevo nombre de usuario"/>
                                 </div>
                                 <div class="delete">
-                                  <a type="button" class="btn btn-primary btn-lg red" href="/deleteAccount/1" >Eliminar</a>
+                                  <a type="button" class="btn btn-primary btn-lg red" >Eliminar</a>
                                 </div>
                               </div>
                             </div>
@@ -108,7 +106,7 @@
                               <div class="col">
                                 <div class="form-group">
                                   <label for="currentPassword">Current Password</label>
-                                  <input class="form-control" id="currentPassword" type="password" name="currentPassword" placeholder="••••••"/>
+                                  <input class="form-control" id="currentPassword" type="password" name="currentPassword" formControlName="CurrentPassword" placeholder="••••••"/>
                                 </div>
                               </div>
                             </div>
@@ -119,7 +117,7 @@
                               <div class="col">
                                 <div class="form-group">
                                   <label for="newPassword">New Password</label>
-                                  <input class="form-control" id="newPassword" type="password" name="newPassword" placeholder="••••••"/>
+                                  <input class="form-control" id="newPassword" type="password" name="newPassword" formControlName="Password" placeholder="••••••"/>
                                 </div>
                               </div>
                             </div>
@@ -127,7 +125,7 @@
                               <div class="col">
                                 <div class="form-group">
                                   <label for="confirmPassword">Confirm Password</label>
-                                  <input class="form-control" id="confirmPassword" type="password" name="confirmPassword" placeholder="••••••"/>
+                                  <input class="form-control" id="confirmPassword" type="password" name="confirmPassword" formControlName="RepeatPassword" placeholder="••••••"/>
                                 </div>
                               </div>
                             </div>
@@ -136,7 +134,7 @@
                         <div class="col">
                           <div class="form-group">
                             <div class="mb-2"><b>Change Photo</b>
-                            <input class="form-control" name='imageFile' type="file" id="imageFile" accept="image/*"/>
+                            <input class="form-control" name='imageFile' type="file" id="imageFile" formControlName="Image" accept="image/*"/>
                           </div>
                           </div>
                           </div>
@@ -148,7 +146,6 @@
                       </form>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>

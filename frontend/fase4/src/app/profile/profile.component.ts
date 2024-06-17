@@ -6,6 +6,8 @@ import { Chart, PieController, ArcElement, Legend, Tooltip, Title, CategoryScale
 import { User } from '../Models/user.model';
 import { Product } from '../Models/product.model';
 import { ProductService } from '../Services/product.service';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, } from '@angular/forms';
+import * as bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'app-profile',
@@ -13,15 +15,24 @@ import { ProductService } from '../Services/product.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit{
-
+  formulario: UntypedFormGroup;
   user?: User;
+  newUser?: User;
   username:any;
   imageURL?:string;
   activeTab: string = 'Products';
   products!: Product[];
 
-  constructor(private router: Router, private authService: AuthService, private userService: UsersService, private productService: ProductService) {
+  constructor(private router: Router, private formBuilder: UntypedFormBuilder, private authService: AuthService, private userService: UsersService, private productService: ProductService) {
     Chart.register(PieController, ArcElement, Legend, Tooltip, Title, CategoryScale);
+    this.formulario = this.formBuilder.group({
+      Name: [''],
+      Username: [''],
+      CurrentPassword: [''],
+      Password: [''],
+      RepeatPassword: [''],
+      Image: [''],
+    });
   }
 
   ngOnInit(): void {
@@ -29,6 +40,7 @@ export class ProfileComponent implements OnInit{
     this.userService.getUserByUsername(this.username).subscribe(
       (user: User) => {
         this.user = user
+        this.newUser = user
         this.userService.getUserProductsById(user.userID).subscribe(
           (data: Product[]) => {
             this.products = data;
@@ -84,6 +96,35 @@ export class ProfileComponent implements OnInit{
       });
     } else {
       console.error('Failed to get canvas context');
+    }
+  }
+
+  onSettings(){
+    if (this.formulario.valid && this.newUser && this.user?.encodedPassword) {
+      const currentPassword = this.formulario.value.CurrentPassword
+      console.log("Formulario válido, enviar datos:", this.formulario.value);
+      if (this.formulario.value.Name !== ''){
+        this.newUser.fullName = this.formulario.value.Name
+      }
+      if (this.formulario.value.Username !== ''){
+        this.newUser.username = this.formulario.value.Username
+      }
+      if (this.formulario.value.Image !== ''){
+        this.newUser.userImg = this.formulario.value.Image
+      }
+      if (bcrypt.compareSync(this.formulario.value.CurrentPassword, this.user.encodedPassword)
+        && this.formulario.value.Password !== ''
+        && this.formulario.value.RepeatPassword == this.formulario.value.Password)
+        {
+          this.newUser.encodedPassword = this.formulario.value.Password
+
+      }else {
+        alert("Error, revisa las contraseñas.");
+      }
+      this.userService.updateUser(this.newUser, currentPassword).subscribe();
+      this.router.navigate(['/login'])
+    } else {
+      console.log("Formulario inválido, revisa los campos.");
     }
   }
 
