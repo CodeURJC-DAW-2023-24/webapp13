@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders,HttpParams, HttpErrorResponse } from '@angular/
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Product } from '../Models/product.model';
+import { NewProduct } from '../new-product/new-product.component';
+/*import { NewProduct } from '../new-product/new-product.component';*/
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +30,40 @@ export class ProductService {
     );
   }
 
-  registerProduct(product: Product): Observable<Product> {
+  /*registerProduct(product: NewProduct){
+    const productJson = JSON.stringify(product);
+    return this.httpClient.post("https://localhost:8443/api/products/", productJson)
+      .pipe(
+        catchError((error: any) => this.handleError(error))
+      );
+  }*/
+  /*
+  registerProduct(product: Product): {
     return this.httpClient.post<Product>(this.BASE_URL, product).pipe(
       catchError(this.handleError)
     );
   }
+  */
+
+  registerProduct(product: NewProduct) {
+    debugger;
+    const body = {
+      title: product.title ?? '',
+      address: product.address ?? '',
+      price: Number(product.price ?? 0),
+      description: product.description ?? '',
+      productType: Number(product.productType ?? 0),
+      owner: Number(product.owner)
+    };
+
+    // Agregar la imagen al formData si está presente en el modelo de datos User
+
+    return this.httpClient.post("https://localhost:8443/api/products/", body)
+      .pipe(
+        catchError((error: any) => this.handleError(error))
+      );
+  }
+
 
   getProductById(id: number): Observable<Product> {
     const url = `${this.BASE_URL}${id}`;

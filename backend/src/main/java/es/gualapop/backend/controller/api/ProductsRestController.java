@@ -14,9 +14,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.itextpdf.text.DocumentException;
 
 import es.gualapop.backend.model.Product;
 import es.gualapop.backend.model.User;
+import es.gualapop.backend.service.PDFService;
 import es.gualapop.backend.service.ProductService;
 import es.gualapop.backend.service.SearchService;
 import es.gualapop.backend.service.UserService;
@@ -42,6 +44,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,6 +76,9 @@ public class ProductsRestController {
     private ReviewRepository reviewRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PDFService pdfService;
+
     @Operation(summary = "Get Products")
     @ApiResponses(value = {
         @ApiResponse(
@@ -123,6 +129,7 @@ public class ProductsRestController {
         ) 
     })
     @JsonView(Product.Detailed.class)
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/")
     public ResponseEntity<Product> registerProduct( @Parameter(description="Object Type Product") @RequestBody(required=false) Product product) throws IOException{
         if (product == null) {
@@ -469,5 +476,34 @@ public class ProductsRestController {
         }
     }
 
+    @Operation(summary = "Get PDF from purchase product")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "PDF generated",
+            content = {@Content(
+                mediaType = "application/json"
+            )}
+        )
+    })
+    @GetMapping("/pdf/{productId}")
+    public ResponseEntity<byte[]> generatePDF(@PathVariable Long productId) {
+        // Lógica para obtener el producto por ID y generar el PDF
+        Product product = productService.getProductById(productId);
 
+        if (product == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            byte[] pdfBytes = pdfService.generatePDF(product);
+            // Devolver los bytes del PDF como respuesta
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(pdfBytes);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
