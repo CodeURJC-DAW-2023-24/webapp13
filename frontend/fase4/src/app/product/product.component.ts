@@ -57,6 +57,20 @@ export class ProductComponent implements OnInit{
         // Manejo de errores adicional si es necesario
       }
     );
+    this.productService.getPdf(this.product.id).subscribe(
+      (pdf: Blob) => {
+        const url = window.URL.createObjectURL(pdf);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'bill.pdf'; // Nombre del archivo a descargar
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, error => {
+        console.error('Error downloading PDF', error);
+      }
+    );
     await this.wait(0.1);
     this.productService.getProductById(this.product.id).subscribe(
       (prod: Product) => {

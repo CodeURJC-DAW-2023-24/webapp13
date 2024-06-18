@@ -129,4 +129,11 @@ export class ProductService {
       catchError(this.handleError)
     );
   }
+
+  getPdf(productID: number): Observable<Blob> {
+    const url = `${this.BASE_URL}pdf/${productID}`;
+    return this.httpClient.get(url, { responseType: 'blob' }).pipe(
+      catchError(this.handleError)
+    );
+  }
 }
