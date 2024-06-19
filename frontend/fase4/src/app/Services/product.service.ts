@@ -58,7 +58,7 @@ export class ProductService {
 
     // Agregar la imagen al formData si está presente en el modelo de datos User
 
-    return this.httpClient.post("https://localhost:8443/api/products/", body)
+    return this.httpClient.post(this.BASE_URL, body)
       .pipe(
         catchError((error: any) => this.handleError(error))
       );
