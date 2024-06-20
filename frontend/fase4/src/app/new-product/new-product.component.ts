@@ -6,6 +6,7 @@ import { UsersService } from '../Services/user.service';
 import { User } from '../Models/user.model';
 import { Observable } from 'rxjs';
 import { ProductService } from '../Services/product.service';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-new-product',
@@ -17,8 +18,9 @@ export class NewProductComponent implements OnInit {
   newProduct?: NewProduct;
   username:any;
   userId?: number;
+  user: any;
 
-  constructor(private router: Router, private formBuilder: UntypedFormBuilder, private userService: UsersService, private productService: ProductService) {
+  constructor(private router: Router, private formBuilder: UntypedFormBuilder, private userService: UsersService, private productService: ProductService, private authService: AuthService) {
     this.formulario = this.formBuilder.group({
       Title: ['', Validators.required],
       imageFile: ['', Validators.required],
@@ -33,6 +35,15 @@ export class NewProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.user = this.authService.getUserToken();
+        if(this.user.auth[0].authority != 'ROLE_ROLE_USER') {
+          this.router.navigate(['/']);
+        }
+      }
+      else {
+        this.router.navigate(['/']);
+      }
     this.username = this.userService.getUserInfo();
     this.userService.getUserIdByUsername(this.username).subscribe(
       (id: number) => {

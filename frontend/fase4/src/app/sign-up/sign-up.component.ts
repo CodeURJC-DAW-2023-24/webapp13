@@ -3,6 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators, AbstractControl } fro
 import { Router } from '@angular/router';
 import { UsersService } from '../Services/user.service';
 import { User } from '../Models/user.model';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,8 +13,9 @@ import { User } from '../Models/user.model';
 export class SignUpComponent implements OnInit {
   formulario: UntypedFormGroup;
   newUser: User = new User();
+  user: any;
 
-  constructor(private router: Router,private formBuilder: UntypedFormBuilder, private usersService: UsersService) {
+  constructor(private router: Router,private formBuilder: UntypedFormBuilder, private usersService: UsersService, private authService: AuthService) {
     this.formulario = this.formBuilder.group({
       Name: ['', Validators.required],
       Username: ['', Validators.required],
@@ -27,6 +29,9 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+        this.router.navigate(['/']);
+      }
   }
 
   passwordMatchValidator(form: UntypedFormGroup) {

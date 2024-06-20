@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit{
   imageURL?:string;
   activeTab: string = 'Products';
   products!: Product[];
+  user1: any;
 
   constructor(private router: Router, private formBuilder: UntypedFormBuilder, private authService: AuthService, private userService: UsersService, private productService: ProductService) {
     Chart.register(PieController, ArcElement, Legend, Tooltip, Title, CategoryScale);
@@ -36,6 +37,15 @@ export class ProfileComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.user1 = this.authService.getUserToken();
+        if(this.user1.auth[0].authority != 'ROLE_ROLE_USER') {
+          this.router.navigate(['/']);
+        }
+      }
+    else {
+      this.router.navigate(['/']);
+    }
     this.username = this.userService.getUserInfo();
     this.userService.getUserByUsername(this.username).subscribe(
       (user: User) => {

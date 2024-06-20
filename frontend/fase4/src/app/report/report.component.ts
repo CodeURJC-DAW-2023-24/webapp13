@@ -3,6 +3,7 @@ import { Report } from '../Models/report.model';
 import { ReportService } from '../Services/report.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../Services/user.service';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-report',
@@ -14,10 +15,20 @@ import { UsersService } from '../Services/user.service';
 export class ReportComponent implements OnInit {
 
   report!: Report;
+  user: any;
 
-  constructor(private reportService: ReportService, private route: ActivatedRoute, private router: Router, private userService: UsersService) { }
+  constructor(private reportService: ReportService, private route: ActivatedRoute, private router: Router, private userService: UsersService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.user = this.authService.getUserToken();
+        if(this.user.auth[0].authority != 'ROLE_ROLE_ADMIN') {
+          this.router.navigate(['/']);
+        }
+      }
+    else {
+      this.router.navigate(['/']);
+    }
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.reportService.getReportById(id).subscribe(
       (data: Report) => {

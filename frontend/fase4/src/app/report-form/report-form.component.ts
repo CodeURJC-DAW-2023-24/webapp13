@@ -5,6 +5,7 @@ import { User } from '../Models/user.model';
 import { UsersService } from '../Services/user.service';
 import { ReportService } from '../Services/report.service';
 import { Report } from '../Models/report.model';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-report-form',
@@ -16,8 +17,9 @@ export class ReportFormComponent implements OnInit {
   user!: User;
   date: Date = new Date();
   currentUser: string = '';
+  user1: any;
 
-  constructor(private router: Router,private formBuilder: UntypedFormBuilder, private userService: UsersService, private route: ActivatedRoute, private reportService: ReportService) {
+  constructor(private router: Router,private formBuilder: UntypedFormBuilder, private userService: UsersService, private route: ActivatedRoute, private reportService: ReportService, private authService: AuthService) {
     this.formulario = this.formBuilder.group({
       Category: ['', Validators.required],
       Description: ['', Validators.required],
@@ -25,6 +27,15 @@ export class ReportFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.user1 = this.authService.getUserToken();
+        if(this.user1.auth[0].authority != 'ROLE_ROLE_USER') {
+          this.router.navigate(['/']);
+        }
+      }
+    else {
+      this.router.navigate(['/']);
+    }
     this.getInfo();
   }
 

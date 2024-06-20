@@ -4,6 +4,7 @@ import { Product } from '../Models/product.model';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../Services/product.service';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -16,11 +17,21 @@ export class ProductComponent implements OnInit{
   product!: Product;
   rating: number = 0;
   stars: number[] = [1, 2, 3, 4, 5];
+  user: any;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private router: Router) {
+  constructor(private route: ActivatedRoute, private productService: ProductService, private router: Router, private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.user = this.authService.getUserToken();
+        if(this.user.auth[0].authority != 'ROLE_ROLE_USER') {
+          this.router.navigate(['/']);
+        }
+      }
+    else {
+      this.router.navigate(['/']);
+    }
     this.getInfo();
   }
 

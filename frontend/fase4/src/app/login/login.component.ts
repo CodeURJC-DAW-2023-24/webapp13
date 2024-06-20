@@ -20,6 +20,18 @@ export class LoginComponent {
     this.loginObj = new Login();
   }
 
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.user = this.authService.getUserToken();
+        if(this.user.auth[0].authority == 'ROLE_ROLE_ADMIN') {
+          this.router.navigate(['/admin']);
+        }
+        else if (this.user.auth[0].authority == 'ROLE_ROLE_USER') {
+          this.router.navigate(['/profile']);
+        }
+      }
+  }
+
   onLogin() {
     this.http.post(this.loginURL, this.loginObj, { observe: 'response' }).subscribe((res:any)=>{
       if(!res.error) {
