@@ -27,7 +27,6 @@ import es.gualapop.backend.repository.ReviewRepository;
 import es.gualapop.backend.repository.UserRepository;
 
 @RestController
-@CrossOrigin
 @RequestMapping("api/reviews")
 public class ReviewRestController {
 
