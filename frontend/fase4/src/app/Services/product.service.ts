@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders,HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Product } from '../Models/product.model';
 import { NewProduct } from '../new-product/new-product.component';
 /*import { NewProduct } from '../new-product/new-product.component';*/
@@ -55,15 +55,18 @@ export class ProductService {
       productType: Number(product.productType ?? 0),
       owner: Number(product.owner)
     };
-
+    debugger;
     // Agregar la imagen al formData si está presente en el modelo de datos User
-
-    return this.httpClient.post(this.BASE_URL, body)
+    return this.httpClient.post<any>(this.BASE_URL, body)
       .pipe(
+        map(response => {
+          // Aquí asumimos que la respuesta contiene el id del producto creado
+          const productId = response.id;
+          return this.httpClient.post(this.BASE_URL + productId + '/image', product.imageFile)
+        }),
         catchError((error: any) => this.handleError(error))
       );
   }
-
 
   getProductById(id: number): Observable<Product> {
     const url = `${this.BASE_URL}${id}`;

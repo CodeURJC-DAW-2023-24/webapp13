@@ -79,16 +79,9 @@ export class NewProductComponent implements OnInit {
       debugger;
       console.log("Formulario válido, enviar datos:", this.formulario.value);
       this.newProduct = new NewProduct(this.formulario.value.Title, this.formulario.value.Address, this.formulario.value.Price, this.formulario.value.Description,
-        this.formulario.value.imageFile !== null, this.getProductNumberFromDict(this.formulario.value.Category), this.userId);
-      this.productService.registerProduct(this.newProduct).subscribe(
-        (        response: any) => {
-          console.log('Producto registrado exitosamente:', response);
-          this.router.navigate(['/'])
-        },
-        (        error: any) => {
-          console.error('Error al registrar el producto:', error);
-        }
-      );
+        this.formulario.value.imageFile !== null, this.getProductNumberFromDict(this.formulario.value.Category), this.userId, this.formulario.value.imageFile);
+      this.productService.registerProduct(this.newProduct)
+      this.router.navigate(['/'])
     } else {
       console.log("Formulario inválido, revisa los campos.");
     }
@@ -122,11 +115,6 @@ export class NewProductComponent implements OnInit {
     });
   }
   */
-  wait(seconds: number): Promise<void> {
-    return new Promise(resolve => {
-      setTimeout(resolve, seconds * 1000);
-    });
-  }
 }
 
 export class NewProduct{
@@ -137,7 +125,8 @@ export class NewProduct{
   image: boolean;
   productType: number;
   owner: number;
-  constructor(title:string, address: string, price: number, description: string, image: boolean, productType: number, owner: number){
+  imageFile: Blob;
+  constructor(title:string, address: string, price: number, description: string, image: boolean, productType: number, owner: number, imageFile: Blob){
     this.title = title;
     this.address = address;
     this.price = price;
@@ -145,5 +134,6 @@ export class NewProduct{
     this.image = image;
     this.productType = productType;
     this.owner = owner;
+    this.imageFile = imageFile;
   }
 }
