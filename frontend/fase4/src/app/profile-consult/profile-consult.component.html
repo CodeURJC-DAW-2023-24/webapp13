@@ -11,7 +11,7 @@
               <div class="d-flex align-items-center justify-content-between pt-4 pb-6 px-4">
                   <div class="d-flex align-items-center">
                       <div class="avatar-xxl avatar-indicators avatar-online me-2 position-relative d-flex justify-content-end align-items-end mt-n10">
-                          <img class="avatar-xxl rounded-circle border border-2 " [src]="imgUrl" alt="Image">
+                          <img class="avatar-xxl rounded-circle border border-2 " [src]="'/api/users/' + user.userID + '/image'" alt="Image">
                       </div>
                       <div class="lh-1">
                           <h2 class="mb-0">{{  user.username  }}</h2>
@@ -37,7 +37,7 @@
           <div class="col-lg-4 col-12" *ngFor="let product of products">
               <div class="card mb-5 rounded-3" >
                   <div>
-                      <img alt="Image" class="img-fluid rounded-top" [src]="product.imageUrl">
+                      <img alt="Image" class="img-fluid rounded-top" [src]="'/api/products/' + product.id + '/image'">
                   </div>
                   <div class="card-body">
                       <h4 class="mb-1">{{  product.title  }}</h4>
