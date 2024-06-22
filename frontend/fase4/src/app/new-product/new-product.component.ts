@@ -87,14 +87,15 @@ export class NewProductComponent implements OnInit {
             this.userId,
             this.formulario.value.imageFile
         );
+        const imageFile = this.formulario.get('imageFile')?.value;
 
         try {
             const { response, productId } = await this.productService.registerProduct(this.newProduct);
             console.log('Producto registrado exitosamente:', response);
 
-            if (this.newProduct.imageFile) {
+            if (imageFile) {
                 try {
-                    await this.productService.uploadImage(productId, this.newProduct.imageFile);
+                    await this.productService.uploadImage(productId, imageFile);
                     console.log('Imagen registrada exitosamente');
                 } catch (error) {
                     console.error('Error al registrar la imagen:', error);
@@ -108,8 +109,15 @@ export class NewProductComponent implements OnInit {
     } else {
         console.log("Formulario inválido, revisa los campos.");
     }
-}
-
+  }
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.formulario.patchValue({
+        imageFile: file
+      });
+    }
+  }
 }
 
 export class NewProduct{

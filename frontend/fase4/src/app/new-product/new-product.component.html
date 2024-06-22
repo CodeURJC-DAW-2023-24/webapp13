@@ -10,7 +10,7 @@
         </div>
         <div class="form-group">
             <label for="formFileSingle" class="form-label">Selecciona una imagen:</label>
-            <input formControlName='imageFile' class="form-control"  type="file" id="formFileSingle" accept="image/*" required/>
+            <input formControlName='imageFile' class="form-control" type="file" id="formFileSingle" accept="image/*" (change)="onFileChange($event)" required />
         </div>
 
         <div class="mb-3">
