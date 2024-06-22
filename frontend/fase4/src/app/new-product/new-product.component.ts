@@ -74,47 +74,42 @@ export class NewProductComponent implements OnInit {
       }
   }
 
-  registerProduct(){
+  async registerProduct() {
     if (this.formulario.valid && this.userId) {
-      debugger;
-      console.log("Formulario válido, enviar datos:", this.formulario.value);
-      this.newProduct = new NewProduct(this.formulario.value.Title, this.formulario.value.Address, this.formulario.value.Price, this.formulario.value.Description,
-        this.formulario.value.imageFile !== null, this.getProductNumberFromDict(this.formulario.value.Category), this.userId, this.formulario.value.imageFile);
-      this.productService.registerProduct(this.newProduct)
-      this.router.navigate(['/'])
-    } else {
-      console.log("Formulario inválido, revisa los campos.");
-    }
-  }
+        console.log("Formulario válido, enviar datos:", this.formulario.value);
+        this.newProduct = new NewProduct(
+            this.formulario.value.Title,
+            this.formulario.value.Address,
+            this.formulario.value.Price,
+            this.formulario.value.Description,
+            this.formulario.value.imageFile !== null,
+            this.getProductNumberFromDict(this.formulario.value.Category),
+            this.userId,
+            this.formulario.value.imageFile
+        );
 
-  /*
-  async registerProduct(): Promise<void>{
-    if (this.formulario.valid && this.userId) {
-      debugger;
-      console.log("Formulario válido, enviar datos:", this.formulario.value);
-      this.newProduct = new NewProduct(this.formulario.value.Title, this.formulario.value.Address, this.formulario.value.Price, this.formulario.value.Description,
-        this.formulario.value.imageFile !== null, this.getProductNumberFromDict(this.formulario.value.Category), this.userId);
-      this.productService.registerProduct(this.newProduct).subscribe(
-        (        response: any) => {
-          console.log('Producto registrado exitosamente:', response);
-          this.router.navigate(['/'])
-        },
-        (        error: any) => {
-          console.error('Error al registrar el producto:', error);
+        try {
+            const { response, productId } = await this.productService.registerProduct(this.newProduct);
+            console.log('Producto registrado exitosamente:', response);
+
+            if (this.newProduct.imageFile) {
+                try {
+                    await this.productService.uploadImage(productId, this.newProduct.imageFile);
+                    console.log('Imagen registrada exitosamente');
+                } catch (error) {
+                    console.error('Error al registrar la imagen:', error);
+                }
+            }
+
+            this.router.navigate(['/']);
+        } catch (error) {
+            console.error('Error al registrar el producto:', error);
         }
-      );
-      await this.wait(0.1);
     } else {
-      console.log("Formulario inválido, revisa los campos.");
+        console.log("Formulario inválido, revisa los campos.");
     }
-  }
+}
 
-  wait(seconds: number): Promise<void> {
-    return new Promise(resolve => {
-      setTimeout(resolve, seconds * 1000);
-    });
-  }
-  */
 }
 
 export class NewProduct{
