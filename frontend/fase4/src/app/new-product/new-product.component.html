@@ -10,7 +10,7 @@
         </div>
         <div class="form-group">
             <label for="formFileSingle" class="form-label">Selecciona una imagen:</label>
-            <input formControlName='imageFile' class="form-control"  type="file" id="formFileSingle" accept="image/*" required/>
+            <input formControlName='imageFile' class="form-control" type="file" id="formFileSingle" accept="image/*" (change)="onFileChange($event)" required />
         </div>
 
         <div class="mb-3">
@@ -45,7 +45,7 @@
                 <label for="category2">Deportes</label>
             </div>
             <div class="dropdown-item">
-                <input type="radio" id="category6" formControlName='Category' value="Hogar">
+                <input type="radio" id="category6" formControlName='Category' value="Hogar y Jardín">
                 <label for="category1">Hogar y Jardín</label>
             </div>
             <div class="dropdown-item">

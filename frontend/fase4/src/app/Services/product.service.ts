@@ -11,6 +11,7 @@ import { NewProduct } from '../new-product/new-product.component';
 })
 export class ProductService {
   BASE_URL = '/api/products/';
+  productId?: number;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -30,43 +31,36 @@ export class ProductService {
     );
   }
 
-  /*registerProduct(product: NewProduct){
-    const productJson = JSON.stringify(product);
-    return this.httpClient.post("https://localhost:8443/api/products/", productJson)
-      .pipe(
-        catchError((error: any) => this.handleError(error))
-      );
-  }*/
-  /*
-  registerProduct(product: Product): {
-    return this.httpClient.post<Product>(this.BASE_URL, product).pipe(
-      catchError(this.handleError)
-    );
-  }
-  */
+    registerProduct(product: NewProduct): Promise<any> {
+      const body = {
+          title: product.title ?? '',
+          address: product.address ?? '',
+          price: Number(product.price ?? 0),
+          description: product.description ?? '',
+          productType: Number(product.productType ?? 0),
+          owner: Number(product.owner)
+      };
 
-  registerProduct(product: NewProduct) {
-    debugger;
-    const body = {
-      title: product.title ?? '',
-      address: product.address ?? '',
-      price: Number(product.price ?? 0),
-      description: product.description ?? '',
-      productType: Number(product.productType ?? 0),
-      owner: Number(product.owner)
-    };
-    debugger;
-    // Agregar la imagen al formData si está presente en el modelo de datos User
-    return this.httpClient.post<any>(this.BASE_URL, body)
-      .pipe(
-        map(response => {
-          // Aquí asumimos que la respuesta contiene el id del producto creado
-          const productId = response.id;
-          return this.httpClient.post(this.BASE_URL + productId + '/image', product.imageFile)
-        }),
-        catchError((error: any) => this.handleError(error))
-      );
+      return this.httpClient.post<any>(this.BASE_URL, body)
+          .pipe(
+              map(response => {
+                  const productId = response.id;
+                  return { response, productId };
+              }),
+              catchError((error: any) => this.handleError(error))
+          ).toPromise();
   }
+
+  uploadImage(id: number, image: Blob): Promise<void> {
+      const url = `${this.BASE_URL}${id}/image`;
+      const formData: FormData = new FormData();
+      formData.append('image', image);
+      return this.httpClient.post<void>(url, formData)
+          .pipe(
+              catchError(this.handleError)
+          ).toPromise();
+  }
+
 
   getProductById(id: number): Observable<Product> {
     const url = `${this.BASE_URL}${id}`;
@@ -92,15 +86,6 @@ export class ProductService {
   getImageById(id: number): Observable<Blob> {
     const url = `${this.BASE_URL}${id}/image`;
     return this.httpClient.get(url, { responseType: 'blob' }).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  uploadImage(id: number, image: File): Observable<void> {
-    const url = `${this.BASE_URL}${id}/image`;
-    const formData: FormData = new FormData();
-    formData.append('image', image, image.name);
-    return this.httpClient.post<void>(url, formData).pipe(
       catchError(this.handleError)
     );
   }

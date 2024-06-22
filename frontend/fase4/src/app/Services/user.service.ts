@@ -75,7 +75,8 @@ export class UsersService{
     const fullName = user.fullName ?? '';
     const username = user.username ?? '';
     const newPassword = user.encodedPassword ?? '';
-    const image = user.userImg;
+    debugger;
+    const imageFile = user.userImg;
 
     formData.append('userID', fullName);
     formData.append('fullName', fullName);
@@ -83,8 +84,8 @@ export class UsersService{
     formData.append('currentPassword', currentPassword);
     formData.append('newPassword', newPassword);
     formData.append('confirmPassword', newPassword);
-    if (image) {
-      formData.append('imageFile', image);
+    if (imageFile) {
+      formData.append('imageFile', imageFile);
     }
 
     return this.httpClient.patch(BASE_URL + user.userID, formData).pipe(

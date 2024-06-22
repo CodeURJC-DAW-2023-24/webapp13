@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit{
       CurrentPassword: [''],
       Password: [''],
       RepeatPassword: [''],
-      Image: [''],
+      imageFile: [''],
     });
   }
 
@@ -120,7 +120,8 @@ export class ProfileComponent implements OnInit{
         this.newUser.username = this.formulario.value.Username
       }
       if (this.formulario.value.Image !== ''){
-        this.newUser.userImg = this.formulario.value.Image
+        const imageFile = this.formulario.get('imageFile')?.value
+        this.newUser.userImg = imageFile
       }
       if (bcrypt.compareSync(this.formulario.value.CurrentPassword, this.user.encodedPassword)
         && this.formulario.value.Password !== ''
@@ -128,14 +129,23 @@ export class ProfileComponent implements OnInit{
         {
           this.newUser.encodedPassword = this.formulario.value.Password
 
-      }else {
+      }else if (this.formulario.value.Password !== '' && this.formulario.value.RepeatPassword !== ''){
         alert("Error, revisa las contraseñas.");
       }
       this.userService.updateUser(this.newUser, currentPassword).subscribe();
+      this.authService.logout();
       this.router.navigate(['/login'])
     } else {
       console.log("Formulario inválido, revisa los campos.");
     }
+  }
+
+  onFileChange(event: any) {
+    debugger;
+    const file = event.target.files[0];
+    this.formulario.patchValue({
+      imageFile: file
+    });
   }
 
   getUserDetails(username: string): void {

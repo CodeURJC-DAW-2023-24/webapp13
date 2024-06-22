@@ -15,7 +15,7 @@
                     <div class="col-12 col-sm-auto mb-3">
                       <div class="mx-auto" style="width: 140px; height: 140px;">
                         <div class="d-flex justify-content-center align-items-center rounded">
-                          <img alt="avatar" src="/api/users/{{ user?.userID }}/image" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                          <img alt="avatar" [src]="'/api/users/' + user?.userID + '/image'" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                       </div>
                     </div>
@@ -134,7 +134,7 @@
                         <div class="col">
                           <div class="form-group">
                             <div class="mb-2"><b>Change Photo</b>
-                            <input class="form-control" name='imageFile' type="file" id="imageFile" formControlName="Image" accept="image/*"/>
+                              <input formControlName="imageFile" type="file" (change)="onFileChange($event)" />
                           </div>
                           </div>
                           </div>
