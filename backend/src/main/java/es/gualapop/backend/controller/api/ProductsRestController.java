@@ -395,7 +395,7 @@ public class ProductsRestController {
     }
 
     @JsonView(Product.Detailed.class)
-    @GetMapping("/getCategories")
+    @GetMapping("/categories")
     public ResponseEntity<ArrayList<String>> getAllCategories(){
         return ResponseEntity.ok().body(productTypeService.getAllCategories());
     }

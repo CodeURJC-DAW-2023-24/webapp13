@@ -52,22 +52,6 @@ public class ReviewRestController {
         }
     }
 
-    @Operation(summary = "Get all reviews")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found reviews"),
-            @ApiResponse(responseCode = "404", description = "No reviews found")
-    })
-    @JsonView(Review.Detailed.class)
-    @PostMapping("/")
-    public ResponseEntity<List<Review>> createReview(){
-        List<Review> reviews = reviewRepository.findAll();
-        if (reviews.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok().body(reviews);
-        }
-    }
-
     @Operation(summary = "Get review by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the review"),

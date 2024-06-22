@@ -16,7 +16,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userID;
-    @JsonView(Basic.class)
     private String encodedPassword;
     @JsonView(Basic.class)
     private String fullName;

@@ -120,7 +120,7 @@ export class ProductService {
   }
 
   getAllCategories(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.BASE_URL+"getCategories").pipe(
+    return this.httpClient.get<string[]>(this.BASE_URL+"categories").pipe(
       catchError(this.handleError)
     );
   }

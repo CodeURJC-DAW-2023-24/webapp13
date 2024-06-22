@@ -95,7 +95,7 @@ public class ReportRestController {
     }
 
     @JsonView(Report.Detailed.class)
-    @Operation(summary = "Manage report by ID")
+    @Operation(summary = "Get report by ID")
     @GetMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Report details retrieved successfully"),

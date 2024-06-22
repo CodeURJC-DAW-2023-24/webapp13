@@ -22,6 +22,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -177,49 +179,49 @@ public class UserRestController {
     @DeleteMapping("/{userID}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userID) {
 
-        // Eliminar productos del usuario
-        List<Product> userProducts = productRepository.findByOwner(userID);
-        for (Product eachProduct : userProducts) {
-            productRepository.deleteById(eachProduct.getId());
-        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUsername = authentication.getName();
+        Optional<User> userOptional = userService.findByUsername(currentUsername);
 
-        // Eliminar reportes relacionados con el usuario
-        List<Report> userReported = reportRepository.findByUserReported(userID);
-        for (Report eachReport : userReported) {
-            reportRepository.deleteById(eachReport.getId());
-        }
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (userID.equals(user.getUserID()) || user.getRoles().contains("ADMIN")) {
+                // Eliminar productos del usuario
+                List<Product> userProducts = productRepository.findByOwner(userID);
+                for (Product eachProduct : userProducts) {
+                    productRepository.deleteById(eachProduct.getId());
+                }
 
-        // Eliminar reportes creados por el usuario
-        List<Report> userReports = reportRepository.findByOwner(userID);
-        for (Report eachReport : userReports) {
-            reportRepository.deleteById(eachReport.getId());
-        }
+                // Eliminar reportes relacionados con el usuario
+                List<Report> userReported = reportRepository.findByUserReported(userID);
+                for (Report eachReport : userReported) {
+                    reportRepository.deleteById(eachReport.getId());
+                }
 
-        // Eliminar revisiones relacionadas con el usuario
-        List<Review> userReview = reviewRepository.findBySellerID(userID);
-        for (Review eachReview : userReview) {
-            reviewRepository.deleteById(eachReview.getReviewID());
-        }
+                // Eliminar reportes creados por el usuario
+                List<Report> userReports = reportRepository.findByOwner(userID);
+                for (Report eachReport : userReports) {
+                    reportRepository.deleteById(eachReport.getId());
+                }
 
-        // Eliminar usuario
-        userRepository.deleteById(userID);
+                // Eliminar revisiones relacionadas con el usuario
+                List<Review> userReview = reviewRepository.findBySellerID(userID);
+                for (Review eachReview : userReview) {
+                    reviewRepository.deleteById(eachReview.getReviewID());
+                }
 
-        return ResponseEntity.ok().body("User deleted successfully");
-    }
-    @Operation(summary = "Get User Profile by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the User Profile"),
-            @ApiResponse(responseCode = "404", description = "User not found")
-    })
-    @JsonView(User.Detailed.class)
-    @GetMapping("/profile/{id}")
-    public ResponseEntity<Object> userProfile(@PathVariable("id") long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isPresent()) {
-            return ResponseEntity.ok().body(optionalUser);
+                // Eliminar usuario
+                userRepository.deleteById(userID);
+
+                return ResponseEntity.ok().body("User deleted successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+
+        
     }
 
     @Operation(summary = "Register User")
