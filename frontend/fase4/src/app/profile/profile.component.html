@@ -77,21 +77,24 @@
                   <div *ngIf="activeTab === 'Settings'" class="w3-container tab">
                     <h2>Settings</h2>
                     <div data-content id="settings" class="active">
-                      <form [formGroup]="formulario" (ngSubmit)="onSettings()">
+                      <form (ngSubmit)="onSettings()">
                         <div class="row">
                           <div class="col">
                             <div class="row">
                               <div class="col">
                                 <div class="form-group">
                                   <label for="fullName">Full Name</label>
-                                  <input class="form-control" id="fullName" type="text" name="fullName" formControlName="Name" placeholder="Nuevo nombre"/>
+                                  <input class="form-control" id="fullName" type="text" name="fullName" [(ngModel)]="formData.fullName" placeholder="New full name" />
                                 </div>
                               </div>
                               <div class="col">
                                 <div class="form-group">
                                   <label for="username">Username</label>
-                                  <input class="form-control" id="username" type="text" name="username" formControlName="Username" placeholder="Nuevo nombre de usuario"/>
+                                  <input class="form-control" id="username" type="text" name="username" [(ngModel)]="formData.username" placeholder="New username" />
                                 </div>
+                              </div>
+                              <div class="delete">
+                                <a type="button" class="btn btn-primary btn-lg red" (click)="onDelete()">Eliminar cuenta</a>
                               </div>
                             </div>
                           </div>
@@ -99,42 +102,27 @@
                         <div class="row">
                           <div class="col-12 col-sm-6 mb-3">
                             <div class="mb-2"><b>Change Password</b></div>
-                            <div class="row">
-                              <div class="col">
-                                <div class="form-group">
-                                  <label for="currentPassword">Current Password</label>
-                                  <input class="form-control" id="currentPassword" type="password" name="currentPassword" formControlName="CurrentPassword" placeholder="••••••"/>
-                                </div>
-                              </div>
+                            <div class="form-group">
+                              <label for="currentPassword">Current Password</label>
+                              <input class="form-control" id="currentPassword" type="password" name="currentPassword" [(ngModel)]="formData.currentPassword" placeholder="••••••" />
                             </div>
-                            <div class="form-outline mb-4 w-50 mx-auto">
-                              <p class="text-danger">Las contraseñas no coinciden</p>
+                            <div class="form-group">
+                              <label for="newPassword">New Password</label>
+                              <input class="form-control" id="newPassword" type="password" name="newPassword" [(ngModel)]="formData.newPassword" placeholder="••••••" />
                             </div>
-                            <div class="row">
-                              <div class="col">
-                                <div class="form-group">
-                                  <label for="newPassword">New Password</label>
-                                  <input class="form-control" id="newPassword" type="password" name="newPassword" formControlName="Password" placeholder="••••••"/>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col">
-                                <div class="form-group">
-                                  <label for="confirmPassword">Confirm Password</label>
-                                  <input class="form-control" id="confirmPassword" type="password" name="confirmPassword" formControlName="RepeatPassword" placeholder="••••••"/>
-                                </div>
-                              </div>
+                            <div class="form-group">
+                              <label for="confirmPassword">Confirm Password</label>
+                              <input class="form-control" id="confirmPassword" type="password" name="confirmPassword" [(ngModel)]="formData.confirmPassword" placeholder="••••••" />
+                              <p class="text-danger" *ngIf="formData.newPassword !== formData.confirmPassword && formData.confirmPassword">Passwords do not match</p>
                             </div>
                           </div>
                         </div>
                         <div class="col">
                           <div class="form-group">
-                            <div class="mb-2"><b>Change Photo</b>
-                              <input formControlName="imageFile" type="file" (change)="onFileChange($event)" />
+                            <div class="mb-2"><b>Change Photo</b></div>
+                            <input type="file" name="imageFile" (change)="onFileChange($event)" />
                           </div>
-                          </div>
-                          </div>
+                        </div>
                         <div class="row">
                           <div class="col d-flex justify-content-end">
                             <button class="btn btn-primary" type="submit">Save Changes</button>

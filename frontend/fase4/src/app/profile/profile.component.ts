@@ -6,8 +6,9 @@ import { Chart, PieController, ArcElement, Legend, Tooltip, Title, CategoryScale
 import { User } from '../Models/user.model';
 import { Product } from '../Models/product.model';
 import { ProductService } from '../Services/product.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, } from '@angular/forms';
+import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators, } from '@angular/forms';
 import * as bcrypt from 'bcryptjs';
+import { NONE_TYPE } from '@angular/compiler';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,6 @@ import * as bcrypt from 'bcryptjs';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit{
-  formulario: UntypedFormGroup;
   user?: User;
   newUser?: User;
   username:any;
@@ -23,17 +23,17 @@ export class ProfileComponent implements OnInit{
   activeTab: string = 'Products';
   products!: Product[];
   user1: any;
+  formData: any = {
+    fullName: '',
+    username: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+    imageFile: null
+  };
 
   constructor(private router: Router, private formBuilder: UntypedFormBuilder, private authService: AuthService, private userService: UsersService, private productService: ProductService) {
     Chart.register(PieController, ArcElement, Legend, Tooltip, Title, CategoryScale);
-    this.formulario = this.formBuilder.group({
-      Name: [''],
-      Username: [''],
-      CurrentPassword: [''],
-      Password: [''],
-      RepeatPassword: [''],
-      imageFile: [''],
-    });
   }
 
   ngOnInit(): void {
@@ -110,42 +110,46 @@ export class ProfileComponent implements OnInit{
   }
 
   onSettings(){
-    if (this.formulario.valid && this.newUser && this.user?.encodedPassword) {
-      const currentPassword = this.formulario.value.CurrentPassword
-      console.log("Formulario válido, enviar datos:", this.formulario.value);
-      if (this.formulario.value.Name !== ''){
-        this.newUser.fullName = this.formulario.value.Name
-      }
-      if (this.formulario.value.Username !== ''){
-        this.newUser.username = this.formulario.value.Username
-      }
-      if (this.formulario.value.Image !== ''){
-        const imageFile = this.formulario.get('imageFile')?.value
-        this.newUser.userImg = imageFile
-      }
-      if (bcrypt.compareSync(this.formulario.value.CurrentPassword, this.user.encodedPassword)
-        && this.formulario.value.Password !== ''
-        && this.formulario.value.RepeatPassword == this.formulario.value.Password)
-        {
-          this.newUser.encodedPassword = this.formulario.value.Password
+    if(this.user){
+    const formData = new FormData();
+    debugger;
+    formData.append('fullName', this.formData.fullName);
+    formData.append('username', this.formData.username);
+    formData.append('currentPassword', this.formData.currentPassword);
+    formData.append('newPassword', this.formData.newPassword);
+    formData.append('confirmPassword', this.formData.confirmPassword);
+    formData.append('imageFile', this.formData.imageFile);
 
-      }else if (this.formulario.value.Password !== '' && this.formulario.value.RepeatPassword !== ''){
-        alert("Error, revisa las contraseñas.");
-      }
-      this.userService.updateUser(this.newUser, currentPassword).subscribe();
+    this.userService.updateUser(this.user?.userID, formData)
+      .subscribe(
+        response => {
+          console.log('User updated successfully');
+        },
+        error => {
+          alert(`Error: ${error}`);
+
+        }
+      );
+    }
+    this.authService.logout();
+    this.router.navigate(['/login'])
+  }
+
+  onDelete(){
+    if(this.user){
+      this.userService.deleteUser(this.user.userID).subscribe();
       this.authService.logout();
       this.router.navigate(['/login'])
-    } else {
-      console.log("Formulario inválido, revisa los campos.");
     }
   }
 
-  onFileChange(event: any) {
+  onFileChange(event: Event) {
     debugger;
-    const file = event.target.files[0];
-    this.formulario.patchValue({
-      imageFile: file
-    });
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.files && inputElement.files.length > 0) {
+      const file = inputElement.files[0];
+      this.formData.imageFile = file;
+    }
   }
 
   getUserDetails(username: string): void {

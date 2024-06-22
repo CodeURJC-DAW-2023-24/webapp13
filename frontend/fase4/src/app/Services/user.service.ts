@@ -70,34 +70,14 @@ export class UsersService{
     }
   }
 
-  updateUser(user: User, currentPassword: string) {
-    const formData = new FormData();
-    const fullName = user.fullName ?? '';
-    const username = user.username ?? '';
-    const newPassword = user.encodedPassword ?? '';
-    debugger;
-    const imageFile = user.userImg;
-
-    formData.append('userID', fullName);
-    formData.append('fullName', fullName);
-    formData.append('username', username);
-    formData.append('currentPassword', currentPassword);
-    formData.append('newPassword', newPassword);
-    formData.append('confirmPassword', newPassword);
-    if (imageFile) {
-      formData.append('imageFile', imageFile);
-    }
-
-    return this.httpClient.patch(BASE_URL + user.userID, formData).pipe(
-      catchError((error: any) => this.handleError(error))
-    );
+  updateUser(userID: number, formData: FormData): Observable<any> {
+    const url = `${BASE_URL}/${userID}`;
+    return this.httpClient.patch(url, formData);
   }
 
 
   deleteUser(id: number) {
-    return this.httpClient.delete(BASE_URL + id).pipe(
-      catchError((error: any) => this.handleError(error))
-    );
+    return this.httpClient.delete(BASE_URL + id)
   }
 
   getUserProductsById(id: number | string): Observable<Product[]> {
