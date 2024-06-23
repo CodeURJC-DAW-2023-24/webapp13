@@ -1,23 +1,45 @@
+# Etapa 1: Construir la aplicación Angular
+FROM node:20.12.2 as angular
+WORKDIR /app/frontend/fase4
+COPY frontend/fase4/package*.json ./
+RUN npm install --legacy-peer-deps
+RUN npm audit fix --legacy-peer-deps
+COPY frontend/fase4/. .
+RUN npm run build
+
+# Etapa 2: Empaquetar la aplicación de Spring Boot con Maven y OpenJDK
 FROM maven as builder
-COPY . /code/
-WORKDIR /code/backend
+WORKDIR /app
+COPY backend/pom.xml ./
+COPY backend/src ./src
 RUN mvn clean package -DskipTests
 
+# Etapa final: Crear la imagen Docker final con la aplicación compilada
 FROM openjdk:17-jdk-slim
-COPY --from=builder /code/backend/target/*.jar /usr/src/
-WORKDIR /usr/src
+WORKDIR /app
+COPY --from=builder /app/target/*.jar ./app.jar
+COPY --from=angular /app/frontend/fase4/dist/fase4 /app/backend/src/main/resources/static/new/
 EXPOSE 8443
-CMD [ "java", "-jar", "gualapop-0.0.1-SNAPSHOT.jar" ]
+CMD ["java", "-jar", "app.jar"]
 
-# Go to backend/src/main/resources/application.properties and change the url if you want to make a new docker image.
-# If you have already a docker image, go to the third command, compile docker container.
 
-# Generate JAR file (go to pom directory): 
-# mvn clean package -DskipTests
-
-# Generate docker image: 
-# docker build -t gualapop .
-
-# Compile docker container with the image: 
-# docker run -p 8443:8443 --name gualapop gualapop2024
-
+#FROM node:20.12.2 AS angular
+#WORKDIR /code
+#COPY frontend/fase4/* /code/
+#RUN npm install --legacy-peer-deps
+#RUN npm audit fix --legacy-peer-deps
+#COPY frontend/fase4/src /code/src
+#RUN npm run build 
+#
+#FROM maven as builder
+#WORKDIR /project
+#COPY backend/pom.xml /project/
+#COPY backend/src /project/src
+#RUN mvn clean package -DskipTests
+#
+#FROM openjdk:17-jdk-slim
+#WORKDIR /usr/src
+#COPY --from=builder /project/backend/target/*.jar /usr/src/
+#COPY --from=angular /code/frontend/dist/fase4/browser/ /project/backend/src/main/resources/static/new/
+#EXPOSE 8443
+#CMD [ "java", "-jar", "gualapop-0.0.1-SNAPSHOT.jar" ]
