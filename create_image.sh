@@ -17,3 +17,16 @@ echo "Publishing image into Docker Hub..."
 docker push "$USERNAME/$IMAGE_NAME:$TAG"
 
 echo "Succesfully uploaded the image in Docker Hub"
+
+
+sleep 10
+echo "Pasaron 10 segundos"
+
+sleep 10
+echo "Pasaron 20 segundos"
+
+sleep 40
+echo "Pasaron 60 segundos"
+
+sleep 10
+echo "Pasaron 70 segundos"
