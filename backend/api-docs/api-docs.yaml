@@ -1,4 +1,3 @@
----
 openapi: 3.0.1
 info:
   title: OpenAPI definition
@@ -7,86 +6,65 @@ servers:
 - url: https://localhost:8443
   description: Generated server url
 paths:
-  "/api/users/registerUser":
+  /api/users/:
     post:
       tags:
       - user-rest-controller
       summary: Register User
       operationId: registerUser
-      parameters:
-      - name: name
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: username
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: password
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: repeatPassword
-        in: query
-        required: true
-        schema:
-          type: string
-      - name: email
-        in: query
-        required: true
-        schema:
-          type: string
       requestBody:
         content:
           application/json:
             schema:
+              required:
+              - email
+              - name
+              - password
+              - repeatPassword
+              - username
               type: object
               properties:
+                name:
+                  type: string
+                username:
+                  type: string
+                password:
+                  type: string
+                repeatPassword:
+                  type: string
+                email:
+                  type: string
                 image:
                   type: string
                   format: binary
       responses:
-        '200':
-          description: User created successfully
-          content:
-            "*/*":
-              schema:
-                type: object
-        '404':
+        "404":
           description: User registration failed
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
-  "/api/reviews/new":
-    post:
-      tags:
-      - review-rest-controller
-      operationId: postReview
-      parameters:
-      - name: rating
-        in: query
-        required: true
-        schema:
-          type: number
-          format: float
-      - name: sellerID
-        in: query
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: OK
+        "200":
+          description: User created successfully
           content:
-            "*/*":
+            '*/*':
               schema:
-                type: string
-  "/api/reports/new":
+                type: object
+  /api/reports/:
+    get:
+      tags:
+      - report-rest-controller
+      summary: Get all reports
+      operationId: getReports
+      responses:
+        "200":
+          description: Reports retrieved successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report_Detailed'
     post:
       tags:
       - report-rest-controller
@@ -109,19 +87,19 @@ paths:
         schema:
           type: string
       responses:
-        '201':
+        "201":
           description: Report created successfully
           content:
-            "*/*":
+            '*/*':
               schema:
-                "$ref": "#/components/schemas/Report_Detailed"
-        '404':
+                $ref: '#/components/schemas/Report_Detailed'
+        "404":
           description: User not found
           content:
-            "*/*":
+            '*/*':
               schema:
-                "$ref": "#/components/schemas/Report_Detailed"
-  "/api/products/{id}/image":
+                $ref: '#/components/schemas/Report_Detailed'
+  /api/products/{id}/image:
     get:
       tags:
       - products-rest-controller
@@ -136,14 +114,14 @@ paths:
           type: integer
           format: int32
       responses:
-        '200':
+        "204":
+          description: Image not found
+        "404":
+          description: Product not found
+        "200":
           description: Found the Image Product
           content:
             application/json: {}
-        '204':
-          description: Image not found
-        '404':
-          description: Product not found
     post:
       tags:
       - products-rest-controller
@@ -170,22 +148,69 @@ paths:
                   description: Image 1 Product
                   format: binary
       responses:
-        '201':
+        "201":
           description: Create the Image Product
           content:
             application/json: {}
-        '204':
+        "204":
           description: Image not found
-        '404':
+        "404":
           description: Product not found
-  "/api/products/":
+  /api/products/purchase:
+    post:
+      tags:
+      - products-rest-controller
+      summary: Purchase Product
+      operationId: purchaseProduct
+      parameters:
+      - name: productID
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: rating
+        in: query
+        required: false
+        schema:
+          type: number
+          format: float
+          default: 0.0
+      responses:
+        "200":
+          description: Product purchased
+          content:
+            application/json: {}
+  /api/products/:
     get:
       tags:
       - products-rest-controller
-      summary: Get New Eight Products
+      summary: Get Products
       operationId: getAllProducts_1
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 8
+      - name: productType
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 0
       responses:
-        '200':
+        "200":
           description: Found the Products
           content:
             application/json: {}
@@ -198,15 +223,74 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/Product_Detailed"
+              $ref: '#/components/schemas/Product_Detailed'
       responses:
-        '201':
+        "201":
           description: Succesful Product creation
           content:
             application/json: {}
-        '406':
+        "406":
           description: Not Acceptable Post title exists
-  "/api/users/{userID}":
+  /api/auth/refresh:
+    post:
+      tags:
+      - login-rest-controller
+      operationId: refreshToken
+      parameters:
+      - name: refreshToken
+        in: cookie
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+  /api/auth/logout:
+    post:
+      tags:
+      - login-rest-controller
+      operationId: logOut
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+  /api/auth/login:
+    post:
+      tags:
+      - login-rest-controller
+      operationId: login
+      parameters:
+      - name: accessToken
+        in: cookie
+        required: false
+        schema:
+          type: string
+      - name: refreshToken
+        in: cookie
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+  /api/users/{userID}:
     delete:
       tags:
       - user-rest-controller
@@ -220,16 +304,16 @@ paths:
           type: integer
           format: int64
       responses:
-        '200':
+        "200":
           description: User deleted successfully
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
-        '404':
+        "404":
           description: User not found
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
     patch:
@@ -279,92 +363,25 @@ paths:
                   type: string
                   format: binary
       responses:
-        '200':
+        "200":
           description: User updated successfully
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
-        '400':
+        "400":
           description: Bad request
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
-        '404':
+        "404":
           description: User not found
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
-  "/api/reviews/{id}":
-    get:
-      tags:
-      - review-rest-controller
-      operationId: getReviewByID
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: OK
-          content:
-            "*/*":
-              schema:
-                "$ref": "#/components/schemas/Review_Detailed"
-    delete:
-      tags:
-      - review-rest-controller
-      operationId: deleteProduct
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: OK
-          content:
-            "*/*":
-              schema:
-                type: object
-    patch:
-      tags:
-      - review-rest-controller
-      operationId: updateReview
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: rating
-        in: query
-        required: false
-        schema:
-          type: number
-          format: float
-      - name: sellerID
-        in: query
-        required: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: OK
-          content:
-            "*/*":
-              schema:
-                type: object
-  "/api/users/{userID}/reviews":
+  /api/users/{userID}/reviews:
     get:
       tags:
       - user-rest-controller
@@ -378,23 +395,23 @@ paths:
           type: integer
           format: int64
       responses:
-        '200':
+        "200":
           description: Found the Products
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: array
                 items:
-                  "$ref": "#/components/schemas/Review_Detailed"
-        '404':
+                  $ref: '#/components/schemas/Review_Detailed'
+        "404":
           description: User not found
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: array
                 items:
-                  "$ref": "#/components/schemas/Review_Detailed"
-  "/api/users/{userID}/image":
+                  $ref: '#/components/schemas/Review_Detailed'
+  /api/users/{userID}/image:
     get:
       tags:
       - user-rest-controller
@@ -408,19 +425,19 @@ paths:
           type: integer
           format: int64
       responses:
-        '200':
+        "200":
           description: Found the User Image
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
-        '404':
+        "404":
           description: User not found
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
-  "/api/users/{id}":
+  /api/users/{id}:
     get:
       tags:
       - user-rest-controller
@@ -434,19 +451,19 @@ paths:
           type: integer
           format: int64
       responses:
-        '200':
+        "200":
           description: Found the User
           content:
-            "*/*":
+            '*/*':
               schema:
-                "$ref": "#/components/schemas/User_Detailed"
-        '404':
+                $ref: '#/components/schemas/User_Detailed'
+        "404":
           description: User not found
           content:
-            "*/*":
+            '*/*':
               schema:
-                "$ref": "#/components/schemas/User_Detailed"
-  "/api/users/{id}/allProducts":
+                $ref: '#/components/schemas/User_Detailed'
+  /api/users/{id}/allProducts:
     get:
       tags:
       - user-rest-controller
@@ -460,49 +477,49 @@ paths:
           type: integer
           format: int64
       responses:
-        '200':
+        "200":
           description: Found the Products
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
-        '404':
+        "404":
           description: User not found
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: object
-  "/api/users/profile/{id}":
+  /api/users/username/{username}:
     get:
       tags:
       - user-rest-controller
-      summary: Get User Profile by ID
-      operationId: userProfile
+      summary: Get User by Username
+      operationId: getUserByUsername
       parameters:
-      - name: id
+      - name: username
         in: path
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
       responses:
-        '200':
-          description: Found the User Profile
+        "200":
+          description: Found the User
           content:
-            "*/*":
+            '*/*':
               schema:
-                type: object
-        '404':
+                $ref: '#/components/schemas/User_Detailed'
+        "404":
           description: User not found
           content:
-            "*/*":
+            '*/*':
               schema:
-                type: object
-  "/api/reviews/seller/{id}":
+                $ref: '#/components/schemas/User_Detailed'
+  /api/reviews/{id}:
     get:
       tags:
       - review-rest-controller
-      operationId: getReviewsBySellerID
+      summary: Get review by ID
+      operationId: getReviewByID
       parameters:
       - name: id
         in: path
@@ -511,59 +528,46 @@ paths:
           type: integer
           format: int64
       responses:
-        '200':
-          description: OK
+        "200":
+          description: Found the review
           content:
-            "*/*":
+            '*/*':
               schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Review_Detailed"
-  "/api/reviews/":
+                $ref: '#/components/schemas/Review_Detailed'
+        "404":
+          description: Review not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Review_Detailed'
+  /api/reviews/:
     get:
       tags:
       - review-rest-controller
+      summary: Get all reviews
       operationId: getAllProducts
       responses:
-        '200':
-          description: OK
+        "200":
+          description: Found reviews
           content:
-            "*/*":
+            '*/*':
               schema:
                 type: array
                 items:
-                  "$ref": "#/components/schemas/Review_Detailed"
-  "/api/reports/{userID}":
+                  $ref: '#/components/schemas/Review_Detailed'
+        "404":
+          description: No reviews found
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review_Detailed'
+  /api/reports/{id}:
     get:
       tags:
       - report-rest-controller
-      summary: Get new reports for a user
-      operationId: newReports
-      parameters:
-      - name: userID
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: New reports retrieved successfully
-          content:
-            "*/*":
-              schema:
-                type: object
-        '404':
-          description: User not found
-          content:
-            "*/*":
-              schema:
-                type: object
-  "/api/reports/manage/{id}":
-    get:
-      tags:
-      - report-rest-controller
-      summary: Manage report by ID
+      summary: Get report by ID
       operationId: manageReport
       parameters:
       - name: id
@@ -573,34 +577,38 @@ paths:
           type: integer
           format: int64
       responses:
-        '200':
-          description: Report details retrieved successfully
-          content:
-            "*/*":
-              schema:
-                type: object
-        '404':
+        "404":
           description: Report not found
           content:
-            "*/*":
+            '*/*':
               schema:
-                type: object
-  "/api/reports/":
-    get:
+                $ref: '#/components/schemas/Report_Detailed'
+        "200":
+          description: Report details retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Report_Detailed'
+    delete:
       tags:
       - report-rest-controller
-      summary: Get all reports
-      operationId: getReports
+      summary: Delete Report by ID
+      operationId: deleteReport
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
       responses:
-        '200':
-          description: Reports retrieved successfully
+        "404":
+          description: Report not found
+        "201":
+          description: Successful Report delete
           content:
-            "*/*":
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Report_Detailed"
-  "/api/products/{id}":
+            application/json: {}
+  /api/products/{id}:
     get:
       tags:
       - products-rest-controller
@@ -615,17 +623,37 @@ paths:
           type: integer
           format: int32
       responses:
-        '200':
+        "200":
           description: Product Found
           content:
             application/json: {}
-        '404':
+        "404":
           description: Product not found
     delete:
       tags:
       - products-rest-controller
       summary: Delete a Product
-      operationId: deleteProduct_1
+      operationId: deleteProduct
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "201":
+          description: Successful Product delete
+          content:
+            application/json: {}
+        "404":
+          description: Product not found
+  /api/products/{id}/similar:
+    get:
+      tags:
+      - products-rest-controller
+      summary: Get similar products
+      operationId: getSimilarProducts
       parameters:
       - name: id
         in: path
@@ -633,95 +661,147 @@ paths:
         required: true
         schema:
           type: integer
+          format: int64
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
           format: int32
+          default: 0
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 8
       responses:
-        '201':
-          description: Successful Product delete
-          content:
-            application/json: {}
-        '404':
-          description: Product not found
-  "/api/products/toys":
-    get:
-      tags:
-      - products-rest-controller
-      summary: Get All toy products
-      operationId: getToys
-      responses:
-        '200':
+        "200":
           description: Found the Products
           content:
             application/json: {}
-  "/api/products/sports":
+  /api/products/type/{id}:
     get:
       tags:
       - products-rest-controller
-      summary: Get All sport products
-      operationId: getSports
+      summary: Get products by type
+      operationId: getProductsByType
+      parameters:
+      - name: id
+        in: path
+        description: id of Product to be searched
+        required: true
+        schema:
+          type: integer
+          format: int64
       responses:
-        '200':
+        "200":
           description: Found the Products
           content:
             application/json: {}
-  "/api/products/homegarden":
+  /api/products/search:
     get:
       tags:
       - products-rest-controller
-      summary: Get All home and garden products
-      operationId: getHomeGarden
+      summary: Get search
+      operationId: getSearch
+      parameters:
+      - name: search
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 8
       responses:
-        '200':
+        "200":
           description: Found the Products
           content:
             application/json: {}
-  "/api/products/furniture":
+  /api/products/pdf/{productId}:
     get:
       tags:
       - products-rest-controller
-      summary: Get All furniture products
-      operationId: getFurniture
+      summary: Get PDF from purchase product
+      operationId: generatePDF
+      parameters:
+      - name: productId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
       responses:
-        '200':
-          description: Found the Products
+        "200":
+          description: PDF generated
           content:
             application/json: {}
-  "/api/products/electronics":
+  /api/products/categories:
     get:
       tags:
       - products-rest-controller
-      summary: Get All electronic products
-      operationId: getElectronics
+      operationId: getAllCategories
       responses:
-        '200':
-          description: Found the Products
+        "200":
+          description: OK
           content:
-            application/json: {}
-  "/api/products/clothes":
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+  /api/auth/userInfo:
     get:
       tags:
-      - products-rest-controller
-      summary: Get All clothing products
-      operationId: getClothes
+      - login-rest-controller
+      summary: Get User Info
+      operationId: getUserInfo
       responses:
-        '200':
-          description: Found the Products
+        "200":
+          description: Found the User
           content:
-            application/json: {}
-  "/api/products/books":
-    get:
-      tags:
-      - products-rest-controller
-      summary: Get All book products
-      operationId: getBooks
-      responses:
-        '200':
-          description: Found the Products
+            '*/*':
+              schema:
+                type: string
+        "404":
+          description: User not found
           content:
-            application/json: {}
+            '*/*':
+              schema:
+                type: string
 components:
   schemas:
     Report_Detailed:
       type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        owner:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        userReported:
+          type: integer
+          format: int64
+        creationDate:
+          type: string
     Product_Detailed:
       type: object
       properties:
@@ -751,6 +831,45 @@ components:
           type: integer
           format: int64
       description: Object Type Product
+    AuthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        message:
+          type: string
+        error:
+          type: string
+        accessToken:
+          $ref: '#/components/schemas/Token'
+        refreshToken:
+          $ref: '#/components/schemas/Token'
+    Token:
+      type: object
+      properties:
+        tokenType:
+          type: string
+          enum:
+          - ACCESS
+          - REFRESH
+        tokenValue:
+          type: string
+        duration:
+          type: integer
+          format: int64
+        expiryDate:
+          type: string
+          format: date-time
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
     Review_Detailed:
       type: object
       properties:
@@ -797,10 +916,10 @@ components:
           items:
             type: integer
             format: int32
-        name:
-          type: string
         imageFile:
           type: object
           properties:
             binaryStream:
               type: object
+        name:
+          type: string
