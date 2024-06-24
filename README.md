@@ -249,3 +249,81 @@ Leyenda del diagrama:
    | 3º	| fix bad practices	| [fix api review](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/0d4f6e28011315647e88347e895868a28214d33a) | [reviewRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/api/ReviewRestController.java) |
    | 4º	| add new methods to reviewRestController	| [method api review](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/b0c86a8fe0ba4dfdf614dd7df2ef7157e83e768b) | [reviewRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/api/ReviewRestController.java) |
    | 5º	| add new methods to userRestController	| [method api user](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/048f380aea7b87a60122316be1462dcf228ff34a) | [userRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/src/main/java/es/gualapop/backend/controller/api/UserRestController.java) |
+
+
+# Fase 4
+
+## Configuración del Entorno de Desarrollo
+
+Para configurar el entorno de desarrollo de la aplicación SPA utilizando Angular, sigue estos pasos:
+
+### Prerrequisitos
+
+1. **Node.js**: Asegúrate de que Node.js esté instalado en tu sistema. Puedes descargarlo desde [el sitio web oficial de Node.js](https://nodejs.org/es).
+   
+2. **Angular CLI**: Instala Angular CLI globalmente usando npm:
+
+   ```bash
+   npm install -g @angular/cli
+
+### Iniciar Angular
+
+1. **Clonar el proyecto**
+ ```bash
+   https://github.com/CodeURJC-DAW-2023-24/webapp13.git
+   ```
+
+2. **Asegurarse de que el backend esté en funcionamiento**
+
+3. **Redireccionar al directorio ProjectFrontend**
+   ```bash
+   cd webapp13/frontend
+   ```
+   
+4. **Instalar todos los módulos necesarios**
+   ```bash
+   npm install
+   ```
+   
+5. **Ejecutar la SPA**
+   ```bash
+   npm start
+   ```
+
+La SPA estará lista en http://localhost:4200/.
+
+## SPA con Docker y Máquina Virtual
+Para acceder a la SPA con Docker o con la máquina virtual, debes seguir las instrucciones en la fase 3 de como crear contenedores y hacerlo o en local o en la maquina virtual. la ruta local sería https://localhost:8443/new respectivamente y en la maquina virtual sería https://10.100.139.229:8443/new
+
+## Diagrama de Clases Angular
+Leyenda del diagrama:
+- Verde: Componentes
+- Rojo: Servicios
+- Azul: Templates
+
+![diag_angular](https://github.com/CodeURJC-DAW-2023-24/webapp13/assets/80538164/079d5305-20ba-488e-9363-ee8b52aca196)
+
+
+## Participación de miembros (Fase 4)
+
+
+### Rodrigo Montilla Fernández | r.montilla.2019@alumnos.urjc.es
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | Header Location	| [POST header Locations](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/93fad995b6e3d13eefe4dfbf34db45d0d9a37e0d) | [ReviewRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/93fad995b6e3d13eefe4dfbf34db45d0d9a37e0d#diff-c4cf910c1ce36d784c1e5c7f81d5cd901eba349d5c8e345b5f229e2fc1cac7f8) |
+   | 2º	| API Documentation	| [API DOC](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/a47047d1fc15324636b66131bf91d45eb3ae9aa6) | [api-docs](https://github.com/CodeURJC-DAW-2023-24/webapp13/tree/main/backend/api-docs) |
+   | 3º	| Query GET Similar Products	| [GET Similar Products](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/735cbaf6d379469217225e752c5e3db0ef4b3bff) | [ProductsRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/735cbaf6d379469217225e752c5e3db0ef4b3bff#diff-1990fffdec44e0d5df9b9956793243fa3463fe766309d34dff858b5777878d9e) |
+   | 4º	| Query GET Products by ProductType	| [GET Products by ProductType](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/aae9cae4aad9417f9cd582e11a0d58f2d0851efd) | [ProductsRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/aae9cae4aad9417f9cd582e11a0d58f2d0851efd#diff-1990fffdec44e0d5df9b9956793243fa3463fe766309d34dff858b5777878d9e) |
+   | 5º	| Query POST Product Image	| [POST Product Image](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/285f1708c0f76c6811ee4c2db7e9cddd7a6c71a7) | [ProductsRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/aae9cae4aad9417f9cd582e11a0d58f2d0851efd#diff-1990fffdec44e0d5df9b9956793243fa3463fe766309d34dff858b5777878d9e) |
+
+
+### Fernando Prieto Olías	| f.prieto.2019@alumnos.urjc.es
+
+| Número	| Descripción	| Commit | Archivos |
+   | :---: | :---: | :---: | :---: |
+   | 1º | Anguar Login	| [Angular login](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/e5d4803e1a491366a5c3621e8430e5de88744431) | [auth.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/frontend/fase4/src/app/Services/auth.service.ts) |
+   | 2º	| Benefict chart on user profile and logout	| [Benefict chart and logout fix](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/65463ffea538cfe618c71d4cf9cc48d45fa68978) | [profile.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/frontend/fase4/src/app/profile/profile.component.ts) |
+   | 3º	| apiPDF function in backend and new product	| [api PDF y newProduct en angular](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/8ef0380fdc522395eae1119f1d86c813dea3bd9e) | [new-product.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/frontend/fase4/src/app/new-product/new-product.component.ts) |
+   | 4º	| Include angular in docker	| [Docker angular](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/aec4710851b6852774b8b9a63c439b51d0bc365f) | [Dockerfile](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/Dockerfile) |
+   | 5º	| Add user profile settings in angular	| [settings user profile](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/8f828e184b4c8737def8859f533c7fe8adadf014) | [user.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/frontend/fase4/src/app/Services/user.service.ts) |
