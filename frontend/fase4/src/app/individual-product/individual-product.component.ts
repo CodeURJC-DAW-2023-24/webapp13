@@ -18,65 +18,89 @@ export class IndividualProductComponent implements OnInit {
   userImageUrl: string | undefined;
   related!: Product[];
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private userService: UsersService, private router: Router) {
-  }
+  constructor(
+    private route: ActivatedRoute, 
+    private productService: ProductService, 
+    private userService: UsersService, 
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
     this.route.params.pipe(
-      switchMap(() => {
+      switchMap(params => {
+        const id = Number(params['id']);
         return this.productService.getProductById(id);
       })
     ).subscribe(
       (data: Product) => {
         this.product = data;
-        this.userService.getUser(data.owner).subscribe(
-          (user: User) => {
-            this.user = user;
-          },
-          (error: any) => {
-            console.error('Error loading user:', error);
-          }
-        );
-        this.userService.getUserImageById(data.owner).subscribe(
-          (userImg: Blob) => {
-            this.userImageUrl = URL.createObjectURL(userImg);
-          },
-          (error: any) => {
-            console.error('Error loading user:', error);
-          }
-        );
-        this.productService.getImageById(data.id).subscribe(
-          (image: Blob) => {
-            this.imageUrl = URL.createObjectURL(image);
-          },
-          (error: any) => {
-            console.error('Error loading product:', error);
-          }
-        );
-        this.productService.getSimilarProducts(data.id, 0, 8).subscribe(
-          (products: Product[]) => {
-            for (let i = 0; i < products.length; i++) {
-              this.productService.getImageById(products[i].id).subscribe(
-                (prodImg: Blob) => {
-                  products[i].imageUrl = URL.createObjectURL(prodImg);
-                },
-                (error: any) => {
-                  console.error('Error loading product:', error);
-                }
-              );
-            }
-            this.related = products;
-          },
-          (error: any) => {
-            console.error('Error loading related products:', error);
-          }
-        );
+        this.loadProductDetails(data);
       },
       (error: any) => {
         console.error('Error loading product:', error);
         this.router.navigate(['/error']);
       }
     );
+  }
+
+  private loadProductDetails(product: Product): void {
+    this.userService.getUser(product.owner).subscribe(
+      (user: User) => {
+        this.user = user;
+        this.loadUserImage(user.userID);
+      },
+      (error: any) => {
+        console.error('Error loading user:', error);
+      }
+    );
+    this.loadProductImage(product.id);
+    this.loadRelatedProducts(product.id);
+  }
+
+  private loadUserImage(userId: number): void {
+    this.userService.getUserImageById(userId).subscribe(
+      (userImg: Blob) => {
+        this.userImageUrl = URL.createObjectURL(userImg);
+      },
+      (error: any) => {
+        console.error('Error loading user image:', error);
+      }
+    );
+  }
+
+  private loadProductImage(productId: number): void {
+    this.productService.getImageById(productId).subscribe(
+      (image: Blob) => {
+        this.imageUrl = URL.createObjectURL(image);
+      },
+      (error: any) => {
+        console.error('Error loading product image:', error);
+      }
+    );
+  }
+
+  private loadRelatedProducts(productId: number): void {
+    this.productService.getSimilarProducts(productId, 0, 8).subscribe(
+      (products: Product[]) => {
+        this.related = products;
+        this.loadRelatedProductImages(products);
+      },
+      (error: any) => {
+        console.error('Error loading related products:', error);
+      }
+    );
+  }
+
+  private loadRelatedProductImages(products: Product[]): void {
+    products.forEach(product => {
+      this.productService.getImageById(product.id).subscribe(
+        (prodImg: Blob) => {
+          product.imageUrl = URL.createObjectURL(prodImg);
+        },
+        (error: any) => {
+          console.error('Error loading related product image:', error);
+        }
+      );
+    });
   }
 }
