@@ -14,7 +14,7 @@ import { AuthService } from '../Services/auth.service';
 })
 export class ReportFormComponent implements OnInit {
   formulario: UntypedFormGroup;
-  user!: User;
+  user: User = new User();
   date: Date = new Date();
   currentUser: string = '';
   user1: any;
@@ -59,15 +59,18 @@ export class ReportFormComponent implements OnInit {
 
   getInfo(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.currentUser = this.userService.getUserInfo();
     this.userService.getUser(id).subscribe(
       (user: User) => {
         this.user = user;
+        if (this.currentUser == user.username){
+          this.router.navigate(['/']);
+        }
       },
       (error: any) => {
         console.log(error);
         this.router.navigate(['/error']);
       }
     )
-    this.currentUser = this.userService.getUserInfo();
   }
 }
