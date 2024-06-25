@@ -1,24 +1,24 @@
 # Etapa 1: Construir la aplicación Angular
 FROM node:20.12.2 as angular
 WORKDIR /app/frontend/fase4
-COPY frontend/fase4/package*.json ./
+COPY frontend/fase4/package*.json .
 RUN npm install --legacy-peer-deps
-RUN npm audit fix --legacy-peer-deps
-COPY frontend/fase4/. .
+#RUN npm audit fix --legacy-peer-deps
+COPY frontend/fase4/ .
 RUN npm run build
 
 # Etapa 2: Empaquetar la aplicación de Spring Boot con Maven y OpenJDK
 FROM maven as builder
 WORKDIR /app
-COPY backend/pom.xml ./
-COPY backend/src ./src
+COPY backend/pom.xml .
+COPY backend/src /app/src
+COPY --from=angular /app/frontend/fase4/dist/fase4/ /app/src/main/resources/static/new/
 RUN mvn clean package -DskipTests
 
 # Etapa final: Crear la imagen Docker final con la aplicación compilada
 FROM openjdk:17-jdk-slim
 WORKDIR /app
 COPY --from=builder /app/target/*.jar ./app.jar
-COPY --from=angular /app/frontend/fase4/dist/fase4 /app/backend/src/main/resources/static/new/
 EXPOSE 8443
 CMD ["java", "-jar", "app.jar"]
 

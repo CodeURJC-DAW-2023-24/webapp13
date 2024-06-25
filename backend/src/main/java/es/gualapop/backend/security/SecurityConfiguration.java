@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.security.SecureRandom;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -44,6 +43,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/logout").permitAll();
         http.authorizeRequests().antMatchers("/search").permitAll();
         http.authorizeRequests().antMatchers("/product/category/**").permitAll();
+        http.authorizeRequests().antMatchers("/new/**").permitAll();
+
 
 
         // Private pages (all other pages)
