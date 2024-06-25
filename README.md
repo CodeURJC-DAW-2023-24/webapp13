@@ -160,7 +160,7 @@ Leyenda del diagrama:
 
 *Archivo yaml: [https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/api-docs/api-docs.yaml](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/backend/api-docs/api-docs.yaml)
 
-*Documentación API REST: [https://rawcdn.githack.com/CodeURJC-DAW-2023-24/webapp13/01421b7332b7c3156f13500b17656b745d6d7289/backend/api-docs/api-docs.html](https://rawcdn.githack.com/CodeURJC-DAW-2023-24/webapp13/01421b7332b7c3156f13500b17656b745d6d7289/backend/api-docs/api-docs.html)
+*Documentación API REST: [https://rawcdn.githack.com/CodeURJC-DAW-2023-24/webapp13/983b98b4620655c4f82d5afaceb74a064a1c5352/backend/api-docs/api-docs.html](https://rawcdn.githack.com/CodeURJC-DAW-2023-24/webapp13/983b98b4620655c4f82d5afaceb74a064a1c5352/backend/api-docs/api-docs.html)
 
 ### Instrucciones de ejecución de la aplicación dockerizada:
 
