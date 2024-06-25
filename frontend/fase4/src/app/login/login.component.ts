@@ -15,6 +15,7 @@ export class LoginComponent {
   user:any;
   loginObj: Login;
   loginURL = '/api/auth/login';
+  fail: Boolean = false;
 
   constructor(private http:HttpClient, private router: Router, private authService: AuthService){
     this.loginObj = new Login();
@@ -46,6 +47,8 @@ export class LoginComponent {
       } else {
         alert(res.message)
       }
+    },() => {
+      this.fail = true;
     })
   }
 }

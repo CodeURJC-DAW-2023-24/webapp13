@@ -16,7 +16,7 @@
                   </div>
                   <!-- Login error-->
                   <!--{{#invalid}}-->
-                  <div class="form-outline mb-4 w-50 mx-auto">
+                  <div class="form-outline mb-4 w-50 mx-auto" *ngIf="fail">
                       <p class="text-danger">El usuario o contraseña no validos</p>
                   </div>
                   <!--{{/invalid}}-->
