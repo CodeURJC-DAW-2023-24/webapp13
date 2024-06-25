@@ -311,11 +311,11 @@ Leyenda del diagrama:
 
 | Número	| Descripción	| Commit | Archivos |
    | :---: | :---: | :---: | :---: |
-   | 1º | Header Location	| [POST header Locations](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/93fad995b6e3d13eefe4dfbf34db45d0d9a37e0d) | [ReviewRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/93fad995b6e3d13eefe4dfbf34db45d0d9a37e0d#diff-c4cf910c1ce36d784c1e5c7f81d5cd901eba349d5c8e345b5f229e2fc1cac7f8) |
-   | 2º	| API Documentation	| [API DOC](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/a47047d1fc15324636b66131bf91d45eb3ae9aa6) | [api-docs](https://github.com/CodeURJC-DAW-2023-24/webapp13/tree/main/backend/api-docs) |
-   | 3º	| Query GET Similar Products	| [GET Similar Products](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/735cbaf6d379469217225e752c5e3db0ef4b3bff) | [ProductsRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/735cbaf6d379469217225e752c5e3db0ef4b3bff#diff-1990fffdec44e0d5df9b9956793243fa3463fe766309d34dff858b5777878d9e) |
-   | 4º	| Query GET Products by ProductType	| [GET Products by ProductType](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/aae9cae4aad9417f9cd582e11a0d58f2d0851efd) | [ProductsRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/aae9cae4aad9417f9cd582e11a0d58f2d0851efd#diff-1990fffdec44e0d5df9b9956793243fa3463fe766309d34dff858b5777878d9e) |
-   | 5º	| Query POST Product Image	| [POST Product Image](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/285f1708c0f76c6811ee4c2db7e9cddd7a6c71a7) | [ProductsRestController](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/aae9cae4aad9417f9cd582e11a0d58f2d0851efd#diff-1990fffdec44e0d5df9b9956793243fa3463fe766309d34dff858b5777878d9e) |
+   | 1º | Products & Categories	| [Fix Categories + Products](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/d458ddbd1e4d049ead60e9930ee8413d810d744e) | [Index Component](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/frontend/fase4/src/app/index/index.component.ts) |
+   | 2º	| Individual Product	| [Individual Product Without User Img](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/f46b4b348e2f37e517145216fc9ad8d71dc9ec27) | [Individual Product](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/frontend/fase4/src/app/individual-product/individual-product.component.ts) |
+   | 3º	| Purchase Product	| [Purchase Product](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/75a89dcd97736e5e30ccfbf54b519cb4c2841a67) | [Product Component](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/frontend/fase4/src/app/product/product.component.ts) |
+   | 4º	| Consult Profile & Report | [Reports & More](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/c0a347718f9ef9620e03504cc34957c8c565aefb) | [Report-Form Component](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/frontend/fase4/src/app/report-form/report-form.component.ts) |
+   | 5º	| Manage Reports	| [Manage Reports](https://github.com/CodeURJC-DAW-2023-24/webapp13/commit/243aeaecc949d8492f05e594b3038c568c246aae) | [Report Component](https://github.com/CodeURJC-DAW-2023-24/webapp13/blob/main/frontend/fase4/src/app/report/report.component.ts) |
 
 
 ### Fernando Prieto Olías	| f.prieto.2019@alumnos.urjc.es
