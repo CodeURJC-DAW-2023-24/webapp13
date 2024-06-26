@@ -92,13 +92,6 @@ export class ProductComponent implements OnInit{
       }
     );
     await this.wait(0.1);
-    this.productService.getProductById(this.product.id).subscribe(
-      (prod: Product) => {
-        if (prod != null) {
-          alert("You can't buy your own product!");
-        }
-      }
-    )
     this.router.navigate(['/']);
   }
 
