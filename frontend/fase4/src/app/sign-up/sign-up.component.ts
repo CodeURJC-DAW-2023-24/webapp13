@@ -63,7 +63,8 @@ export class SignUpComponent implements OnInit {
         }
       );
       this.usersService.getUserByUsername(this.formulario.value.Username).subscribe(
-        ()=> this.usernameUsed = true
+        ()=> this.usernameUsed = true,
+        () => this.router.navigate(['/login'])
       );
       //this.router.navigate(['/login'])
     } else {
