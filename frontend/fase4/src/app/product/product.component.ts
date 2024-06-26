@@ -5,6 +5,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../Services/product.service';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../Services/auth.service';
+import { UsersService } from '../Services/user.service';
+import { User } from '../Models/user.model';
 
 @Component({
   selector: 'app-product',
@@ -19,7 +21,7 @@ export class ProductComponent implements OnInit{
   stars: number[] = [1, 2, 3, 4, 5];
   user: any;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private router: Router, private authService: AuthService) {
+  constructor(private route: ActivatedRoute, private productService: ProductService, private router: Router, private authService: AuthService, private userService: UsersService) {
   }
 
   ngOnInit(): void {
@@ -42,6 +44,13 @@ export class ProductComponent implements OnInit{
       this.productService.getProductById(id).subscribe(
         (data: Product) => {
           this.product = data;
+          this.userService.getUser(data.owner).subscribe(
+            (user: User) => {
+              if (this.userService.getUserInfo() == user.username) {
+                this.router.navigate(['/']);
+              }
+            }
+          );
         },
         (error: any) => {
           console.log(error);
