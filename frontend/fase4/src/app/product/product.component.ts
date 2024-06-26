@@ -91,7 +91,7 @@ export class ProductComponent implements OnInit{
         console.error('Error downloading PDF', error);
       }
     );
-    await this.wait(0.1);
+    await this.wait(0.5);
     this.router.navigate(['/']);
   }
 
