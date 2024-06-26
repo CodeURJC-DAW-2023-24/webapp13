@@ -124,10 +124,6 @@ export class ProfileComponent implements OnInit{
       .subscribe(
         response => {
           console.log('User updated successfully');
-        },
-        error => {
-          alert(`Error: ${error}`);
-
         }
       );
     }
