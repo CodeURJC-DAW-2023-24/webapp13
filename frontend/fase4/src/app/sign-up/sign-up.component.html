@@ -23,7 +23,7 @@
                                       </div>
                                   </div>
                                   <!--{{#hasBeenRegistered}}-->
-                                  <div class="form-outline mb-4 w-50 mx-auto">
+                                  <div class="form-outline mb-4 w-50 mx-auto" *ngIf="usernameUsed">
                                       <p class="text-danger">El usuario ya existe</p>
                                   </div>
                                   <!--{{/hasBeenRegistered}}-->
@@ -49,7 +49,7 @@
                                       </div>
                                   </div>
                                   <!--{{#error}}-->
-                                  <div class="form-outline mb-4 w-50 mx-auto">
+                                  <div class="form-outline mb-4 w-50 mx-auto" *ngIf="passwordMissmatch">
                                       <p class="text-danger">Las contraseñas no coinciden</p>
                                   </div>
                                   <!--{{/error}}-->

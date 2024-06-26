@@ -14,6 +14,8 @@ export class SignUpComponent implements OnInit {
   formulario: UntypedFormGroup;
   newUser: User = new User();
   user: any;
+  passwordMissmatch: Boolean = false
+  usernameUsed: Boolean = false;
 
   constructor(private router: Router,private formBuilder: UntypedFormBuilder, private usersService: UsersService, private authService: AuthService) {
     this.formulario = this.formBuilder.group({
@@ -22,7 +24,7 @@ export class SignUpComponent implements OnInit {
       Email: ['', [Validators.required, Validators.email]],
       Password: ['', Validators.required],
       RepeatPassword: ['', Validators.required],
-      Image: ['', Validators.required],
+      Image: ['',],
     }, {
       validators: this.passwordMatchValidator
     });
@@ -60,9 +62,15 @@ export class SignUpComponent implements OnInit {
           // Manejo de errores adicional si es necesario
         }
       );
+      this.usersService.getUserByUsername(this.formulario.value.Username).subscribe(
+        ()=> this.usernameUsed = true
+      );
       //this.router.navigate(['/login'])
     } else {
       console.log("Formulario inválido, revisa los campos.");
+      if (this.formulario.value.Password != this.formulario.value.RepeatPassword){
+        this.passwordMissmatch = true;
+      }
     }
   }
 
