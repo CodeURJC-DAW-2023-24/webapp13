@@ -59,7 +59,7 @@ export class UsersService{
     }
 
     if (!user.userID || user.userID == 0) {
-      return this.httpClient.post("https://localhost:8443/api/users/", formData)
+      return this.httpClient.post(BASE_URL, formData)
         .pipe(
           catchError((error: any) => this.handleError(error))
         );// si no existe el usuario se crea uno nuevo
@@ -71,7 +71,7 @@ export class UsersService{
   }
 
   updateUser(userID: number, formData: FormData): Observable<any> {
-    const url = `${BASE_URL}/${userID}`;
+    const url = `${BASE_URL}${userID}`;
     return this.httpClient.patch(url, formData);
   }
 
